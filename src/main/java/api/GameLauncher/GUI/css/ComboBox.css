@@ -1,0 +1,7 @@
+.jfx-combo-box{
+    -jfx-focus-color: #0099b7;
+    -jfx-unfocus-color: #7c7c7c;
+}
+.jfx-combo-box .list-cell:selected:filled{
+    -fx-text-fill: #cecece;
+}
