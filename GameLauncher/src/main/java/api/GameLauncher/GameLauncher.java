@@ -34,6 +34,7 @@ public class GameLauncher {
 	public String gameLauncherName = "GameLauncher.jar";
 	public String jrePath = "jre/bin/";
 	public JsonConfig cfg;
+	public boolean istJohannesEinMuluk = true;
 	
 	public GameLauncher() {
 		File dotbot = new File("DotBot.jar");
