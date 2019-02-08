@@ -1,6 +1,5 @@
 package api.GameLauncher;
 
-import Utils.FileManager.ConfigFile;
 import api.GameLauncher.BattleNET.BattleNET;
 import api.GameLauncher.BattleNET.BattleNETGames;
 import api.GameLauncher.Origin.Origin;
@@ -34,7 +33,6 @@ public class GameLauncher {
 	public String gameLauncherName = "GameLauncher.jar";
 	public String jrePath = "jre/bin/";
 	public JsonConfig cfg;
-	public boolean istJohannesEinMuluk = true;
 	
 	public GameLauncher() {
 		File dotbot = new File("DotBot.jar");
