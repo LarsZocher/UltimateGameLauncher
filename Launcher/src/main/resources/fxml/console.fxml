@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.shape.*?>
+<?import com.jfoenix.controls.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="503.0" prefWidth="772.0" style="-fx-background-color: #353535;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.screens.consoleController">
+   <children>
+      <Group layoutY="-2.0">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#353535" height="486.0" layoutX="8.0" layoutY="11.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 10, 0, 0, 0);" width="754.0" />
+            <Label layoutX="22.0" layoutY="27.0" text="Console" textFill="#b5b5b5">
+               <font>
+                  <Font name="Arial" size="19.0" />
+               </font>
+            </Label>
+            <JFXTextField fx:id="command" layoutX="38.0" layoutY="447.0" onAction="#onSend" prefHeight="25.0" prefWidth="549.0" promptText="Befehl" />
+            <ScrollPane fx:id="pane" hbarPolicy="NEVER" layoutX="38.0" layoutY="97.0" prefHeight="336.0" prefWidth="694.0" style="-fx-background-color: #353535; -fx-effect: innershadow( gaussian, rgba( 0, 0, 0, 0.5 ), 5, 0, 0, 0 );" >
+               <content>
+                  <VBox fx:id="list" minHeight="334.0" prefWidth="693.0" spacing="20.0" style="-fx-background-color: #252525;" />
+               </content>
+            </ScrollPane>
+            <JFXButton fx:id="send" buttonType="RAISED" focusTraversable="false" layoutX="595.0" layoutY="443.0" onAction="#onSend" prefHeight="32.0" prefWidth="78.0" text="SENDEN" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </JFXButton>
+            <JFXTextField fx:id="port" labelFloat="true" layoutX="562.0" layoutY="52.0" prefHeight="25.0" prefWidth="66.0" promptText="Port" text="4586" />
+            <JFXButton fx:id="connect" buttonType="RAISED" focusTraversable="false" layoutX="638.0" layoutY="48.0" onAction="#onConnect" prefHeight="32.0" prefWidth="97.0" text="VERBINDEN" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </JFXButton>
+            <JFXToggleButton fx:id="autoConnect" layoutX="228.0" layoutY="35.0" onAction="#onAutoConnect" styleClass="jfx-toggle-button" text="Auto. Verbinden" textFill="#dddddd" />
+            <JFXComboBox fx:id="style" layoutX="32.0" layoutY="64.0" onAction="#onStyleChange" prefHeight="25.0" prefWidth="133.0" promptText="Style" />
+            <JFXButton fx:id="stop" buttonType="RAISED" focusTraversable="false" layoutX="686.0" layoutY="443.0" onAction="#onStop" prefHeight="32.0" prefWidth="65.0" text="STOP" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </JFXButton>
+            <JFXTextField fx:id="ip" labelFloat="true" layoutX="401.0" layoutY="52.0" prefHeight="25.0" prefWidth="141.0" promptText="Adresse" />
+            <JFXSpinner fx:id="spinner" layoutX="705.0" layoutY="18.0" prefHeight="23.0" prefWidth="23.0" visible="false" />
+            <Label fx:id="currentInfos" alignment="CENTER_RIGHT" layoutX="298.0" layoutY="25.0" prefHeight="17.0" prefWidth="398.0" text="Loading..." textFill="#dddddd">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+         </children>
+      </Group>
+   </children>
+</Pane>

@@ -1,0 +1,9 @@
+.jfx-chip-view{
+    -fx-background-color: #303030;
+}
+.jfx-chip-view .chips-pane > .text-area{
+    -fx-text-fill: WHITE;
+}
+.jfx-chip-view .chips-pane .jfx-chip{
+    -fx-max-width: 150;
+}

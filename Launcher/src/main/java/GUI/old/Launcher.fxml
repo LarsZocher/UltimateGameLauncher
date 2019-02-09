@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.shape.*?>
+<?import com.jfoenix.controls.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="566.0" prefWidth="832.0" style="-fx-background-color: #303030;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.old.GUIController">
+   <children>
+      <Group>
+         <children>
+            <Rectangle fill="#212121" height="44.0" layoutY="8.0" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);" width="832.0" />
+            <Rectangle height="8.0" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);" width="832.0" />
+            <Label layoutX="14.0" layoutY="15.0" text="DotBot Launcher" textFill="#ffffffb2">
+               <font>
+                  <Font lesson="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <ImageView fx:id="closeButton" fitHeight="32.0" fitWidth="31.0" layoutX="794.0" layoutY="15.0" onMouseReleased="#onCloseButtonClick" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@de.BubbleEgg.testing.res/close.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="minButton" fitHeight="32.0" fitWidth="31.0" layoutX="754.0" layoutY="11.0" onMouseReleased="#onMinButtonClick" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@de.BubbleEgg.testing.res/minimize.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Group>
+      <Group layoutX="-1.0">
+         <children>
+            <Rectangle fill="#303030" height="334.0" layoutX="10.0" layoutY="67.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);;" width="453.0" />
+            <Label layoutX="23.0" layoutY="83.0" text="Einstellungen" textFill="#b5b5b5">
+               <font>
+                  <Font lesson="Arial" size="19.0" />
+               </font>
+            </Label>
+            <JFXButton fx:id="applyButton" buttonType="RAISED" focusTraversable="false" layoutX="339.0" layoutY="355.0" onAction="#onApplyButton" prefHeight="37.0" prefWidth="116.0" style="-fx-background-color: #0090ff;" text="ÜBERNEHMEN" textFill="WHITE">
+               <font>
+                  <Font lesson="System Bold" size="13.0" />
+               </font>
+            </JFXButton>
+            <Group layoutX="-2.0">
+               <children>
+                  <Label layoutX="25.0" layoutY="122.0" text="Anzeige Level:" textFill="WHITE">
+                     <font>
+                        <Font lesson="Arial" size="15.0" />
+                     </font>
+                  </Label>
+                  <JFXComboBox fx:id="consoleLevel" layoutX="137.0" layoutY="118.0" onAction="#onCommandLevel" promptText="LEVEL" stylesheets="@css/ComboBox.css" />
+               </children>
+            </Group>
+            <Group layoutX="-2.0" layoutY="-3.0">
+               <children>
+                  <Label layoutX="25.0" layoutY="161.0" text="Befehls Übereinstimmung:" textFill="WHITE">
+                     <font>
+                        <Font lesson="Arial" size="15.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Group>
+            <Group layoutY="12.0">
+               <children>
+                  <Label layoutX="23.0" layoutY="181.0" text="Erlaubte Wort-Differenz:" textFill="WHITE">
+                     <font>
+                        <Font lesson="Arial" size="15.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Group>
+            <Label layoutX="23.0" layoutY="226.0" text="Google API Schlüssel:" textFill="WHITE">
+               <font>
+                  <Font lesson="Arial" size="15.0" />
+               </font>
+            </Label>
+            <JFXTextField fx:id="APIkey" layoutX="22.0" layoutY="243.0" prefHeight="25.0" prefWidth="429.0" stylesheets="@css/TextField.css">
+               <font>
+                  <Font size="14.0" />
+               </font></JFXTextField>
+            <JFXToggleButton fx:id="afkButton" focusTraversable="false" layoutX="289.0" layoutY="104.0" size="9.0" text="AFK Modus" textFill="WHITE" toggleColor="#0090ff" toggleLineColor="#4fb3ff">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </JFXToggleButton>
+            <Label layoutX="22.0" layoutY="291.0" text="Stimmen Lautstärke:" textFill="WHITE">
+               <font>
+                  <Font lesson="Arial" size="15.0" />
+               </font>
+            </Label>
+            <JFXSlider fx:id="volumeSlider" layoutX="23.0" layoutY="324.0" prefHeight="14.0" prefWidth="228.0" />
+            <JFXSlider fx:id="commandEquality" layoutX="206.0" layoutY="160.0" prefHeight="14.0" prefWidth="228.0" />
+            <JFXSlider fx:id="lengthDifferenz" layoutX="206.0" layoutY="195.0" max="10.0" prefHeight="14.0" prefWidth="228.0" value="5.0" />
+         </children>
+      </Group>
+      <Group layoutX="-1.0" layoutY="352.0">
+         <children>
+            <Rectangle fill="#303030" height="138.0" layoutX="10.0" layoutY="67.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);;" width="454.0" />
+            <Label layoutX="23.0" layoutY="83.0" text="Statistiken" textFill="#b5b5b5">
+               <font>
+                  <Font lesson="Arial" size="19.0" />
+               </font>
+            </Label>
+            <HBox layoutX="75.0" layoutY="123.0" prefHeight="71.0" prefWidth="304.0" spacing="20.0">
+               <children>
+                  <Group>
+                     <children>
+                        <Label fx:id="statStarted" alignment="CENTER" contentDisplay="CENTER" layoutX="-2.0" layoutY="-20.0" text="0" textAlignment="CENTER" textFill="WHITE">
+                           <font>
+                              <Font lesson="System Bold" size="27.0" />
+                           </font>
+                        </Label>
+                        <Label layoutY="15.0" text="mal gestartet" textFill="#e1e1e1">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Group>
+                  <Group>
+                     <children>
+                        <Label fx:id="statUsed" alignment="CENTER" layoutX="-10.0" layoutY="-20.0" text="0" textAlignment="CENTER" textFill="WHITE">
+                           <font>
+                              <Font lesson="System Bold" size="27.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="-10.0" layoutY="15.0" text="Stunden benutzt" textFill="#e1e1e1">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Group>
+                  <Group>
+                     <children>
+                        <Label fx:id="statCommands" alignment="CENTER" layoutX="-18.0" layoutY="-20.0" text="0" textAlignment="CENTER" textFill="WHITE">
+                           <font>
+                              <Font lesson="System Bold" size="27.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="-16.0" layoutY="15.0" text="Befehle ausgeführt" textFill="#e1e1e1">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Group>
+               </children>
+            </HBox>
+            <JFXToggleButton fx:id="statCollectButton" focusTraversable="false" layoutX="237.0" layoutY="66.0" onAction="#onStatCollectButton" size="9.0" text="Statistiken sammeln" textFill="WHITE" toggleColor="#0090ff" toggleLineColor="#4fb3ff">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </JFXToggleButton>
+         </children>
+      </Group>
+      <Group layoutX="471.0">
+         <children>
+            <Rectangle fill="#303030" height="293.0" layoutX="10.0" layoutY="67.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);;" width="343.0" />
+            <Label layoutX="23.0" layoutY="83.0" text="Infos" textFill="#b5b5b5">
+               <font>
+                  <Font lesson="Arial" size="19.0" />
+               </font>
+            </Label>
+         </children>
+      </Group>
+      <Group layoutX="472.0" layoutY="314.0">
+         <children>
+            <Rectangle fill="#303030" height="176.0" layoutX="10.0" layoutY="67.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);;" width="341.0" />
+            <Label layoutX="23.0" layoutY="83.0" text="Start Optionen" textFill="#b5b5b5">
+               <font>
+                  <Font lesson="Arial" size="19.0" />
+               </font>
+            </Label>
+            <JFXToggleButton fx:id="cmdConsoleButton" focusTraversable="false" layoutX="23.0" layoutY="119.0" onAction="#onCmdConsoleButton" text="CMD Console" textFill="WHITE" toggleColor="#0090ff" toggleLineColor="#4fb3ff">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </JFXToggleButton>
+            <JFXToggleButton fx:id="DBConsoleButton" focusTraversable="false" layoutX="24.0" layoutY="167.0" onAction="#onDBConsoleButton" text="DotBot Console" textFill="WHITE" toggleColor="#0090ff" toggleLineColor="#4fb3ff">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </JFXToggleButton>
+            <JFXButton fx:id="startButton" buttonType="RAISED" focusTraversable="false" layoutX="251.0" layoutY="198.0" onAction="#onStart" prefHeight="37.0" prefWidth="94.0" style="-fx-background-color: #0090ff;" text="STARTEN" textFill="WHITE">
+               <font>
+                  <Font lesson="System Bold" size="13.0" />
+               </font>
+            </JFXButton>
+         </children>
+      </Group>
+   </children>
+</Pane>

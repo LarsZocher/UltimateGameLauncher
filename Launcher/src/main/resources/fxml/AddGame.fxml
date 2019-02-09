@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane fx:id="borderpane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.screens.AddGame.AddGameController">
+   <top>
+      <VBox prefHeight="38.0" style="-fx-background-color: #212121;" BorderPane.alignment="CENTER_RIGHT">
+         <children>
+            <Pane id="bar" maxHeight="-Infinity" minHeight="2.0" prefHeight="2.0" VBox.vgrow="ALWAYS" />
+            <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+               <children>
+                  <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                     <children>
+                        <Label fx:id="title" prefHeight="30.0" prefWidth="218.0" text="Hinzufügen" textFill="#ffffffb2">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <Pane HBox.hgrow="ALWAYS" />
+                  <HBox alignment="CENTER_RIGHT" prefHeight="49.0" prefWidth="79.0">
+                     <children>
+                        <ImageView fx:id="minimize" fitHeight="29.0" fitWidth="29.0" onMouseReleased="#onMinimize" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icon/minimize.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets bottom="5.0" right="5.0" />
+                           </HBox.margin>
+                        </ImageView>
+                        <ImageView fx:id="exit" fitHeight="30.0" fitWidth="29.0" onMouseReleased="#onExit" pickOnBounds="true" preserveRatio="true">
+                           <HBox.margin>
+                              <Insets right="8.0" />
+                           </HBox.margin>
+                           <image>
+                              <Image url="@../icon/close.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </HBox>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </top>
+   <center>
+      <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="142.0" prefWidth="462.0" style="-fx-background-color: #353535; -fx-effect: innershadow( gaussian, rgba( 0, 0, 0, 0.5 ), 5, 0, 0, 0 );" BorderPane.alignment="CENTER">
+         <children>
+            <JFXComboBox fx:id="types" layoutX="245.0" layoutY="50.0" prefHeight="25.0" prefWidth="192.0" />
+            <Label fx:id="text" layoutX="21.0" layoutY="52.0" text="Was möchten sie hinzufügen?" textFill="#dddddd">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <JFXButton fx:id="next" buttonType="RAISED" focusTraversable="false" layoutX="335.0" layoutY="94.0" onAction="#onContinue" prefHeight="34.0" prefWidth="101.0" text="WEITER" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </JFXButton>
+         </children></Pane>
+   </center>
+</BorderPane>

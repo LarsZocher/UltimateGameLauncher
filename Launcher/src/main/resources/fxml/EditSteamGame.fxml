@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane fx:id="borderpane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.screens.AddGame.Steam.EditSteamGameController">
+   <top>
+      <VBox prefHeight="38.0" style="-fx-background-color: #212121;" BorderPane.alignment="CENTER_RIGHT">
+         <children>
+            <Pane id="bar" maxHeight="-Infinity" minHeight="2.0" prefHeight="2.0" VBox.vgrow="ALWAYS" />
+            <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+               <children>
+                  <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                     <children>
+                        <Label fx:id="title" prefHeight="30.0" prefWidth="218.0" text="Steam Programm" textFill="#ffffffb2">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <Pane HBox.hgrow="ALWAYS" />
+                  <HBox alignment="CENTER_RIGHT" prefHeight="49.0" prefWidth="79.0">
+                     <children>
+                        <ImageView fx:id="minimize" fitHeight="29.0" fitWidth="29.0" onMouseReleased="#onMinimize" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icon/minimize.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets bottom="5.0" right="5.0" />
+                           </HBox.margin>
+                        </ImageView>
+                        <ImageView fx:id="exit" fitHeight="30.0" fitWidth="29.0" onMouseReleased="#onExit" pickOnBounds="true" preserveRatio="true">
+                           <HBox.margin>
+                              <Insets right="8.0" />
+                           </HBox.margin>
+                           <image>
+                              <Image url="@../icon/close.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </HBox>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </top>
+   <center>
+      <Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="375.0" prefWidth="741.0" style="-fx-background-color: #353535; -fx-effect: innershadow( gaussian, rgba( 0, 0, 0, 0.5 ), 5, 0, 0, 0 );" BorderPane.alignment="CENTER">
+         <children>
+            <JFXButton fx:id="next" buttonType="RAISED" focusTraversable="false" layoutX="643.0" layoutY="324.0" onAction="#onFinish" prefHeight="37.0" prefWidth="84.0" text="FERTIG" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </JFXButton>
+            <VBox layoutX="31.0" layoutY="34.0" spacing="30.0">
+               <children>
+                  <HBox layoutX="22.0" layoutY="56.0" spacing="10.0">
+                     <children>
+                        <Label fx:id="nameLabel" prefHeight="21.0" prefWidth="95.0" text="Name:" textFill="#dddddd">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <JFXTextField fx:id="name" prefHeight="25.0" prefWidth="267.0" />
+                     </children>
+                  </HBox>
+                  <HBox spacing="10.0">
+                     <children>
+                        <Label fx:id="appidLabel" prefWidth="95.0" text="AppID:" textFill="#dddddd">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <JFXTextField fx:id="appid" prefHeight="25.0" prefWidth="111.0" />
+                     </children>
+                  </HBox>
+                  <HBox spacing="10.0">
+                     <children>
+                        <Label fx:id="startWithLabel" prefHeight="21.0" prefWidth="95.0" text="Starten mit:" textFill="#dddddd">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <JFXComboBox fx:id="user" prefHeight="25.0" prefWidth="241.0" />
+                     </children>
+                  </HBox>
+                  <HBox spacing="10.0">
+                     <children>
+                        <Label fx:id="iconLabel" prefHeight="21.0" prefWidth="95.0" text="Icon Pfad:" textFill="#dddddd">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <JFXTextField fx:id="icon" prefHeight="25.0" prefWidth="319.0" />
+                     </children>
+                  </HBox>
+                  <HBox spacing="10.0">
+                     <children>
+                        <Label fx:id="argsLabel" prefHeight="21.0" prefWidth="95.0" text="Startoptionen:" textFill="#dddddd">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <JFXTextField fx:id="args" prefHeight="25.0" prefWidth="319.0" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <JFXButton fx:id="next1" buttonType="RAISED" focusTraversable="false" layoutX="121.0" layoutY="324.0" onAction="#onSearch" prefHeight="37.0" prefWidth="122.0" text="SPIEL  SUCHEN" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="next2" buttonType="RAISED" focusTraversable="false" layoutX="21.0" layoutY="324.0" onAction="#onBack" prefHeight="37.0" prefWidth="84.0" text="ZURÜCK" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </JFXButton>
+            <JFXTextField fx:id="addNameField" layoutX="480.0" layoutY="265.0" prefHeight="25.0" prefWidth="211.0" />
+            <Pane layoutX="694.0" layoutY="260.0">
+               <children>
+                  <ImageView fx:id="addName" fitHeight="34.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" style="-fx-background-color: #272727;">
+                     <image>
+                        <Image url="@../icon/add4.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Pane>
+            <JFXListView fx:id="names" layoutX="480.0" layoutY="14.0" prefHeight="245.0" prefWidth="247.0" style="-fx-background-color: #282828;" />
+         </children></Pane>
+   </center>
+</BorderPane>
