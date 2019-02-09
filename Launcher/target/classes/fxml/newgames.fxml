@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.shape.*?>
+<?import com.jfoenix.controls.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="504.0" prefWidth="875.0" style="-fx-background-color: #353535;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.screens.newgamesController">
+   <children>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 10, 0, 0, 0); -fx-background-color: #353535;" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="8.0">
+         <children>
+            <VBox spacing="10.0" AnchorPane.bottomAnchor="13.0" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="13.0">
+               <children>
+                  <HBox prefHeight="19.0" prefWidth="841.0" spacing="10.0">
+                     <children>
+                        <Label fx:id="title" text="Spiele" textFill="#b5b5b5">
+                           <font>
+                              <Font name="Arial" size="19.0" />
+                           </font>
+                        </Label>
+                        <Pane HBox.hgrow="SOMETIMES" />
+                        <JFXTextField fx:id="search" labelFloat="true" prefHeight="25.0" prefWidth="183.0" />
+                        <JFXComboBox fx:id="sort" onAction="#onSortChange" prefHeight="25.0" prefWidth="158.0" promptText="Sortieren nach" />
+                        <JFXButton fx:id="add" buttonType="RAISED" focusTraversable="false" onAction="#onAdd" prefHeight="31.0" prefWidth="118.0" style="-fx-background-color: -primary;" text="HINZUFÜGEN" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </JFXButton>
+                     </children>
+                     <padding>
+                        <Insets right="2.0" />
+                     </padding>
+                  </HBox>
+                  <VBox prefHeight="412.0" prefWidth="833.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <HBox prefHeight="33.0" prefWidth="380.0" style="-fx-background-color: #303030;">
+                           <children>
+                              <VBox fx:id="all" alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <Label text="ALL" textFill="WHITE">
+                                       <font>
+                                          <Font name="System Bold" size="13.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets bottom="2.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <Rectangle fill="#009ab5" height="3.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="100.0" />
+                                 </children>
+                              </VBox>
+                              <VBox fx:id="steam" alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <Label text="STEAM" textFill="WHITE">
+                                       <font>
+                                          <Font name="System Bold" size="13.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets bottom="2.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <Rectangle fill="#009ab500" height="3.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="100.0" />
+                                 </children>
+                              </VBox>
+                              <VBox fx:id="battleNET" alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <Label text="BattleNET" textFill="WHITE">
+                                       <font>
+                                          <Font name="System Bold" size="13.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets bottom="2.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <Rectangle fill="#009ab500" height="3.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="100.0" />
+                                 </children>
+                              </VBox>
+                              <VBox fx:id="origin" alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <Label text="Origin" textFill="WHITE">
+                                       <font>
+                                          <Font name="System Bold" size="13.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets bottom="2.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <Rectangle fill="#009ab500" height="3.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="100.0" />
+                                 </children>
+                              </VBox>
+                              <VBox fx:id="uplay" alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <Label text="UPlay" textFill="WHITE">
+                                       <font>
+                                          <Font name="System Bold" size="13.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets bottom="2.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <Rectangle fill="#009ab500" height="3.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="100.0" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <AnchorPane fx:id="listPane" prefHeight="383.0" prefWidth="833.0" AnchorPane.topAnchor="0.0" VBox.vgrow="ALWAYS" />
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

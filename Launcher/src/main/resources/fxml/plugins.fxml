@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.shape.*?>
+<?import com.jfoenix.controls.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="503.0" prefWidth="772.0" style="-fx-background-color: #353535;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.screens.pluginsController">
+   <children>
+      <Group layoutY="-2.0">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#353535" height="486.0" layoutX="8.0" layoutY="11.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 10, 0, 0, 0);" width="754.0" />
+            <Label layoutX="22.0" layoutY="27.0" text="Plugins" textFill="#b5b5b5">
+               <font>
+                  <Font name="Arial" size="19.0" />
+               </font>
+            </Label>
+            <JFXListView fx:id="list" depth="10" layoutX="39.0" layoutY="64.0" prefHeight="357.0" prefWidth="694.0" style="-fx-background-color: #353535; -fx-expanded: true;" verticalGap="10.0" />
+            <JFXButton fx:id="togglePlugins" buttonType="RAISED" focusTraversable="false" layoutX="603.0" layoutY="445.0" onAction="#onTogglePlugins" prefHeight="37.0" prefWidth="146.0" text="ALLE AKTIVIEREN" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </JFXButton>
+            <JFXButton buttonType="RAISED" focusTraversable="false" layoutX="39.0" layoutY="445.0" onAction="#onOpenFolder" prefHeight="37.0" prefWidth="140.0" text="ORDNER ÖFFNEN" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </JFXButton>
+            <JFXButton buttonType="RAISED" focusTraversable="false" layoutX="431.0" layoutY="445.0" onAction="#onRefreshPlugins" prefHeight="37.0" prefWidth="156.0" text="ALLE AKTUALISIEREN" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </JFXButton>
+         </children>
+      </Group>
+   </children>
+</Pane>

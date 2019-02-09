@@ -1,0 +1,6 @@
+.jfx-text-field {
+    -jfx-focus-color: #0099b7;
+    -jfx-unfocus-color: #7c7c7c;
+    -fx-text-fill: #cecece;
+    -fx-prompt-text-fill: #7c7c7c;
+}

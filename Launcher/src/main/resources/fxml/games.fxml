@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.shape.*?>
+<?import com.jfoenix.controls.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="503.0" prefWidth="772.0" style="-fx-background-color: #353535;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.screens.gamesController">
+   <children>
+      <Group layoutY="-2.0">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#353535" height="486.0" layoutX="8.0" layoutY="11.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 10, 0, 0, 0);" width="754.0" />
+            <Label layoutX="22.0" layoutY="27.0" text="Spiele" textFill="#b5b5b5">
+               <font>
+                  <Font name="Arial" size="19.0" />
+               </font>
+            </Label>
+            <JFXListView fx:id="list" depth="10" layoutX="38.0" layoutY="100.0" prefHeight="369.0" prefWidth="694.0" style="-fx-background-color: #353535; -fx-expanded: true;" styleClass="mylistview" verticalGap="10.0" />
+            <JFXButton fx:id="togglePlugins" buttonType="RAISED" focusTraversable="false" layoutX="613.0" layoutY="23.0" onAction="#onAdd" prefHeight="31.0" prefWidth="118.0" text="HINZUFÜGEN" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </JFXButton>
+            <JFXComboBox fx:id="sort" layoutX="444.0" layoutY="26.0" onAction="#onSortChange" prefHeight="25.0" prefWidth="158.0" promptText="Sortieren nach" />
+            <HBox layoutX="38.0" layoutY="67.0" prefHeight="33.0" prefWidth="380.0" style="-fx-background-color: #303030;">
+               <children>
+                  <VBox fx:id="steam" alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Label text="STEAM" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="2.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Rectangle fill="#0099b7" height="3.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="100.0" />
+                     </children>
+                  </VBox>
+                  <VBox fx:id="battleNET" alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Label text="BattleNET" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="2.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Rectangle fill="#009ab500" height="3.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="100.0" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </Group>
+   </children>
+</Pane>

@@ -1,0 +1,307 @@
+/* DEFAULT #0099b7 / #004cb7 */
+/* RED RED / #9b0000 */
+/* GREEN   #49d100 / #c5db00 */
+* {
+    -primary: #49d100;
+    -primary-darker: #c5db00;
+    -button-text: WHITE;
+}
+
+/* CheckBox */
+.jfx-check-box {
+    -jfx-checked-color: -primary;
+    -jfx-unchecked-color: #7c7c7c;
+    -fx-text-fill: #cecece;
+}
+
+
+/* ChipView */
+.jfx-chip-view{
+    -fx-background-color: #303030;
+}
+.jfx-chip-view .chips-pane > .text-area{
+    -fx-text-fill: WHITE;
+}
+.jfx-chip-view .chips-pane .jfx-chip{
+    -fx-max-width: 150;
+}
+
+
+/* ColoredBar */
+#bar {
+   -fx-background-color: linear-gradient(to right, -primary, -primary-darker);
+   -fx-effect: dropshadow(three-pass-box, -primary, 20, 0.5, 0, 0);
+}
+#bar-2 {
+   -fx-background-color: -primary;
+   -fx-effect: dropshadow(three-pass-box, -primary, 20, 0.5, 0, 0);
+}
+#bar-3 {
+   -fx-background-color: -primary;
+}
+#bar-4 {
+    -fx-background-color: linear-gradient(to right, -primary, -primary-darker);
+}
+#bar-0 {
+   -fx-background-color: transparent;
+}
+#rect {
+   -fx-fill: linear-gradient(to right, -primary, #004cb7);
+   -fx-effect: dropshadow(three-pass-box, rgba(0,153,183), 20, 0.5, 0, 0);
+}
+#rect-2 {
+   -fx-fill: -primary;
+   -fx-effect: dropshadow(three-pass-box, rgba(0,153,183), 20, 0.5, 0, 0);
+}
+#rect-3 {
+   -fx-fill: -primary;
+}
+#rect-0 {
+   -fx-fill: transparent;
+}
+
+
+/* ComboBox */
+.jfx-combo-box{
+    -jfx-focus-color: -primary;
+    -jfx-unfocus-color: #7c7c7c;
+}
+.jfx-combo-box .list-cell:selected{
+    -fx-text-fill: #cecece;
+}
+.jfx-combo-box .list-cell:focused{
+    -fx-text-fill: #cecece;
+}
+
+
+/* ListView */
+.jfx-list-cell:selected {
+    -fx-background-color: #3a3a3a;
+}
+.jfx-list-cell{
+    -fx-background-insets: 0.0;
+    -fx-control-inner-background: #3a3a3a;
+    -fx-expanded: true
+}
+.jfx-list-cell .jfx-rippler{
+    -jfx-rippler-fill: -primary;
+}
+.jfx-list-view {
+    -fx-background-insets: 0;
+    -fx-cell-vertical-margin: 10.0;
+    -fx-vertical-gap: 50;
+    -jfx-rippler-fill: transparent;
+}
+.mylistview .scroll-bar:horizontal .track,
+.mylistview .scroll-bar:vertical .track{
+    -fx-background-color:transparent;
+    -fx-border-color:transparent;
+    -fx-background-radius: 0em;
+    -fx-border-radius:2em;
+    -jfx-rippler-fill: #ffffff;
+}
+.mylistview .scroll-bar:horizontal{
+    -fx-background-color:transparent;
+}
+.mylistview .scroll-bar:vertical{
+    -fx-background-color:transparent;
+}
+.mylistview .scroll-bar:horizontal .increment-button ,
+.mylistview .scroll-bar:horizontal .decrement-button {
+    -fx-background-color:transparent;
+    -fx-background-radius: 0em;
+    -fx-padding:0 0 10 0;
+}
+.mylistview .scroll-bar:vertical .increment-button ,
+.mylistview .scroll-bar:vertical .decrement-button {
+    -fx-background-color:transparent;
+    -fx-background-radius: 0em;
+    -fx-padding:0 10 0 0;
+}
+.mylistview  .scroll-bar .increment-arrow,
+.mylistview  .scroll-bar .decrement-arrow{
+    -fx-shape:" ";
+    -fx-padding:0;
+}
+.mylistview .scroll-bar:horizontal .thumb,
+.mylistview .scroll-bar:vertical .thumb {
+    -fx-background-color:derive(black,90%);
+    -fx-background-insets: 2, 0, 0;
+    -fx-background-radius: 2em;
+}
+
+
+/* ListView2 */
+.list2 .jfx-list-cell:selected {
+    -fx-background-color: #3a3a3a;
+}
+.list2 .jfx-list-cell{
+    -fx-background-insets: 0.0;
+    -fx-control-inner-background: #3a3a3a;
+    -fx-expanded: true
+}
+.list2 .jfx-list-cell .jfx-rippler{
+    -fx-rippler-fill: #ffffff;
+}
+.list2 .jfx-list-view {
+    -fx-background-insets: 0;
+    -fx-cell-vertical-margin: 10.0;
+    -fx-vertical-gap: 50;
+}
+
+
+/* MenuButton */
+#menuButton{
+    -fx-background-color: transparent;
+    -fx-fill: transparent;
+}
+#menuButton-hover{
+    -fx-background-color: rgba(255,255,255,0.07);
+}
+#menuButton-focused{
+    -fx-background-color: rgba(255,255,255,0.1);
+}
+#menuButton-text{
+    -fx-text-fill: rgba(255,255,255,0.7);
+}
+#menuButton-text-disabled{
+    -fx-text-fill: rgba(255,255,255,0.4);
+}
+#menuButton-text-focused{
+    -fx-text-fill: white;
+}
+#menuButton-pic{
+    -fx-opacity: 1;
+}
+#menuButton-pic-disabled{
+    -fx-opacity: 0.3;
+}
+#menuButton-rect{
+    -fx-fill: TRANSPARENT;
+}
+#menuButton-rect-focused{
+    -fx-fill: -primary;
+}
+
+/* NotificationButton */
+.note-button{
+    -fx-font: bold 13px "System";
+    -fx-text-fill: WHITE;
+    -fx-background-color: -primary;
+}
+
+
+/* RadioButton */
+.jfx-radio-button {
+    -jfx-selected-color: -primary;
+}
+
+
+/* ScrollBar */
+.scroll-bar:horizontal .track,
+.scroll-bar:vertical .track{
+    -fx-background-color:transparent;
+    -fx-border-color:transparent;
+    -fx-background-radius: 0em;
+    -fx-border-radius:2em;
+}
+
+.scroll-bar:horizontal{
+    -fx-background-color:transparent;
+}
+
+.scroll-bar:vertical{
+    -fx-background-color:transparent;
+}
+
+.scroll-bar:horizontal .increment-button ,
+.scroll-bar:horizontal .decrement-button {
+    -fx-background-color:transparent;
+    -fx-background-radius: 0em;
+    -fx-padding:0 0 10 0;
+}
+
+.scroll-bar:vertical .increment-button ,
+.scroll-bar:vertical .decrement-button {
+    -fx-background-color:transparent;
+    -fx-background-radius: 0em;
+    -fx-padding:0 10 0 0;
+}
+.scroll-bar .increment-arrow,
+.scroll-bar .decrement-arrow{
+    -fx-shape:" ";
+    -fx-padding:0;
+}
+
+.scroll-bar:horizontal .thumb,
+.scroll-bar:vertical .thumb {
+    -fx-background-color:derive(black,90%);
+    -fx-background-insets: 2, 0, 0;
+    -fx-background-radius: 2em;
+}
+
+.scroll-pane {
+    -fx-background: #353535;
+    -fx-border-color: #353535;
+    -fx-padding: 0;
+}
+.scroll-pane:focused {
+    -fx-background: #353535;
+    -fx-border-color: #353535;
+    -fx-padding: 0;
+    -fx-background-insets: 0;
+}
+
+.scroll-pane > .viewport {
+   -fx-background-color: #353535;
+}
+
+.scroll-pane .corner {
+    -fx-background-insets: 0;
+}
+
+
+/* Slider */
+.jfx-slider {
+    -jfx-default-thumb: -primary;
+}
+
+
+/* Spinner */
+.jfx-spinner .arc {
+  -fx-stroke: -primary;
+}
+
+
+/* TextField */
+.jfx-text-field {
+    -jfx-focus-color: -primary;
+    -jfx-unfocus-color: #7c7c7c;
+    -fx-text-fill: #cecece;
+    -fx-prompt-text-fill: #7c7c7c;
+}
+
+
+/* ToggleButton */
+.jfx-toggle-button,
+.jfx-toggle-button:armed,
+.jfx-toggle-button:hover,
+.jfx-toggle-button:focused,
+.jfx-toggle-button:selected,
+.jfx-toggle-button:focused:selected {
+    -fx-background-color: TRANSPARENT, TRANSPARENT, TRANSPARENT, TRANSPARENT;
+    -fx-background-radius: 3px;
+    -fx-background-insets: 0px;
+
+    -jfx-toggle-color: -primary;
+    -jfx-untoggle-color: #fafafa;
+    -jfx-toggle-line-color: #666666;
+    -jfx-untoggle-line-color: #666666;
+}
+
+
+/* Button */
+.jfx-button {
+    -fx-text-fill: -button-text;
+    -fx-background-color: -primary;
+}

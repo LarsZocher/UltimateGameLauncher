@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/GameLauncher/DotBotGameLauncher.iml" filepath="$PROJECT_DIR$/GameLauncher/DotBotGameLauncher.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Launcher/DotBotLauncher.iml" filepath="$PROJECT_DIR$/Launcher/DotBotLauncher.iml" />
     </modules>
   </component>
 </project>

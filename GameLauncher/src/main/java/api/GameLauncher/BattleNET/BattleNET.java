@@ -1,6 +1,5 @@
 package api.GameLauncher.BattleNET;
 
-import Utils.FileManager.ConfigFile;
 import api.GameLauncher.AppTypes;
 import api.GameLauncher.Application;
 import api.GameLauncher.GameLauncher;
@@ -17,16 +16,8 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * Removing of this disclaimer is forbidden.
