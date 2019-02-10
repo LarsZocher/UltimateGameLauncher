@@ -28,6 +28,7 @@
     </orderEntry>
     <orderEntry type="library" name="Maven: org.json:json:20180813" level="project" />
     <orderEntry type="library" name="Maven: org.jsoup:jsoup:1.11.3" level="project" />
+    <orderEntry type="library" name="Maven: de.BubbleEgg:DotBot:1.0-SNAPSHOT" level="project" />
     <orderEntry type="module" module-name="DotBotGameLauncher" />
     <orderEntry type="module-library">
       <library name="Maven: mslinks:mslinks:1.0">
