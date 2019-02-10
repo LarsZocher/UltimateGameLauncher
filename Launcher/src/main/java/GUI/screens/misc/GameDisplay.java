@@ -1,0 +1,315 @@
+package GUI.screens.misc;
+
+import GUI.css.CSSColorHelper;
+import api.GameLauncher.Application;
+import api.GameLauncher.Steam.SteamUser;
+import com.googlecode.mp4parser.h264.model.VUIParameters;
+import javafx.animation.*;
+import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.CacheHint;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.effect.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.*;
+import javafx.scene.text.Font;
+import javafx.stage.Stage;
+import javafx.util.Duration;
+
+import javax.swing.*;
+
+/**
+ * Removing of this disclaimer is forbidden.
+ *
+ * @author BubbleEgg
+ * @verions: 1.0.0
+ **/
+
+public abstract class GameDisplay {
+	
+	private Pane pane = new Pane();
+	private HBox topBar;
+	private String name;
+	private Application app;
+	private String picture;
+	private boolean showEdit;
+	private boolean showLink;
+	private boolean showDelete;
+	private boolean isFocused = false;
+	private boolean isShown = false;
+	private int width = 225;
+	private int height = 102;
+	
+	public GameDisplay(String name, Application app, String picture, boolean showEdit, boolean showLink, boolean showDelete) {
+		this.name = name;
+		this.app = app;
+		this.picture = picture;
+		this.showEdit = showEdit;
+		this.showLink = showLink;
+		this.showDelete = showDelete;
+		
+		this.pane.setPrefWidth(width);
+		this.pane.setPrefHeight(height);
+		this.pane.setStyle("-fx-background-color: #2d2d2d");
+		show();
+	}
+	
+	public void hide() {
+		if(!isShown)
+			return;
+		this.pane.getChildren().clear();
+		isShown = false;
+	}
+	
+	public void show() {
+		if(isShown)
+			return;
+		
+		isShown = true;
+		Label label = new Label(name);
+		label.setFont(new Font(13));
+		label.setPrefHeight(20);
+		label.setPrefWidth(width);
+		label.setMinWidth(width);
+		label.setStyle("-fx-text-fill: WHITE");
+		
+		Image deleteIcon = new Image("icon/close.png", 22, 22, true, true);
+		ImageView delete = new ImageView(deleteIcon);
+		delete.setFitHeight(22);
+		delete.setFitWidth(22);
+		Pane deletePane = new Pane(delete);
+		deletePane.setOnMouseReleased(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				onDelete();
+			}
+		});
+		
+		Image editIcon = new Image("icon/edit.png", 22, 22, true, true);
+		ImageView edit = new ImageView(editIcon);
+		edit.setFitHeight(22);
+		edit.setFitWidth(22);
+		Pane editPane = new Pane(edit);
+		editPane.setOnMouseReleased(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				onEdit();
+			}
+		});
+		
+		Image linkIcon = new Image("icon/link.png", 22, 22, true, true);
+		ImageView link = new ImageView(linkIcon);
+		link.setFitHeight(22);
+		link.setFitWidth(22);
+		Pane linkPane = new Pane(link);
+		linkPane.setOnMouseReleased(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				onLink();
+			}
+		});
+		
+		Image runIcon = new Image("icon/play.png", 100, 100, true, true);
+		ImageView run = new ImageView(runIcon);
+		run.setFitHeight(45);
+		run.setFitWidth(45);
+		HBox runBox = new HBox(run);
+		runBox.setAlignment(Pos.TOP_CENTER);
+		runBox.setOnMouseReleased(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				onRun();
+			}
+		});
+		colorIcon(run);
+		
+		topBar = new HBox();
+		if(showLink)
+			topBar.getChildren().add(linkPane);
+		if(showEdit)
+			topBar.getChildren().add(editPane);
+		if(showDelete)
+			topBar.getChildren().add(deletePane);
+		HBox nameBox = new HBox(label);
+		nameBox.setAlignment(Pos.BOTTOM_LEFT);
+		topBar.setAlignment(Pos.TOP_RIGHT);
+		topBar.setSpacing(5);
+		VBox buttons = new VBox(topBar, runBox, nameBox);
+		buttons.setSpacing(5);
+		buttons.setAlignment(Pos.TOP_CENTER);
+		
+		ImageView rect = new ImageView();
+		Task<Void> async = new Task<Void>() {
+			@Override
+			protected Void call() throws Exception {
+				try {
+					Image img = new Image(picture, 225, 102, false, true, true);
+					rect.setImage(img);
+				} catch(Exception e) {
+					Image img = new Image("icon/no_image.png", 225, 102, false, true, true);
+					rect.setImage(img);
+				}
+				return null;
+			}
+		};
+		new Thread(async).start();
+		
+		nameBox.setMaxWidth(rect.getFitWidth());
+		
+		StackPane stackPane = new StackPane(buttons, rect);
+		stackPane.setStyle("-fx-background-color: #2d2d2d");
+		pane.getChildren().add(stackPane);
+		
+		GaussianBlur blur = new GaussianBlur(0);
+		rect.setEffect(blur);
+		DoubleProperty value = new SimpleDoubleProperty(0);
+		value.addListener((observable, oldV, newV) ->
+		{
+			blur.setRadius(newV.doubleValue());
+		});
+		
+		Timeline timeline = new Timeline();
+		final KeyValue kv = new KeyValue(value, 10);
+		final KeyFrame kf = new KeyFrame(Duration.millis(200), kv);
+		timeline.getKeyFrames().add(kf);
+		
+		Timeline timeline2 = new Timeline();
+		final KeyValue kv2 = new KeyValue(value, 0);
+		final KeyFrame kf2 = new KeyFrame(Duration.millis(200), kv2);
+		timeline2.getKeyFrames().add(kf2);
+		
+		
+		FadeTransition fadeIn = new FadeTransition(Duration.millis(200));
+		fadeIn.setNode(rect);
+		fadeIn.setToValue(0.5);
+		stackPane.setOnMouseEntered(e -> {
+			fadeIn.playFromStart();
+			timeline.playFromStart();
+			Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+					rect.toBack();
+				}
+			});
+			isFocused = true;
+		});
+		
+		FadeTransition fadeOut = new FadeTransition(Duration.millis(200));
+		fadeOut.setNode(rect);
+		fadeOut.setToValue(1);
+		stackPane.setOnMouseExited(e -> {
+			if((e.getX() > 0 && e.getX() < rect.getFitWidth()) && (e.getY() > 0 && e.getY() < rect.getFitHeight()))
+				return;
+			fadeOut.playFromStart();
+			if(fadeIn.getStatus() == Animation.Status.RUNNING) {
+				fadeIn.stop();
+				timeline.stop();
+			}
+			timeline2.playFromStart();
+			Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+					rect.toFront();
+				}
+			});
+			isFocused = false;
+		});
+		rect.setOpacity(1);
+	}
+	
+	
+	public void setUser(SteamUser user) {
+		if(!user.exists())
+			return;
+		Pane p = new Pane();
+		HBox.setHgrow(p, Priority.SOMETIMES);
+		Image img = new Image(user.getImageIcon(), 22, 22, false, true, true);
+		ImageView view = new ImageView(img);
+
+		topBar.getChildren().add(0, p);
+		topBar.getChildren().add(0, view);
+	}
+	
+	public void unfocus() {
+		if(!isFocused)
+			return;
+//		fadeOut.playFromStart();
+//		if(fadeIn.getStatus() == Animation.Status.RUNNING) {
+//			fadeIn.stop();
+//			timeline.stop();
+//		}
+//		timeline2.playFromStart();
+//		Platform.runLater(new Runnable() {
+//			@Override
+//			public void run() {
+//				rect.toFront();
+//			}
+//		});
+		isFocused = false;
+	}
+	
+	private void colorIcon(ImageView icon) {
+		ColorAdjust monochrome = new ColorAdjust();
+		monochrome.setSaturation(-1.0);
+		
+		Blend blush = new Blend(
+				BlendMode.MULTIPLY,
+				monochrome,
+				new ColorInput(
+						0,
+						0,
+						icon.getImage().getWidth() + 10,
+						icon.getImage().getHeight() + 10,
+						CSSColorHelper.parseColor("-primary")
+				)
+		);
+		
+		icon.effectProperty().bind(
+				Bindings
+						.when(icon.visibleProperty())
+						.then((Effect) blush)
+						.otherwise((Effect) null)
+		);
+		
+		icon.setCache(true);
+		icon.setCacheHint(CacheHint.SPEED);
+		ImageView view = new ImageView(icon.getImage());
+		view.setFitWidth(icon.getFitWidth());
+		view.setFitHeight(icon.getFitHeight());
+		icon.setClip(view);
+	}
+	
+	public abstract void onLink();
+	
+	public abstract void onEdit();
+	
+	public abstract void onDelete();
+	
+	public abstract void onRun();
+	
+	public boolean isShown() {
+		return isShown;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public Pane getPane() {
+		return pane;
+	}
+	
+	public Application getApp() {
+		return app;
+	}
+}

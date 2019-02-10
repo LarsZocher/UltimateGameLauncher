@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane fx:id="borderpane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.screens.AddGame.Steam.EditSteamGameController">
+   <top>
+      <VBox prefHeight="38.0" style="-fx-background-color: #212121;" BorderPane.alignment="CENTER_RIGHT">
+         <children>
+            <Pane id="bar" maxHeight="-Infinity" minHeight="2.0" prefHeight="2.0" VBox.vgrow="ALWAYS" />
+            <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+               <children>
+                  <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                     <children>
+                        <Label fx:id="title" prefHeight="30.0" prefWidth="218.0" text="Steam Programm" textFill="#ffffffb2">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <Pane HBox.hgrow="ALWAYS" />
+                  <HBox alignment="CENTER_RIGHT" prefHeight="49.0" prefWidth="79.0">
+                     <children>
+                        <ImageView fx:id="minimize" fitHeight="29.0" fitWidth="29.0" onMouseReleased="#onMinimize" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icon/minimize.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets bottom="5.0" right="5.0" />
+                           </HBox.margin>
+                        </ImageView>
+                        <ImageView fx:id="exit" fitHeight="30.0" fitWidth="29.0" onMouseReleased="#onExit" pickOnBounds="true" preserveRatio="true">
+                           <HBox.margin>
+                              <Insets right="8.0" />
+                           </HBox.margin>
+                           <image>
+                              <Image url="@../icon/close.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </HBox>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </top>
+   <center>
+      <Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="259.0" prefWidth="577.0" style="-fx-background-color: #353535; -fx-effect: innershadow( gaussian, rgba( 0, 0, 0, 0.5 ), 5, 0, 0, 0 );" BorderPane.alignment="CENTER">
+         <children>
+            <Pane layoutX="694.0" layoutY="260.0" />
+            <HBox layoutX="413.0" layoutY="14.0" spacing="10.0" />
+            <HBox prefHeight="259.0" prefWidth="577.0">
+               <children>
+                  <VBox prefHeight="278.0" prefWidth="225.0" style="-fx-background-color: #2d2d2d;">
+                     <children>
+                        <HBox prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #202020;">
+                           <children>
+                              <StackPane alignment="BOTTOM_LEFT" prefHeight="150.0" prefWidth="200.0">
+                                 <children>
+                                    <StackPane fx:id="stack_header">
+                                       <children>
+                                          <HBox fx:id="change" alignment="CENTER" spacing="5.0">
+                                             <children>
+                                                <Label text="Change" textFill="WHITE">
+                                                   <font>
+                                                      <Font size="16.0" />
+                                                   </font>
+                                                </Label>
+                                                <ImageView fx:id="pic_icon11" fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" style="-fx-background-color: BLACK;">
+                                                   <image>
+                                                      <Image url="@../icon/edit.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </children>
+                                          </HBox>
+                                          <ImageView fx:id="pic_header" fitHeight="103.0" fitWidth="225.0" pickOnBounds="true" preserveRatio="true" />
+                                       </children>
+                                    </StackPane>
+                                    <StackPane fx:id="stack_icon" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="50.0" prefWidth="50.0">
+                                       <children>
+                                          <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #202020;" />
+                                          <ImageView fx:id="pic_icon1" fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" style="-fx-background-color: BLACK;">
+                                             <image>
+                                                <Image url="@../icon/edit.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fx:id="pic_icon" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" style="-fx-background-color: BLACK;" />
+                                       </children>
+                                    </StackPane>
+                                 </children>
+                              </StackPane>
+                           </children>
+                        </HBox>
+                        <VBox prefHeight="128.0" prefWidth="225.0" spacing="20.0">
+                           <children>
+                              <JFXTextField fx:id="name" labelFloat="true" prefHeight="25.0" prefWidth="267.0" promptText="Name">
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </JFXTextField>
+                              <JFXTextField fx:id="dev" labelFloat="true" prefHeight="25.0" prefWidth="111.0" promptText="Developer">
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </JFXTextField>
+                              <JFXTextField fx:id="appid" labelFloat="true" prefHeight="25.0" prefWidth="111.0" promptText="AppID">
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </JFXTextField>
+                           </children>
+                           <VBox.margin>
+                              <Insets left="5.0" right="5.0" top="15.0" />
+                           </VBox.margin>
+                        </VBox>
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="285.0" prefWidth="354.0">
+                     <children>
+                        <VBox prefHeight="257.0" prefWidth="353.0" spacing="20.0">
+                           <children>
+                              <Label fx:id="userLabel" text="Advanced settings" textFill="#f2f2f2">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets bottom="-5.0" top="10.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <JFXComboBox fx:id="user" labelFloat="true" prefHeight="36.0" prefWidth="281.0" promptText="User" />
+                              <JFXTextField fx:id="args" labelFloat="true" prefHeight="25.0" prefWidth="366.0" promptText="Start Arguments">
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </JFXTextField>
+                           </children>
+                           <VBox.margin>
+                              <Insets left="5.0" right="10.0" />
+                           </VBox.margin>
+                        </VBox>
+                        <HBox alignment="CENTER" prefHeight="55.0" prefWidth="353.0" spacing="5.0">
+                           <children>
+                              <JFXButton fx:id="next2" buttonType="RAISED" focusTraversable="false" onAction="#onBack" prefHeight="26.0" prefWidth="84.0" text="ZURÜCK" textFill="WHITE">
+                                 <font>
+                                    <Font name="System Bold" size="13.0" />
+                                 </font>
+                              </JFXButton>
+                              <JFXButton fx:id="next1" buttonType="RAISED" focusTraversable="false" onAction="#onSearch" prefHeight="26.0" prefWidth="122.0" text="SPIEL  SUCHEN" textFill="WHITE">
+                                 <font>
+                                    <Font name="System Bold" size="13.0" />
+                                 </font>
+                              </JFXButton>
+                              <Pane prefHeight="29.0" prefWidth="0.0" HBox.hgrow="SOMETIMES" />
+                              <JFXButton fx:id="next" buttonType="RAISED" focusTraversable="false" onAction="#onFinish" prefHeight="26.0" prefWidth="84.0" text="FERTIG" textFill="WHITE">
+                                 <font>
+                                    <Font name="System Bold" size="13.0" />
+                                 </font>
+                              </JFXButton>
+                           </children>
+                           <VBox.margin>
+                              <Insets bottom="10.0" left="10.0" right="10.0" />
+                           </VBox.margin>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </children></Pane>
+   </center>
+</BorderPane>

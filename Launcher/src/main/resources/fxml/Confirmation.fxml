@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane prefHeight="65.0" prefWidth="600.0" style="-fx-background-color: #2d2d2d;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.screens.confirmationController">
+   <children>
+      <HBox alignment="CENTER_LEFT" prefHeight="65.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <ImageView fx:id="imageView" fitHeight="65.0" fitWidth="65.0" layoutX="28.0" layoutY="88.0" pickOnBounds="true" preserveRatio="true" />
+            <VBox>
+               <children>
+                  <Label fx:id="title" text="Label" textFill="WHITE">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="price" text="Label" textFill="#d2d2d2">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="date" text="Label" textFill="#d2d2d2">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+            <Pane HBox.hgrow="ALWAYS" />
+            <JFXButton fx:id="accept" minHeight="-Infinity" minWidth="-Infinity" onAction="#onAccept" style="-fx-background-color: TRANSPARENT; -fx-text-fill: -primary;" text="Accept">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="deny" minHeight="-Infinity" minWidth="-Infinity" onAction="#onDeny" style="-fx-background-color: TRANSPARENT; -fx-text-fill: #d2d2d2;" text="Deny">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </JFXButton>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

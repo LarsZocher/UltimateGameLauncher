@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.shape.*?>
+<?import com.jfoenix.controls.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="503.0" prefWidth="772.0" style="-fx-background-color: #353535;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.screens.settingsController">
+   <children>
+      <Group layoutY="-2.0">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#353535" height="486.0" layoutX="8.0" layoutY="11.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 10, 0, 0, 0);" width="754.0" />
+            <Label layoutX="22.0" layoutY="27.0" text="Einstellungen" textFill="#b5b5b5">
+               <font>
+                  <Font name="Arial" size="19.0" />
+               </font>
+            </Label>
+            <HBox id="rect-1" layoutX="24.0" layoutY="64.0" spacing="20.0">
+               <children>
+                  <VBox layoutX="33.0" layoutY="68.0" prefHeight="412.0" prefWidth="308.0" spacing="10.0">
+                     <children>
+                        <Label text="Konsole" textFill="#8a8a8a">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <Rectangle fill="#8a8a8a" height="2.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="340.0">
+                           <VBox.margin>
+                              <Insets top="-5.0" />
+                           </VBox.margin>
+                        </Rectangle>
+                        <HBox alignment="CENTER_LEFT" spacing="15.0">
+                           <children>
+                              <Label text="Konsole Anzeige Level:" textFill="#dddddd">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <JFXComboBox fx:id="consoleLevel" focusColor="#5faf1d" promptText="LEVEL" />
+                           </children>
+                        </HBox>
+                        <Label text="Befehle" textFill="#8a8a8a">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <Rectangle fill="#8a8a8a" height="2.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="340.0">
+                           <VBox.margin>
+                              <Insets top="-5.0" />
+                           </VBox.margin>
+                        </Rectangle>
+                        <HBox alignment="CENTER_LEFT" spacing="15.0">
+                           <children>
+                              <Label prefWidth="178.0" text="Min. Übereinstimmung:" textFill="#dddddd">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <JFXSlider fx:id="CommandEquality" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" spacing="15.0">
+                           <children>
+                              <Label prefHeight="25.0" prefWidth="178.0" text="Wörter-Anzahl Differenz:" textFill="#dddddd">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <JFXSlider fx:id="CommandLengthDifferenz" max="10.0" value="1.0">
+                              </JFXSlider>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" spacing="15.0">
+                           <children>
+                              <Label prefHeight="25.0" prefWidth="155.0" text="Alle Befehle anzeigen" textFill="#dddddd">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <JFXToggleButton fx:id="ShowAllCommands" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="68.0" text=" " toggleColor="#5faf1d" toggleLineColor="#666666" unToggleLineColor="#666666">
+                              </JFXToggleButton>
+                           </children>
+                        </HBox>
+                        <Label text="Google" textFill="#8a8a8a">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <Rectangle fill="#8a8a8a" height="2.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="340.0">
+                           <VBox.margin>
+                              <Insets top="-5.0" />
+                           </VBox.margin>
+                        </Rectangle>
+                        <HBox alignment="CENTER_LEFT" spacing="15.0">
+                           <children>
+                              <JFXTextField fx:id="APIKEY" focusColor="#5faf1d" focusTraversable="false" labelFloat="true" prefHeight="25.0" prefWidth="509.0" promptText="APIKEY">
+                                 <HBox.margin>
+                                    <Insets top="5.0" />
+                                 </HBox.margin></JFXTextField>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" spacing="15.0">
+                           <children>
+                              <Label prefHeight="25.0" prefWidth="236.0" text="Spracherkennungszeit in (ms):" textFill="#dddddd">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <JFXTextField fx:id="ListenerTimer" focusColor="#5faf1d" focusTraversable="false" prefHeight="25.0" prefWidth="136.0" promptText="Zeit (ms)" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" spacing="15.0">
+                           <children>
+                              <Label prefHeight="25.0" prefWidth="155.0" text="AFK Modus" textFill="#dddddd">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <JFXToggleButton fx:id="AFKMode" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="68.0" text=" " toggleColor="#5faf1d" toggleLineColor="#666666" unToggleLineColor="#666666" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <Rectangle fill="#353535" height="380.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="2.0">
+                  </Rectangle>
+                  <VBox prefHeight="412.0" prefWidth="0.0" spacing="10.0">
+                     <children>
+                        <Label text="Sounds" textFill="#8a8a8a">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <Rectangle fill="#8a8a8a" height="2.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="340.0">
+                           <VBox.margin>
+                              <Insets top="-5.0" />
+                           </VBox.margin>
+                        </Rectangle>
+                        <HBox alignment="CENTER_LEFT" spacing="15.0">
+                           <children>
+                              <Label prefWidth="178.0" text="Sprecher Lautstärke:" textFill="#dddddd">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <JFXSlider fx:id="SpeakVolume" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" spacing="15.0">
+                           <children>
+                              <Label prefHeight="25.0" prefWidth="178.0" text="Radio Lautstärke:" textFill="#dddddd">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <JFXSlider fx:id="RadioVolume">
+                              </JFXSlider>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" spacing="15.0">
+                           <children>
+                              <Label prefHeight="25.0" prefWidth="178.0" text="Leisere Radio Lautstärke:" textFill="#dddddd">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <JFXSlider fx:id="RadioVolume2">
+                              </JFXSlider>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" spacing="15.0" />
+                        <Label text="Sonstiges" textFill="#8a8a8a">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <Rectangle fill="#8a8a8a" height="2.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="340.0">
+                           <VBox.margin>
+                              <Insets top="-5.0" />
+                           </VBox.margin>
+                        </Rectangle>
+                        <HBox alignment="CENTER_LEFT" spacing="15.0">
+                           <children>
+                              <Label prefHeight="25.0" prefWidth="155.0" text="Statistiken sammeln:" textFill="#dddddd">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <JFXToggleButton fx:id="CollectStats" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="68.0" text=" " toggleColor="#5faf1d" toggleLineColor="#666666" unToggleLineColor="#666666">
+                              </JFXToggleButton>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <JFXButton fx:id="apply" buttonType="RAISED" focusTraversable="false" layoutX="613.0" layoutY="446.0" onAction="#onApply" prefHeight="37.0" prefWidth="133.0" text="ÜBERNEHMEN" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="cancel" buttonType="RAISED" disable="true" focusTraversable="false" layoutX="490.0" layoutY="446.0" onAction="#onCancel" prefHeight="37.0" prefWidth="110.0" text="ABBRECHEN" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </JFXButton>
+         </children>
+      </Group>
+   </children>
+</Pane>
