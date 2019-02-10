@@ -62,19 +62,21 @@ public class Steam {
 		List<SteamConfigUser> users = new ArrayList<>();
 		if(!getPath().isEmpty()) {
 			try {
-				File file = new File(getPath() + "config/loginusers.vdf");
+				File file = new File(getPath() + "config/config.vdf");
 				String data = FileUtils.readFileToString(file, "UTF-8");
+				data = data.split("\"Accounts\"")[1];
 				String[] dataParts = data.split("\"");
-				for(int i = 3; i < dataParts.length; i++) {
-					String id = dataParts[i];
-					String username = dataParts[i + 4];
-					String nickname = dataParts[i + 8];
-					i += 25;
+				for(int i = 1; i < dataParts.length; i++) {
+					String username = dataParts[i];
+					if(!dataParts[i + 2].equalsIgnoreCase("SteamID")){
+						break;
+					}
+					String id = dataParts[i + 4];
+					i += 5;
 					
 					SteamConfigUser user = new SteamConfigUser();
 					user.setSteam64id(id);
 					user.setUsername(username);
-					user.setPassword(nickname);
 					users.add(user);
 				}
 			}catch(Exception e){

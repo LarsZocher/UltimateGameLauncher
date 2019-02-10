@@ -121,6 +121,8 @@ public class AuthenticatorLinker
 			return FinalizeResult.BadSMSCode;
 		}
 		
+		System.out.println("Whoo");
+		
 		NameValuePairList postData = new NameValuePairList();
 		postData.add("steamid", _session.getSteamID()+"");
 		postData.add("access_token", _session.getOAuthToken());
