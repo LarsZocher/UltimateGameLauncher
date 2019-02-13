@@ -22,11 +22,11 @@ With this launcher you can manage all your steam and blizzard accounts and switc
   - Add existing authenticator
   - Remove authenticator
   
-You can create multiple entries in the launcher for a game. Each with different settings like startoptions.
+You can create multiple entries of a game in the launcher. Each with different settings like startoptions.
   
 ##### BattleNet
-- launch battlenet games instant, without pressing the "play" button in the battle.net app
-- switch users
+- Launch battlenet games instant, without pressing the "play" button in the battle.net app
+- Switch users
 
 ## Download
-Download link coming soon
+Download link coming soon™
