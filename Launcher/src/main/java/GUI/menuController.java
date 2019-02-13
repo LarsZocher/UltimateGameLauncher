@@ -72,10 +72,10 @@ public class menuController extends initMenuController {
 //				loadFXML("plugins");
 //			}
 //		});
-		buttons.add(new MenuButton(games, "newgames") {
+		buttons.add(new MenuButton(games, "games") {
 			@Override
 			public void onClick() {
-				loadFXML("newgames");
+				loadFXML("games");
 			}
 		});
 		buttons.add(new MenuButton(steam, "steamN") {

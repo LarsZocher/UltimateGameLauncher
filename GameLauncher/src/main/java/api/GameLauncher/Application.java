@@ -17,7 +17,12 @@ public class Application {
 	
 	private AppTypes type;
 	private String name;
+	private String displayName;
 	private long created = 0;
+	private String iconPath = "";
+	private boolean defaultIcon = true;
+	private String headerPath = "";
+	private boolean defaultHeader = true;
 	private transient JSONObject content;
 	private String uniqueID = "default";
 	
@@ -59,5 +64,45 @@ public class Application {
 	
 	public void setUniqueID(String uniqueID) {
 		this.uniqueID = uniqueID;
+	}
+	
+	public String getDisplayName() {
+		return displayName;
+	}
+	
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
+	}
+	
+	public String getIconPath() {
+		return iconPath;
+	}
+	
+	public void setIconPath(String iconPath) {
+		this.iconPath = iconPath;
+	}
+	
+	public boolean isDefaultIcon() {
+		return defaultIcon;
+	}
+	
+	public void setDefaultIcon(boolean defaultIcon) {
+		this.defaultIcon = defaultIcon;
+	}
+	
+	public String getHeaderPath() {
+		return headerPath;
+	}
+	
+	public void setHeaderPath(String headerPath) {
+		this.headerPath = headerPath;
+	}
+	
+	public boolean isDefaultHeader() {
+		return defaultHeader;
+	}
+	
+	public void setDefaultHeader(boolean defaultHeader) {
+		this.defaultHeader = defaultHeader;
 	}
 }

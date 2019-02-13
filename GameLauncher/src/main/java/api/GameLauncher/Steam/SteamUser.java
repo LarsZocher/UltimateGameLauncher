@@ -288,7 +288,7 @@ public class SteamUser {
 	public void createShortcut(String path){
 		ShellLink sl;
 		if(!launcher.jrePath.isEmpty()) {
-			sl = ShellLink.createLink(launcher.jrePath+"java.exe");
+			sl = ShellLink.createLink(launcher.jrePath+"javaw.exe");
 			sl.setCMDArgs("-jar "+launcher.folderPath.replaceAll("GameLauncher/", "") + new File(launcher.gameLauncherName).getPath()+" --user "+getUsername());
 			sl.setWorkingDir(launcher.folderPath.replaceAll("GameLauncher/", ""));
 		}else{

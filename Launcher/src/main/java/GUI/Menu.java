@@ -55,11 +55,13 @@ public class Menu extends Application{
 		File res = new File("resources");
 		if(!res.exists())
 			res.mkdir();
-//		File css = new File("resources//DarkTheme.css");
-//		if(css.exists())
-//			styleSheet = "http://217.79.178.92/launcher/release/resources/DarkTheme.css");
+		File css = new File("resources//DarkTheme.css");
+		if(css.exists())
+			styleSheet = css.toURI().toURL().toString();
+		else
+			styleSheet = "http://217.79.178.92/launcher/release/resources/DarkTheme.css";
+		System.out.println("\""+styleSheet+"\"");
 		
-		styleSheet = "http://217.79.178.92/launcher/release/resources/DarkTheme.css";
 		this.config = new ConfigFile(configFile);
 		this.config.createFile();
 		this.stage = stage;

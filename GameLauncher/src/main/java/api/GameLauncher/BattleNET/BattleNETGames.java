@@ -20,27 +20,23 @@ import java.nio.file.Paths;
  **/
 
 public enum BattleNETGames {
-	OVERWATCH("Overwatch", "Pro", "Overwatch.png", "Overwatch_header.jpg"),
-	STARCRAFT_2("StarCraft II", "S2", "StarCraft2.png", "StarCraft2_header.jpg"),
-	STARCRAFT("StarCraft", "S1", "StarCraft.png", "StarCraft_header.jpg"),
-	HOTS("Heroes of the Storm", "Hero", "HOTS.png", "HOTS_header.jpg"),
-	WOW("World of Warcraft", "WoW", "WoW.png", "WoW_header.jpg"),
-	WARCRAFT_3("Warcraft III", "W3", "Warcraft.png", "Warcraft_header.jpg"),
-	DIABLO_3("Diablo III", "D3", "Diablo.png", "Diablo_header.jpg"),
-	HEARTHSTONE("Hearthstone", "WTCG", "Hearthstone.png", "Hearthstone_header.jpg"),
-	DESTINY_2("Destiny 2", "DST2", "Destiny.png", "Destiny_header.jpg"),
-	COD_BO4("Call of Duty: Black Ops 4", "VIPR", "COD_BO4.png", "COD_BO4_header.jpg");
+	OVERWATCH("Overwatch", "Pro"),
+	STARCRAFT_2("StarCraft II", "S2"),
+	STARCRAFT("StarCraft", "S1"),
+	HOTS("Heroes of the Storm", "Hero"),
+	WOW("World of Warcraft", "WoW"),
+	WARCRAFT_3("Warcraft III", "W3"),
+	DIABLO_3("Diablo III", "D3"),
+	HEARTHSTONE("Hearthstone", "WTCG"),
+	DESTINY_2("Destiny 2", "DST2"),
+	COD_BO4("Call of Duty: Black Ops 4", "VIPR");
 	
 	private String name;
 	private String code;
-	private String iconFile;
-	private String headerFile;
 	
-	BattleNETGames(String name, String code, String iconFile, String headerFile) {
+	BattleNETGames(String name, String code) {
 		this.name = name;
 		this.code = code;
-		this.iconFile = iconFile;
-		this.headerFile = headerFile;
 	}
 	
 	public String getName() {
@@ -49,14 +45,6 @@ public enum BattleNETGames {
 	
 	public String getCode() {
 		return code;
-	}
-	
-	public String getIconFile() {
-		return iconFile;
-	}
-	
-	public String getHeaderFile() {
-		return headerFile;
 	}
 	
 	public static BattleNETGames getByName(String name){

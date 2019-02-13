@@ -14,7 +14,6 @@ import java.util.List;
 public class BattleNETGameConfig extends Content {
 	
 	private List<String> namesToSay;
-	private String icon = "default";
 	
 	public List<String> getNamesToSay() {
 		return namesToSay;
@@ -22,13 +21,5 @@ public class BattleNETGameConfig extends Content {
 	
 	public void setNamesToSay(List<String> namesToSay) {
 		this.namesToSay = namesToSay;
-	}
-	
-	public String getIcon() {
-		return icon;
-	}
-	
-	public void setIcon(String icon) {
-		this.icon = icon;
 	}
 }

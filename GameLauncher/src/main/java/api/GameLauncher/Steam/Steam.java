@@ -169,9 +169,14 @@ public class Steam {
 		if(application==null) {
 			application = new Application();
 			application.setName(app.getConfigName());
+			application.setDisplayName(app.getName());
 			application.setType(AppTypes.STEAM);
 			application.setCreated(System.currentTimeMillis());
 			application.setUniqueID("STEAM_"+app.getAppID());
+			application.setDefaultHeader(true);
+			application.setHeaderPath(app.getPathToPicture());
+			application.setDefaultIcon(true);
+			application.setIconPath(app.getIconPath());
 		}
 		
 		JSONArray applications = JsonConfig.getJSONArray(launcher.cfg.getConfig(),"Applications");

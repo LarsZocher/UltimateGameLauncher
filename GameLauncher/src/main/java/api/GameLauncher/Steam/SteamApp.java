@@ -195,7 +195,10 @@ public class SteamApp extends Content {
 	private String getNiceName() {
 		String name = getName();
 		
-		name = name.replaceAll("[^a-zA-Z0-9]", "");
+		name = name.replaceAll(":", "");
+		name = name.replaceAll(",", "");
+		name = name.replaceAll("/", "");
+		name = name.replaceAll("\\\\", "");
 		
 		return name;
 	}
@@ -216,7 +219,7 @@ public class SteamApp extends Content {
 		savePicture(launcher);
 		ShellLink sl;
 		if(!launcher.jrePath.isEmpty()) {
-			sl = ShellLink.createLink(launcher.jrePath+"java.exe");
+			sl = ShellLink.createLink(launcher.jrePath+"javaw.exe");
 			sl.setCMDArgs("-jar "+launcher.folderPath.replaceAll("GameLauncher/", "") + new File(launcher.gameLauncherName).getPath()+" --start " + getConfigName());
 			sl.setWorkingDir(launcher.folderPath.replaceAll("GameLauncher/", ""));
 		}else{
@@ -243,7 +246,7 @@ public class SteamApp extends Content {
 		try {
 			ShellLink link;
 			if(!launcher.jrePath.isEmpty()) {
-				link = ShellLink.createLink(launcher.jrePath+"java.exe");
+				link = ShellLink.createLink(launcher.jrePath+"javaw.exe");
 				link.setCMDArgs("-jar "+launcher.folderPath.replaceAll("GameLauncher/", "") + new File(launcher.gameLauncherName).getPath()+" --start " + getConfigName());
 				link.setWorkingDir(launcher.folderPath.replaceAll("GameLauncher/", ""));
 			}else{

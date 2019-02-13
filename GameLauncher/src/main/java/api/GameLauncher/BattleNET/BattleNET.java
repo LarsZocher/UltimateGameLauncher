@@ -272,21 +272,14 @@ public class BattleNET {
 	}
 	
 	public String getIcon(BattleNETGames game) {
-		launcher.cfg.load();
-		JSONArray applications = JsonConfig.getJSONArray(launcher.cfg.getConfig(), "Applications");
-		for(int i = 0; i < applications.length(); i++) {
-			Application app = new Gson().fromJson(applications.getJSONObject(i).toString(), Application.class);
+		List<Application> applications = launcher.getApplications(AppTypes.BATTLENET);
+		for(int i = 0; i < applications.size(); i++) {
+			Application app = applications.get(i);
 			if(app.getName().equalsIgnoreCase(game.getConfigName())) {
-				
-				JSONObject appJson = applications.getJSONObject(i);
-				System.out.println(appJson.toString());
-				
-				BattleNETGameConfig bgc = new Gson().fromJson(appJson.getJSONObject("content").toString(), BattleNETGameConfig.class);
-				if(bgc.getIcon().equalsIgnoreCase("default")) {
+				if(app.getIconPath().equalsIgnoreCase("default")) {
 					saveIcon(game);
 				}
-				launcher.cfg.load();
-				return new Gson().fromJson(launcher.cfg.getConfig().getJSONArray("Applications").getJSONObject(i).getJSONObject("content").toString(), BattleNETGameConfig.class).getIcon();
+				return launcher.getApplication(app.getName()).getIconPath();
 			}
 		}
 		return null;
@@ -303,7 +296,7 @@ public class BattleNET {
 		}
 		ShellLink sl;
 		if(!launcher.jrePath.isEmpty()) {
-			sl = ShellLink.createLink(launcher.jrePath+"java.exe");
+			sl = ShellLink.createLink(launcher.jrePath+"javaw.exe");
 			sl.setCMDArgs("-jar "+launcher.folderPath.replaceAll("GameLauncher/", "") + new File(launcher.gameLauncherName).getPath()+" --start " + game.getConfigName());
 			sl.setWorkingDir(launcher.folderPath.replaceAll("GameLauncher/", ""));
 		}else{
@@ -332,7 +325,7 @@ public class BattleNET {
 			
 			ShellLink link;
 			if(!launcher.jrePath.isEmpty()) {
-				link = ShellLink.createLink(launcher.jrePath+"java.exe");
+				link = ShellLink.createLink(launcher.jrePath+"javaw.exe");
 				link.setCMDArgs("-jar "+launcher.folderPath.replaceAll("GameLauncher/", "") + new File(launcher.gameLauncherName).getPath()+" --start " + game.getConfigName());
 				link.setWorkingDir(launcher.folderPath.replaceAll("GameLauncher/", ""));
 			}else{
@@ -368,25 +361,6 @@ public class BattleNET {
 			if(icon.exists())
 				icon.delete();
 			ICOEncoder.write(bi, icon);
-			
-			launcher.cfg.load();
-			JSONArray applications = JsonConfig.getJSONArray(launcher.cfg.getConfig(), "Applications");
-			for(int i = 0; i < applications.length(); i++) {
-				Application app = new Gson().fromJson(applications.getJSONObject(i).toString(), Application.class);
-				if(app.getName().equalsIgnoreCase(game.getConfigName())) {
-					JSONObject appJson = applications.getJSONObject(i);
-					
-					BattleNETGameConfig bgc = new Gson().fromJson(appJson.getJSONObject("content").toString(), BattleNETGameConfig.class);
-					bgc.setIcon(icon.getPath());
-					
-					appJson.put("content", new JSONObject(new Gson().toJson(bgc)));
-					
-					applications.put(appJson);
-					launcher.cfg.getConfig().put("Applications", applications);
-					this.launcher.cfg.save();
-					break;
-				}
-			}
 			return;
 		} catch(IOException e) {
 			e.printStackTrace();

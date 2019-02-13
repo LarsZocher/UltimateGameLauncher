@@ -22,20 +22,31 @@ import java.util.List;
 public class Updater {
 	
 	public static final String FILE_URL = "http://217.79.178.92/launcher/release/";
+	public static boolean jre = true;
 	
 	public static void main(String[] args){
+		boolean update = false;
+		boolean build = false;
 		for(String arg : args){
+			if(arg.equalsIgnoreCase("--noJRE")){
+				jre = false;
+			}
 			if(arg.equalsIgnoreCase("--build")){
-				buildPatch();
+				build = true;
 			}
 			if(arg.equalsIgnoreCase("--update")){
-				try {
-					update();
-				} catch(Exception e) {
-					e.printStackTrace();
-				}
+				update = true;
 			}
 		}
+		if(update) {
+			try {
+				update();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		if(build)
+			buildPatch();
 	}
 	
 	public static void update() throws Exception {
@@ -64,6 +75,10 @@ public class Updater {
 		
 		for(FileInfo info : fileInfoList) {
 			File local = new File(info.path);
+			if(!jre){
+				if(info.path.startsWith("jre"))
+					continue;
+			}
 			if(local.exists()){
 				if(info.isLibary)
 					continue;
@@ -117,21 +132,33 @@ public class Updater {
 		List<FileInfo> fileInfoList = new ArrayList<>();
 		File[] files = new File(System.getProperty("user.dir")).listFiles();
 		for(File file : files){
+			String path = file.getPath().replace(System.getProperty("user.dir")+"\\","");
+			if(path.equalsIgnoreCase("build.json"))
+				continue;
+			if(path.equalsIgnoreCase("Updater.jar"))
+				continue;
+			if(path.equalsIgnoreCase("update.bat"))
+				continue;
+			if(path.equalsIgnoreCase("updateNoJRE.bat"))
+				continue;
+			if(path.equalsIgnoreCase("build.bat"))
+				continue;
+			if(path.equalsIgnoreCase("buildNoJRE.bat"))
+				continue;
+			if(path.equalsIgnoreCase("GameLauncher"))
+				continue;
+			if(path.equalsIgnoreCase("update"))
+				continue;
+			if(path.equalsIgnoreCase("jre")){
+				if(!jre)
+					continue;
+			}
 			if(!file.isDirectory()) {
-				String path = file.getPath().replace(System.getProperty("user.dir")+"\\","");
-				System.out.println(path);
-				if(path.equalsIgnoreCase("build.json"))
-					continue;
-				if(path.equalsIgnoreCase("Updater.jar"))
-					continue;
-				if(path.equalsIgnoreCase("update.bat"))
-					continue;
-				if(path.equalsIgnoreCase("build.bat"))
-					continue;
 				fileInfoList.add(getFileInfo(file));
 			}else
 				fileInfoList.addAll(getFilesFromFolder(file));
 		}
+		System.out.println("PATCH: "+fileInfoList.size()+" files added to patch.json!");
 		patch.getConfig().put("Files", new JSONArray(new Gson().toJson(fileInfoList)));
 		patch.save();
 	}

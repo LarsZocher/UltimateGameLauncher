@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>de.BubbleEgg</groupId>
-    <artifactId>DotBotLauncher</artifactId>
+    <artifactId>Launcher</artifactId>
     <version>1.0-SNAPSHOT</version>
     <build>
         <plugins>
@@ -44,13 +44,8 @@
         </dependency>
         <dependency>
             <groupId>de.BubbleEgg</groupId>
-            <artifactId>DotBotGameLauncher</artifactId>
+            <artifactId>GameLauncher</artifactId>
             <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>org.controlsfx</groupId>
-            <artifactId>controlsfx</artifactId>
-            <version>8.40.14</version>
         </dependency>
         <dependency>
             <groupId>org.controlsfx</groupId>

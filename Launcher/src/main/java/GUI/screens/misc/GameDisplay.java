@@ -119,7 +119,7 @@ public abstract class GameDisplay {
 			}
 		});
 		
-		Image runIcon = new Image("icon/play.png", 100, 100, true, true);
+		Image runIcon = new Image("icon/play.png");
 		ImageView run = new ImageView(runIcon);
 		run.setFitHeight(45);
 		run.setFitWidth(45);
@@ -153,11 +153,18 @@ public abstract class GameDisplay {
 			@Override
 			protected Void call() throws Exception {
 				try {
-					Image img = new Image(picture, 225, 102, false, true, true);
-					rect.setImage(img);
+					if(picture==null ||picture.isEmpty()) {
+						Image img = new Image("icon/gd_default.png", 225, 102, false, true, true);
+						rect.setImage(img);
+					}
+					else{
+						Image img = new Image(picture, 225, 102, false, true, true);
+						rect.setImage(img);
+					}
 				} catch(Exception e) {
-					Image img = new Image("icon/no_image.png", 225, 102, false, true, true);
+					Image img = new Image("icon/gd_default.png", 225, 102, false, true, true);
 					rect.setImage(img);
+					e.printStackTrace();
 				}
 				return null;
 			}
