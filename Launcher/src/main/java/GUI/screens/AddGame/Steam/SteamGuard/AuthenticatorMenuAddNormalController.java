@@ -56,6 +56,8 @@ public class AuthenticatorMenuAddNormalController extends AuthenticatorInit{
 	@FXML
 	private Label recoveryCode;
 	@FXML
+	private Label title;
+	@FXML
 	private TextField phone_number;
 	@FXML
 	private TextField sms_code;
@@ -98,7 +100,11 @@ public class AuthenticatorMenuAddNormalController extends AuthenticatorInit{
 			public void run() {
 				info.setText("");
 				code.setText("");
-				//steamLogin.setText();
+				steamLogin.setText(Language.format(Menu.lang.getLanguage().AuthenticatorNormalSteamLogin));
+				addPhoneNumber.setText(Language.format(Menu.lang.getLanguage().AuthenticatorNormalAddPhoneNumber));
+				smsCode.setText(Language.format(Menu.lang.getLanguage().AuthenticatorNormalSMSCode));
+				recoveryCode.setText(Language.format(Menu.lang.getLanguage().AuthenticatorNormalRecoveryCode));
+				title.setText(Language.format(Menu.lang.getLanguage().AuthenticatorNormalTitle));
 			}
 		});
 		captcha.setVisible(false);
@@ -254,6 +260,7 @@ public class AuthenticatorMenuAddNormalController extends AuthenticatorInit{
 			linkResult = linker.FinalizeAddAuthenticator(smsCode);
 		} catch(Throwable throwable) {
 			throwable.printStackTrace();
+			user.disableCredentialsFile();
 			return;
 		}
 		
@@ -262,6 +269,8 @@ public class AuthenticatorMenuAddNormalController extends AuthenticatorInit{
 			System.out.println("Unable to finalize authenticator: " + linkResult.name());
 			setStatus(info, Language.format(Menu.lang.getLanguage().AuthenticatorInfoUnableToFinalize, linkResult.name()), null);
 			setStatus(status_3, STATUS_FAILED, "#bc0000");
+			
+			user.disableCredentialsFile();
 			return;
 		}
 		sms_code.setEditable(false);

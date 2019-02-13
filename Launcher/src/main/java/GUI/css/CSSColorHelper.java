@@ -10,6 +10,7 @@ import javafx.scene.paint.Color;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.net.URL;
 
 /**
  * Removing of this disclaimer is forbidden.
@@ -36,7 +37,8 @@ public class CSSColorHelper {
 	public static Color parseColor(String property) {
 		CSSParser parser = new CSSParser();
 		try {
-			Stylesheet css = parser.parse(new File("resources//DarkTheme.css").toURI().toURL());
+			URL url = new URL(Menu.styleSheet);
+			Stylesheet css = parser.parse(url);
 			final Rule rootRule = css.getRules().get(0); // .root
 			return (Color) rootRule.getDeclarations().stream()
 					.filter(d -> d.getProperty().equals(property))

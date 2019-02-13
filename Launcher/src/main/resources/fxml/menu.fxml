@@ -60,18 +60,18 @@
                   </Label>
                </children>
             </HBox>
-            <HBox fx:id="battlenet" alignment="CENTER_LEFT" maxHeight="36.0" maxWidth="199.0" minHeight="36.0" minWidth="42.0" prefHeight="36.0" prefWidth="42.0" spacing="5.0">
+            <HBox fx:id="settings" alignment="CENTER_LEFT" maxHeight="36.0" maxWidth="199.0" minHeight="36.0" minWidth="42.0" prefHeight="36.0" prefWidth="42.0" spacing="5.0">
                <children>
                   <Rectangle fill="#21c0ff00" height="36.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="3.0" />
                   <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../icon/battleNETLogo.png" />
+                        <Image url="@../icon/settings.png" />
                      </image>
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
                   </ImageView>
-                  <Label text="BattleNET" textFill="WHITE">
+                  <Label text="Einstellungen" textFill="WHITE">
                      <font>
                         <Font size="14.0" />
                      </font>

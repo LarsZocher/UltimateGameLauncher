@@ -31,19 +31,11 @@ public class menuController extends initMenuController {
 	@FXML
 	private Pane bar;
 	@FXML
-	private HBox console;
-	@FXML
 	private HBox settings;
-	@FXML
-	private HBox plugins;
-	@FXML
-	private HBox start;
 	@FXML
 	private HBox steam;
 	@FXML
 	private HBox games;
-	@FXML
-	private HBox battlenet;
 	@FXML
 	private HBox infos;
 	@FXML
@@ -80,10 +72,10 @@ public class menuController extends initMenuController {
 //				loadFXML("plugins");
 //			}
 //		});
-		buttons.add(new MenuButton(games, "newgames") {
+		buttons.add(new MenuButton(games, "games") {
 			@Override
 			public void onClick() {
-				loadFXML("newgames");
+				loadFXML("games");
 			}
 		});
 		buttons.add(new MenuButton(steam, "steamN") {
@@ -92,7 +84,7 @@ public class menuController extends initMenuController {
 				loadFXML("steamN");
 			}
 		});
-		buttons.add(new MenuButton(battlenet, "steamN") {
+		buttons.add(new MenuButton(settings, "steamN") {
 			@Override
 			public void onClick() {
 				loadFXML("steamN");

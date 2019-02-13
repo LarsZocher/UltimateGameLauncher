@@ -87,6 +87,7 @@ public class Language {
 	public String AuthenticatorNormalAddPhoneNumber = "NOT SET";
 	public String AuthenticatorNormalSMSCode = "NOT SET";
 	public String AuthenticatorNormalRecoveryCode = "NOT SET";
+	public String AuthenticatorNormalTitle = "NOT SET";
 	
 	public static String format(String string){
 		return string
