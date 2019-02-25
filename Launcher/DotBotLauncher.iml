@@ -30,6 +30,15 @@
     <orderEntry type="library" name="Maven: org.jsoup:jsoup:1.11.3" level="project" />
     <orderEntry type="module" module-name="DotBotGameLauncher" />
     <orderEntry type="module-library">
+      <library name="Maven: net.platinumdigitalgroup:JVDF:1.0">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../jars/JVDF.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
       <library name="Maven: mslinks:mslinks:1.0">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/../jars/mslinks.jar!/" />

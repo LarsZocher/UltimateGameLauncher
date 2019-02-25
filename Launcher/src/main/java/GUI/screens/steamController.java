@@ -154,9 +154,11 @@ public class steamController extends initMenuController {
 		List<Confirmation> confirmations = new ArrayList<>();
 		for(String username : launcher.getSteam().getUsernames()) {
 			if(launcher.getSteam().getUser(username).hasSteamGuard()) {
+				System.out.println("[Steam] loading confirmations from "+username);
 				Confirmation[] confs = launcher.getSteam().getSteamGuard().getConfirmations(launcher.getSteam().getUser(username));
 				for(Confirmation conf : confs)
 					confirmations.add(conf);
+				System.out.println("[Steam] "+confs.length+" confirmations added from "+username);
 			}
 		}
 		Platform.runLater(new Runnable() {
@@ -374,7 +376,7 @@ public class steamController extends initMenuController {
 		this.code.setText(code.toUpperCase());
 		this.code_user.setText(user.getCurrentUsername());
 		this.currentUser = user;
-		System.out.println("[Steam] showing code for "+user.getUsername());
+		System.out.println("[Steam] Refreshing code for "+user.getUsername());
 	}
 	
 	public ArrayList<steamUserController> getController() {

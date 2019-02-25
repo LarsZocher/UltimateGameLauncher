@@ -10,23 +10,21 @@ import api.GameLauncher.Steam.SteamDB;
 import com.jfoenix.controls.*;
 import javafx.animation.*;
 import javafx.application.Platform;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.File;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -205,6 +203,7 @@ public class EditSteamGameController {
 				for(int i = 0; i < user.getItems().size(); i++) {
 					if(user.getItems().get(i).equalsIgnoreCase(launcher.getSteam().getUser(app.getUser()).getCurrentUsername())) {
 						user.getSelectionModel().select(i);
+						break;
 					}
 				}
 			}
@@ -212,10 +211,14 @@ public class EditSteamGameController {
 		this.app = app;
 		
 		Image header;
-		Image icon;
+		Image icon = null;
 		if(!app.getAppID().isEmpty()) {
-			header = new Image(app.getPathToPicture(), 225, 103, false, true, true);
-			icon = new Image(app.getIconPath(), 103, 103, false, true, true);
+			header = new Image(app.getPicture(), 225, 103, false, true, true);
+			try {
+				icon = new Image(new File(app.getIconPNGPath(launcher, false)).toURI().toURL().toExternalForm(), 103, 103, false, true, true);
+			} catch(MalformedURLException e) {
+				e.printStackTrace();
+			}
 		} else {
 			header = new Image("icon/loading_dark.png", 225, 103, false, true, true);
 			icon = new Image("icon/loading_dark.png", 103, 103, false, true, true);
@@ -273,17 +276,21 @@ public class EditSteamGameController {
 		SearchSteamGame steamGame = new SearchSteamGame() {
 			@Override
 			public void onContinue(DBSearchResult result) {
-				SteamApp app = SteamDB.getSteamAppByID(result.getAppID());
+				SteamApp app = launcher.getSteam().getSteamCMD().getSteamApps(Integer.valueOf(result.getAppID())).get(Integer.valueOf(result.getAppID()));
 				name.setText(app.getName());
 				appid.setText(app.getAppID());
 				dev.setText(app.getDeveloper());
 				
 				
 				Image header;
-				Image icon;
-				if(!app.getPathToPicture().isEmpty()) {
-					header = new Image(app.getPathToPicture(), 225, 103, false, true, true);
-					icon = new Image(app.getIconPath(), 103, 103, false, true, true);
+				Image icon = null;
+				if(!app.getPicture().isEmpty()) {
+					header = new Image(app.getPicture(), 225, 103, false, true, true);
+					try {
+						icon = new Image(new File(app.getIconPNGPath(launcher, false)).toURI().toURL().toExternalForm(), 103, 103, false, true, true);
+					} catch(MalformedURLException e) {
+						e.printStackTrace();
+					}
 				} else {
 					header = new Image("icon/loading_dark.png", 225, 103, false, true, true);
 					icon = new Image("icon/loading_dark.png", 103, 103, false, true, true);

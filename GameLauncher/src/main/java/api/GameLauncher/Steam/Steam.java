@@ -14,8 +14,8 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Scanner;
 
 /**
  * Removing of this disclaimer is forbidden.
@@ -29,11 +29,12 @@ public class Steam {
 	private GameLauncher launcher;
 	private SteamGuard steamGuard;
 	private JsonPartManager steamManager;
+	private SteamCMD steamCMD;
 	
 	public Steam(GameLauncher launcher) {
 		this.launcher = launcher;
 		this.steamGuard = new SteamGuard(launcher);
-		
+		this.steamCMD = new SteamCMD();
 		
 		this.steamManager = new JsonPartManager("Steam") {
 			@Override
@@ -80,7 +81,7 @@ public class Steam {
 					users.add(user);
 				}
 			}catch(Exception e){
-				System.out.println("Failed to load Steam users");
+				System.out.println("[Steam] Failed to load Steam users");
 			}
 		}
 		return users;
@@ -91,7 +92,7 @@ public class Steam {
 	}
 	
 	public List<SteamApp> getAppsFromUser(String steam64id, boolean free){
-		System.out.println("Searching games from: "+steam64id);
+		System.out.println("[Steam] Searching games from: "+steam64id);
 		List<SteamApp> apps = new ArrayList<>();
 		try {
 			HttpURLConnection con = (HttpURLConnection) new URL("https://api.steampowered.com/IPlayerService/GetOwnedGames/v1/?key=ECF61DC7A97863B4871287BF468A51D0&steamid="+steam64id+"&include_appinfo=0&include_played_free_games="+(free?1:0)).openConnection();
@@ -110,13 +111,21 @@ public class Steam {
 			in.close();
 			
 			JSONObject responseJSON = new JSONObject(response.toString());
-			System.out.println(response.toString());
+			List<Integer> ids = new ArrayList<>();
 			if(responseJSON.getJSONObject("response").has("games")) {
 				JSONArray games = responseJSON.getJSONObject("response").getJSONArray("games");
 				for(int i = 0; i < games.length(); i++) {
-					apps.add(SteamDB.getSteamAppByID(games.getJSONObject(i).getInt("appid") + ""));
+					ids.add(games.getJSONObject(i).getInt("appid"));
 				}
 			}
+			List<String> idString = new ArrayList<>();
+			for (int id : ids) {
+				idString.add(String.valueOf(id));
+			}
+			
+			System.out.println("[Steam] "+ids.size()+" games found: "+String.join(", ", idString));
+			HashMap<Integer, SteamApp> steamApps = getSteamCMD().getSteamApps(ids);
+			apps.addAll(steamApps.values());
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -174,9 +183,9 @@ public class Steam {
 			application.setCreated(System.currentTimeMillis());
 			application.setUniqueID("STEAM_"+app.getAppID());
 			application.setDefaultHeader(true);
-			application.setHeaderPath(app.getPathToPicture());
+			application.setHeaderPath(app.getPicture());
 			application.setDefaultIcon(true);
-			application.setIconPath(app.getIconPath());
+			application.setIconPath(app.getClientIcon());
 		}
 		
 		JSONArray applications = JsonConfig.getJSONArray(launcher.cfg.getConfig(),"Applications");
@@ -209,8 +218,8 @@ public class Steam {
 	
 	public void checkCompatibility(SteamApp app) {
 		SteamApp newApp = SteamDB.getSteamAppByID(app.getAppID());
-		app.setPathToPicture(newApp.getPathToPicture());
-		app.setPathToBackground(newApp.getPathToBackground());
+		app.setPicture(newApp.getPicture());
+		app.setBackground(newApp.getBackground());
 		addApp(app);
 	}
 	
@@ -442,5 +451,9 @@ public class Steam {
 	
 	public JsonPartManager getSteamManager() {
 		return steamManager;
+	}
+	
+	public SteamCMD getSteamCMD() {
+		return steamCMD;
 	}
 }

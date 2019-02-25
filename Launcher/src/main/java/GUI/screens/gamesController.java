@@ -39,10 +39,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import org.apache.poi.ss.formula.functions.T;
 import org.controlsfx.control.GridCell;
 import org.controlsfx.control.GridView;
 
@@ -243,7 +241,8 @@ public class gamesController extends initMenuController {
 	
 	public void loadList(AppTypes type, String filter) {
 		loading = true;
-		System.out.println("load " + type);
+		
+		System.out.println("[Launcher] Loading games - Type: "+type.getName()+"  Filter: \""+filter+"\"");
 		for(AppTypes value : AppTypes.values()) {
 			acceptNext.put(value, false);
 		}
@@ -348,7 +347,6 @@ public class gamesController extends initMenuController {
 				loadingListDisplays = new Thread(new Task<Void>() {
 					@Override
 					protected Void call() throws Exception {
-						System.out.println(current.size());
 						for(int i = 0; i < current.size(); i++) {
 							toAdd.add(loadDisplay(current.get(i)));
 						}
@@ -482,7 +480,7 @@ public class gamesController extends initMenuController {
 					if(launcher.getSteam().getUsernames().size()>0){
 						SteamUser newUser = launcher.getSteam().getUser(launcher.getSteam().getUsernames().get(0));
 						display.setUser(newUser);
-						System.out.println("[STEAM] "+app.getName()+": user "+user.getUsername() + " not found! Setting user to: "+newUser.getUsername());
+						System.out.println("[Steam] "+app.getName()+": user "+user.getUsername() + " not found! Setting user to: "+newUser.getUsername());
 						SteamApp newApp = app.getContent(SteamApp.class);
 						newApp.setUser(newUser.getUsername());
 						launcher.getSteam().addApp(newApp);
@@ -576,31 +574,6 @@ public class gamesController extends initMenuController {
 			}
 		}
 		return null;
-	}
-
-	public void checkList() {
-	
-	}
-	
-	public void calcDynamicDisplays() {
-		if(loading)
-			return;
-		try {
-			if(list.getItems().isEmpty()) {
-				Platform.runLater(new Runnable() {
-					@Override
-					public void run() {
-						GameDisplay display = loadDisplay(current.get(0));
-						list.getItems().add(display);
-					}
-				});
-				return;
-			}
-			checkList();
-			System.out.println("check finished - ");
-		} catch(ArrayIndexOutOfBoundsException e) {
-		
-		}
 	}
 	
 	@Override

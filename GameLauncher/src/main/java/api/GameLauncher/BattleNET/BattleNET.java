@@ -17,6 +17,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -30,10 +31,12 @@ public class BattleNET {
 	
 	private GameLauncher launcher;
 	private JsonPartManager battleCfg;
+	private BattleNETSettings settings;
 	private File vbs;
 	
 	public BattleNET(GameLauncher launcher) {
 		this.launcher = launcher;
+		this.settings = new BattleNETSettings();
 		
 		this.launcher.cfg.load();
 		
@@ -51,7 +54,7 @@ public class BattleNET {
 			}
 		};
 		battleCfg.load();
-		JsonConfig.setDefault(battleCfg.get(), "path", findDirectory());
+		JsonConfig.setDefault(battleCfg.get(), "path", settings.getLauncherPath()+"\\\\");
 		battleCfg.save();
 		
 		vbs = new File(launcher.folderPath + "CheckBattleNETScript.vbs");
@@ -149,24 +152,6 @@ public class BattleNET {
 		
 	}
 	
-	public String findDirectory() {
-		List<String> defaults = new ArrayList<>();
-		defaults.add("Program Files (x86)\\Battle.net\\");
-		defaults.add("Program Files\\Battle.net\\");
-		defaults.add("Battle.net\\");
-		defaults.add("Battle.net\\Battle.net\\");
-		String mustContain = "Battle.net.exe";
-		for(File drive : File.listRoots()) {
-			for(String path : defaults) {
-				File file = new File(drive.getPath() + path + mustContain);
-				if(file.exists()) {
-					return drive.getPath() + path;
-				}
-			}
-		}
-		return null;
-	}
-	
 	public String getDirectory() {
 		battleCfg.load();
 		return battleCfg.get().getString("path");
@@ -247,9 +232,18 @@ public class BattleNET {
 		user.setLastLogIn(0);
 		battleCfg.load();
 		JSONArray users = battleCfg.getJSONArray("Users");
+		for(int i = 0; i<users.length(); i++){
+			if(users.getJSONObject(i).getString("email").equalsIgnoreCase(user.getEmail()))
+				return;
+		}
 		users.put(new JSONObject(new Gson().toJson(user)));
 		battleCfg.get().put("Users", users);
 		battleCfg.save();
+		
+		List<String> accounts = settings.getSavedAccountNames();
+		if(!accounts.contains(user.getEmail()))
+			accounts.add(user.getEmail());
+		settings.setSavedAccountNames(accounts);
 	}
 	
 	public void removeUser(BattleNETUser user){
@@ -269,6 +263,48 @@ public class BattleNET {
 			battleCfg.getJSONArray("Users").remove(id);
 			battleCfg.save();
 		}
+		
+		List<String> accounts = settings.getSavedAccountNames();
+		if(accounts.contains(email))
+			accounts.remove(email);
+		settings.setSavedAccountNames(accounts);
+	}
+	
+	public void forceChangeUser(BattleNETUser user) {
+		if(user.getEmail().isEmpty())
+			return;
+		
+		try {
+			List<String> newUserList = new ArrayList<>();
+			newUserList.add(user.getEmail());
+			for(String users : settings.getSavedAccountNames()){
+				if(!users.equalsIgnoreCase(user.getEmail()))
+					newUserList.add(users);
+			}
+			settings.setSavedAccountNames(newUserList);
+			
+			Runtime.getRuntime().exec("taskkill /F /IM Battle.net.exe");
+			Thread.sleep(500);
+			ProcessBuilder pb = new ProcessBuilder(getDirectory() + "Battle.net.exe");
+			pb.directory(new File(getDirectory()));
+			pb.start();
+			
+			battleCfg.load();
+			battleCfg.get().put("lastUsedAccount", user.getEmail());
+			battleCfg.save();
+			
+		} catch(InterruptedException e) {
+			e.printStackTrace();
+		} catch(IOException e) {
+			e.printStackTrace();
+		} catch(Throwable throwable) {
+			throwable.printStackTrace();
+		}
+	}
+	
+	public String getLastUser() {
+		battleCfg.load();
+		return battleCfg.get().getString("lastUsedAccount");
 	}
 	
 	public String getIcon(BattleNETGames game) {
@@ -391,6 +427,10 @@ public class BattleNET {
 			e.printStackTrace();
 			return false;
 		}
+	}
+	
+	public BattleNETSettings getSettings() {
+		return settings;
 	}
 	
 	public static void main(String[] args) {

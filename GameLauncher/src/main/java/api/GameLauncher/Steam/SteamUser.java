@@ -128,7 +128,7 @@ public class SteamUser {
 				return new Gson().fromJson(steamManager.getJSONArray("Users").getJSONObject(i).toString(), SteamConfigUser.class);
 			}
 		}
-		return null;
+		return new SteamConfigUser();
 	}
 	
 	public void addGames(boolean free){
@@ -138,12 +138,13 @@ public class SteamUser {
 				if(app.getConfigName().equalsIgnoreCase(cfgname))
 					continue games;
 			}
-			System.out.println("Adding: "+app.getName()+"...");
 			app.setUser(username);
 			app.setConfigName(app.getName());
 			app.setConfigName(app.getConfigName());
 			launcher.getSteam().addApp(app);
+			System.out.println("[Steam] Added: "+app.getName()+"!");
 		}
+		System.out.println("[Steam] "+apps.size()+" games successfully added!");
 	}
 	
 	public String getUsername() {
@@ -151,7 +152,7 @@ public class SteamUser {
 	}
 	
 	public boolean exists() {
-		return getConfigUser()!=null;
+		return !getConfigUser().getUsername().isEmpty();
 	}
 	
 	public void delete() {

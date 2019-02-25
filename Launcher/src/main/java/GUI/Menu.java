@@ -60,7 +60,7 @@ public class Menu extends Application{
 			styleSheet = css.toURI().toURL().toString();
 		else
 			styleSheet = "http://217.79.178.92/launcher/release/resources/DarkTheme.css";
-		System.out.println("\""+styleSheet+"\"");
+		System.out.println("[Launcher] Using \""+styleSheet+"\" as StylingSheet");
 		
 		this.config = new ConfigFile(configFile);
 		this.config.createFile();
@@ -140,10 +140,13 @@ public class Menu extends Application{
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				ResizeHelper.addResizeListener(stage, scene.getWidth(), scene.getHeight(), Double.MAX_VALUE, Double.MAX_VALUE, !stage.isFullScreen());
+				ResizeHelper.addResizeListener(stage, 936, 554, Double.MAX_VALUE, Double.MAX_VALUE, !stage.isFullScreen());
 				before = new Rectangle2D(0, 0, stage.getWidth(), stage.getHeight());
 			}
 		});
+		
+		stage.setHeight(650);
+		stage.setWidth(1190);
 	}
 	
 	public void setFullScreen(boolean fullscreen){

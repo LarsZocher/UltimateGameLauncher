@@ -33,6 +33,13 @@
             <systemPath>${project.basedir}/../jars/spigot-1.12.jar</systemPath>
         </dependency>
         <dependency>
+            <groupId>net.platinumdigitalgroup</groupId>
+            <artifactId>JVDF</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/../jars/JVDF.jar</systemPath>
+        </dependency>
+        <dependency>
             <groupId>mslinks</groupId>
             <artifactId>mslinks</artifactId>
             <version>1.0</version>

@@ -8,9 +8,9 @@ package api.GameLauncher.Steam;
  **/
 
 public class SteamConfigUser {
-	private String username;
-	private String password;
-	private String steam64id;
+	private String username = "";
+	private String password = "";
+	private String steam64id = "";
 	
 	public String getUsername() {
 		return username;

@@ -78,7 +78,6 @@ public abstract class GameDisplay {
 		isShown = true;
 		Label label = new Label(name);
 		label.setFont(new Font(13));
-		label.setPrefHeight(20);
 		label.setPrefWidth(width);
 		label.setMinWidth(width);
 		label.setStyle("-fx-text-fill: WHITE");
@@ -121,8 +120,8 @@ public abstract class GameDisplay {
 		
 		Image runIcon = new Image("icon/play.png");
 		ImageView run = new ImageView(runIcon);
-		run.setFitHeight(45);
-		run.setFitWidth(45);
+		run.setFitHeight(50);
+		run.setFitWidth(50);
 		HBox runBox = new HBox(run);
 		runBox.setAlignment(Pos.TOP_CENTER);
 		runBox.setOnMouseReleased(new EventHandler<MouseEvent>() {

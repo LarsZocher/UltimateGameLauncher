@@ -4,7 +4,7 @@ Class-Path: libs/commons-codec-1.10.jar libs/DotBot.jar libs/gson-2.8.
  .9.5.jar libs/jackson-core-2.9.4.jar libs/jackson-databind-2.9.4.jar 
  libs/jfoenix-8.0.7.jar libs/json-20180813.jar libs/jsoup-1.11.3.jar l
  ibs/mslinks.jar libs/okhttp-3.8.1.jar libs/okio-1.13.0.jar libs/spigo
- t-1.12.jar
+ t-1.12.jar libs/JVDF.jar
 Plugin-Class: main.plugin
 Main-Class: api.GameLauncher.GameLauncher
 Plugin-Name: GameLauncher
