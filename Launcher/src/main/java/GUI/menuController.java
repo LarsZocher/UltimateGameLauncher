@@ -2,7 +2,6 @@ package GUI;
 
 import GUI.localization.Language;
 import GUI.screens.misc.MenuButton;
-import GUI.screens.misc.PluginEntry;
 import GUI.screens.misc.initMenuController;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
@@ -14,7 +13,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,30 +46,6 @@ public class menuController extends initMenuController {
 	public void init(Menu menu) {
 		super.init(menu);
 		buttons = new ArrayList<>();
-//		buttons.add(new MenuButton(start, "start") {
-//			@Override
-//			public void onClick() {
-//				loadFXML("start");
-//			}
-//		});
-//		buttons.add(new MenuButton(console, "console") {
-//			@Override
-//			public void onClick() {
-//				loadFXML("console");
-//			}
-//		});
-//		buttons.add(new MenuButton(settings, "settings") {
-//			@Override
-//			public void onClick() {
-//				loadFXML("settings");
-//			}
-//		});
-//		buttons.add(new MenuButton(plugins, "plugins") {
-//			@Override
-//			public void onClick() {
-//				loadFXML("plugins");
-//			}
-//		});
 		buttons.add(new MenuButton(games, "games") {
 			@Override
 			public void onClick() {
@@ -96,7 +70,6 @@ public class menuController extends initMenuController {
 				loadFXML("infos");
 			}
 		});
-		//preloadFXML("steamN");
 		buttons.get(0).onClick();
 		
 		bar.getStylesheets().add(Menu.styleSheet);

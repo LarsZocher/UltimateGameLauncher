@@ -7,7 +7,7 @@ import api.GameLauncher.Steam.SteamApp;
 /**
  * Removing of this disclaimer is forbidden.
  *
- * @author CodingAir
+ * @author BubbleEgg
  * @verions: 1.0.0
  **/
 
@@ -15,9 +15,9 @@ public enum AppTypes {
 	
 	ALL("Alle", "ALLE", false, Content.class),
 	STEAM("Steam", "STEAM", true, SteamApp.class),
-	BATTLENET("BattleNET", "BattleNET", false, BattleNETGameConfig.class),
-	ORIGIN("Origin", "Origin", false, OriginGame.class),
-	UPLAY("UPlay", "UPlay", true, Content.class);
+	BATTLENET("BattleNET", "BATTLENET", false, BattleNETGameConfig.class),
+	ORIGIN("Origin", "ORIGIN", false, OriginGame.class),
+	UPLAY("UPlay", "UPLAY", true, Content.class);
 	
 	private String name;
 	private String GUIName;

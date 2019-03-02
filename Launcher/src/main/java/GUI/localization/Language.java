@@ -88,6 +88,7 @@ public class Language {
 	public String AuthenticatorNormalSMSCode = "NOT SET";
 	public String AuthenticatorNormalRecoveryCode = "NOT SET";
 	public String AuthenticatorNormalTitle = "NOT SET";
+	public String StartBattleNETGameWith = "NOT SET";
 	
 	public static String format(String string){
 		return string

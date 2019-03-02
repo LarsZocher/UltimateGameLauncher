@@ -3,19 +3,15 @@ package GUI.screens.misc;
 import GUI.css.CSSColorHelper;
 import api.GameLauncher.Application;
 import api.GameLauncher.Steam.SteamUser;
-import com.googlecode.mp4parser.h264.model.VUIParameters;
 import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.concurrent.Task;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.CacheHint;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.*;
 import javafx.scene.image.Image;
@@ -23,10 +19,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
-import javafx.stage.Stage;
 import javafx.util.Duration;
-
-import javax.swing.*;
 
 /**
  * Removing of this disclaimer is forbidden.

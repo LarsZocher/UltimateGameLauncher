@@ -37,7 +37,7 @@ public class CSSColorHelper {
 	public static Color parseColor(String property) {
 		CSSParser parser = new CSSParser();
 		try {
-			URL url = new URL(Menu.styleSheet);
+			URL url = new URL(Menu.getStyleSheet());
 			Stylesheet css = parser.parse(url);
 			final Rule rootRule = css.getRules().get(0); // .root
 			return (Color) rootRule.getDeclarations().stream()

@@ -128,7 +128,7 @@ public class steamController extends initMenuController {
 				if(user.hasSteamGuard()) {
 					try {
 						launcher.getSteam().getSteamGuard().doLogin(user);
-						System.out.println("[STEAM] Session renewed for user "+value+"!");
+						System.out.println("[Steam] Session renewed for user "+value+"!");
 					} catch(Throwable throwable) {
 						throwable.printStackTrace();
 					}

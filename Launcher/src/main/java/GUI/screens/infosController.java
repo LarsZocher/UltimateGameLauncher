@@ -1,8 +1,6 @@
 package GUI.screens;
 
 import GUI.Menu;
-import GUI.css.CSSColorHelper;
-import GUI.screens.misc.PluginEntry;
 import GUI.screens.misc.initMenuController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

@@ -9,7 +9,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import javax.jws.Oneway;
 import java.io.*;
 
 /**
@@ -75,6 +74,12 @@ public class JsonConfig {
 	
 	public JSONObject getConfig() {
 		return config;
+	}
+	
+	public void setDefault(String key, Object object) {
+		if(!getConfig().has(key)) {
+			getConfig().put(key, object);
+		}
 	}
 	
 	public static void setDefault(JSONObject json, String key, Object object) {

@@ -9,11 +9,13 @@ package api.GameLauncher.BattleNET;
 
 public class BattleNETUser {
 	
-	public String name;
-	public String email;
-	public long lastLogIn;
+	public String name = "";
+	public String email = "";
+	public long lastLogIn = 0;
 	
 	public String getName() {
+		if(name.isEmpty())
+			return email;
 		return name;
 	}
 	

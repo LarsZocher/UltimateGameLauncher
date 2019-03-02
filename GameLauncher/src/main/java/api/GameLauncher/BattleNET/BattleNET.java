@@ -13,11 +13,12 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -33,10 +34,15 @@ public class BattleNET {
 	private JsonPartManager battleCfg;
 	private BattleNETSettings settings;
 	private File vbs;
+	private boolean disabled = false;
 	
 	public BattleNET(GameLauncher launcher) {
 		this.launcher = launcher;
 		this.settings = new BattleNETSettings();
+		if(!settings.exists()){
+			disabled = true;
+			return;
+		}
 		
 		this.launcher.cfg.load();
 		
@@ -54,11 +60,21 @@ public class BattleNET {
 			}
 		};
 		battleCfg.load();
-		JsonConfig.setDefault(battleCfg.get(), "path", settings.getLauncherPath()+"\\\\");
+		JsonConfig.setDefault(battleCfg.get(), "path", settings.getLauncherPath() + "\\\\");
 		battleCfg.save();
 		
+		users:
+		for(String email : settings.getSavedAccountNames()) {
+			for(BattleNETUser user : getUsers()) {
+				if(user.getEmail().equalsIgnoreCase(email)) {
+					continue users;
+				}
+			}
+			addUser(email, email);
+		}
+		
 		vbs = new File(launcher.folderPath + "CheckBattleNETScript.vbs");
-		if(!vbs.exists()){
+		if(!vbs.exists()) {
 			try {
 				vbs.createNewFile();
 			} catch(IOException e) {
@@ -101,9 +117,14 @@ public class BattleNET {
 			
 			Application application = new Application();
 			application.setName(game.getConfigName());
+			application.setDisplayName(game.getName());
 			application.setType(AppTypes.BATTLENET);
 			application.setUniqueID("BATTLENET_" + game.getCode());
 			application.setCreated(System.currentTimeMillis());
+			application.setIconPath("default");
+			application.setHeaderPath("default");
+			application.setDefaultIcon(true);
+			application.setDefaultHeader(true);
 			
 			List<String> names = new ArrayList<>();
 			names.add(game.getName());
@@ -120,6 +141,30 @@ public class BattleNET {
 		this.launcher.cfg.save();
 	}
 	
+	public void launchWithUserSelection(BattleNETGames game, boolean forceSelectionWindow){
+		if(disabled)
+			return;
+		if(getUsers().size()<2 && !forceSelectionWindow){
+			launch(game);
+			return;
+		}
+		if(new File("Launcher.jar").exists()){
+			if(!launcher.jrePath.isEmpty()) {
+				try {
+					Runtime.getRuntime().exec("cmd.exe /K start "+launcher.jrePath+"javaw.exe -jar Launcher.jar --startBNet " + game.getConfigName());
+				} catch(IOException e) {
+					e.printStackTrace();
+				}
+			}else{
+				try {
+					Runtime.getRuntime().exec("cmd.exe /K java -jar Launcher.jar --startBNet " + game.getConfigName());
+				} catch(IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
 	public void launch(BattleNETGames game) {
 		launchGame(game.getCode());
 	}
@@ -129,19 +174,24 @@ public class BattleNET {
 	}
 	
 	private void launchGame(String code) {
+		if(disabled)
+			return;
 		new Thread(() -> {
 			try {
-				if(!isRunning()) {
-					ProcessBuilder pb = new ProcessBuilder(getDirectory() + "Battle.net.exe", "--exec=\"launch " + code + "\"");
-					pb.directory(new File(getDirectory()));
-					pb.start();
-					
-					ProcessBuilder start = new ProcessBuilder(System.getenv("WINDIR") + "\\system32\\wscript.exe",vbs.getAbsolutePath());
-					Process p = start.start();
-					while(p.isAlive()){
-						Thread.sleep(500);
-					}
+				if(isRunning()) {
+					Runtime.getRuntime().exec("taskkill /F /IM Battle.net.exe");
 				}
+				Thread.sleep(500);
+				ProcessBuilder pb = new ProcessBuilder(getDirectory() + "Battle.net.exe", "--exec=\"launch " + code + "\"");
+				pb.directory(new File(getDirectory()));
+				pb.start();
+				
+				ProcessBuilder start = new ProcessBuilder(System.getenv("WINDIR") + "\\system32\\wscript.exe", vbs.getAbsolutePath());
+				Process p = start.start();
+				while(p.isAlive()) {
+					Thread.sleep(500);
+				}
+				
 				Runtime.getRuntime().exec(getDirectory() + "Battle.net.exe --exec=\"launch " + code + "\"");
 			} catch(IOException e) {
 				e.printStackTrace();
@@ -153,6 +203,8 @@ public class BattleNET {
 	}
 	
 	public String getDirectory() {
+		if(disabled)
+			return "";
 		battleCfg.load();
 		return battleCfg.get().getString("path");
 	}
@@ -187,52 +239,43 @@ public class BattleNET {
 	
 	public List<String> getNamesToSay(BattleNETGames game) {
 		launcher.cfg.load();
-		JSONArray applications = JsonConfig.getJSONArray(launcher.cfg.getConfig(), "Applications");
-		for(int i = 0; i < applications.length(); i++) {
-			Application app = new Gson().fromJson(applications.getJSONObject(i).toString(), Application.class);
-			if(app.getName().equalsIgnoreCase(game.getConfigName())) {
-				
-				JSONObject appJson = new JSONObject(new Gson().toJson(app));
-				
-				BattleNETGameConfig bgc = new Gson().fromJson(appJson.getJSONObject("content").toString(), BattleNETGameConfig.class);
-				return bgc.getNamesToSay();
-			}
-		}
-		return null;
+		return launcher.getApplication(game.getConfigName()).getContent(BattleNETGameConfig.class).getNamesToSay();
 	}
 	
-	public BattleNETUser getUser(String email){
+	public BattleNETUser getUser(String email) {
 		battleCfg.load();
-		for(int i = 0; i<battleCfg.getJSONArray("Users").length(); i++){
+		for(int i = 0; i < battleCfg.getJSONArray("Users").length(); i++) {
 			BattleNETUser user = new Gson().fromJson(battleCfg.getJSONArray("Users").getJSONObject(i).toString(), BattleNETUser.class);
-			if(user.getEmail().equalsIgnoreCase(email)){
+			if(user.getEmail().equalsIgnoreCase(email)) {
 				return user;
 			}
 		}
 		return new BattleNETUser();
 	}
 	
-	public List<BattleNETUser> getUsers(){
+	public List<BattleNETUser> getUsers() {
 		battleCfg.load();
 		List<BattleNETUser> users = new ArrayList<>();
-		for(int i = 0; i<battleCfg.getJSONArray("Users").length(); i++){
+		for(int i = 0; i < battleCfg.getJSONArray("Users").length(); i++) {
 			users.add(new Gson().fromJson(battleCfg.getJSONArray("Users").getJSONObject(i).toString(), BattleNETUser.class));
 		}
 		return users;
 	}
 	
-	public void addUser(String email, String name){
+	public void addUser(String email, String name) {
 		BattleNETUser user = new BattleNETUser();
 		user.setEmail(email);
 		user.setName(name);
 		addUser(user);
 	}
 	
-	public void addUser(BattleNETUser user){
+	public void addUser(BattleNETUser user) {
+		if(disabled)
+			return;
 		user.setLastLogIn(0);
 		battleCfg.load();
 		JSONArray users = battleCfg.getJSONArray("Users");
-		for(int i = 0; i<users.length(); i++){
+		for(int i = 0; i < users.length(); i++) {
 			if(users.getJSONObject(i).getString("email").equalsIgnoreCase(user.getEmail()))
 				return;
 		}
@@ -246,20 +289,22 @@ public class BattleNET {
 		settings.setSavedAccountNames(accounts);
 	}
 	
-	public void removeUser(BattleNETUser user){
+	public void removeUser(BattleNETUser user) {
 		removeUser(user.getEmail());
 	}
 	
-	public void removeUser(String email){
+	public void removeUser(String email) {
+		if(disabled)
+			return;
 		battleCfg.load();
 		int id = -1;
-		for(int i = 0; i<battleCfg.getJSONArray("Users").length(); i++){
-			if(battleCfg.getJSONArray("Users").getJSONObject(i).getString("email").equalsIgnoreCase(email)){
+		for(int i = 0; i < battleCfg.getJSONArray("Users").length(); i++) {
+			if(battleCfg.getJSONArray("Users").getJSONObject(i).getString("email").equalsIgnoreCase(email)) {
 				id = i;
 				break;
 			}
 		}
-		if(id!=-1){
+		if(id != -1) {
 			battleCfg.getJSONArray("Users").remove(id);
 			battleCfg.save();
 		}
@@ -270,28 +315,36 @@ public class BattleNET {
 		settings.setSavedAccountNames(accounts);
 	}
 	
+	public void changeUser(BattleNETUser user) {
+		if(disabled)
+			return;
+		List<String> newUserList = new ArrayList<>();
+		newUserList.add(user.getEmail());
+		for(String users : settings.getSavedAccountNames()) {
+			if(!users.equalsIgnoreCase(user.getEmail()))
+				newUserList.add(users);
+		}
+		settings.setSavedAccountNames(newUserList);
+		
+		battleCfg.load();
+		battleCfg.get().put("lastUsedAccount", user.getEmail());
+		battleCfg.save();
+	}
+	
 	public void forceChangeUser(BattleNETUser user) {
+		if(disabled)
+			return;
 		if(user.getEmail().isEmpty())
 			return;
 		
 		try {
-			List<String> newUserList = new ArrayList<>();
-			newUserList.add(user.getEmail());
-			for(String users : settings.getSavedAccountNames()){
-				if(!users.equalsIgnoreCase(user.getEmail()))
-					newUserList.add(users);
-			}
-			settings.setSavedAccountNames(newUserList);
+			changeUser(user);
 			
 			Runtime.getRuntime().exec("taskkill /F /IM Battle.net.exe");
 			Thread.sleep(500);
 			ProcessBuilder pb = new ProcessBuilder(getDirectory() + "Battle.net.exe");
 			pb.directory(new File(getDirectory()));
 			pb.start();
-			
-			battleCfg.load();
-			battleCfg.get().put("lastUsedAccount", user.getEmail());
-			battleCfg.save();
 			
 		} catch(InterruptedException e) {
 			e.printStackTrace();
@@ -307,18 +360,46 @@ public class BattleNET {
 		return battleCfg.get().getString("lastUsedAccount");
 	}
 	
-	public String getIcon(BattleNETGames game) {
-		List<Application> applications = launcher.getApplications(AppTypes.BATTLENET);
-		for(int i = 0; i < applications.size(); i++) {
-			Application app = applications.get(i);
-			if(app.getName().equalsIgnoreCase(game.getConfigName())) {
-				if(app.getIconPath().equalsIgnoreCase("default")) {
-					saveIcon(game);
-				}
-				return launcher.getApplication(app.getName()).getIconPath();
+	public String getIconAsURL(BattleNETGames game) {
+		String iconPath = getIcon(game);
+		File file = new File(iconPath);
+		if(file.exists()) {
+			try {
+				return file.toURI().toURL().toString();
+			} catch(MalformedURLException e) {
+				return iconPath;
 			}
 		}
-		return null;
+		return iconPath;
+	}
+	
+	public String getIconAsURL128(BattleNETGames game) {
+		return getIconAsURL(game).replace(".png", "_128.png");
+	}
+	
+	public String getIcon(BattleNETGames game) {
+		Application app = launcher.getApplication(game.getConfigName());
+		if(app.isDefaultIcon()) {
+			saveIcon(game);
+		}
+		return launcher.getApplication(app.getName()).getIconPath();
+	}
+	
+	public String getIcon32(BattleNETGames game){
+		return getIcon(game).replace(".png", "_32.png");
+	}
+	public String getIcon64(BattleNETGames game){
+		return getIcon(game).replace(".png", "_64.png");
+	}
+	public String getIcon128(BattleNETGames game){
+		return getIcon(game).replace(".png", "_128.png");
+	}
+	
+	public void setIconPath(BattleNETGames game, String path, boolean isDefault) {
+		Application application = launcher.getApplication(game.getConfigName());
+		application.setIconPath(path);
+		application.setDefaultIcon(isDefault);
+		launcher.overrideApplication(application, BattleNETGameConfig.class);
 	}
 	
 	public void createShortcutOnDesktop(GameLauncher launcher, BattleNETGames game) {
@@ -332,14 +413,14 @@ public class BattleNET {
 		}
 		ShellLink sl;
 		if(!launcher.jrePath.isEmpty()) {
-			sl = ShellLink.createLink(launcher.jrePath+"javaw.exe");
-			sl.setCMDArgs("-jar "+launcher.folderPath.replaceAll("GameLauncher/", "") + new File(launcher.gameLauncherName).getPath()+" --start " + game.getConfigName());
+			sl = ShellLink.createLink(launcher.jrePath + "javaw.exe");
+			sl.setCMDArgs("-jar " + launcher.folderPath.replaceAll("GameLauncher/", "") + new File(launcher.gameLauncherName).getPath() + " --start " + game.getConfigName());
 			sl.setWorkingDir(launcher.folderPath.replaceAll("GameLauncher/", ""));
-		}else{
+		} else {
 			sl = ShellLink.createLink(launcher.folderPath.replaceAll("GameLauncher/", "") + new File(launcher.gameLauncherName).getPath());
 			sl.setCMDArgs("--start " + game.getConfigName());
 		}
-		sl.setIconLocation(getIcon(game));
+		sl.setIconLocation(getIcon64(game).replace(".png", ".ico"));
 		try {
 			sl.saveTo(path + game.getName() + ".lnk");
 		} catch(IOException e) {
@@ -361,16 +442,16 @@ public class BattleNET {
 			
 			ShellLink link;
 			if(!launcher.jrePath.isEmpty()) {
-				link = ShellLink.createLink(launcher.jrePath+"javaw.exe");
-				link.setCMDArgs("-jar "+launcher.folderPath.replaceAll("GameLauncher/", "") + new File(launcher.gameLauncherName).getPath()+" --start " + game.getConfigName());
+				link = ShellLink.createLink(launcher.jrePath + "javaw.exe");
+				link.setCMDArgs("-jar " + launcher.folderPath.replaceAll("GameLauncher/", "") + new File(launcher.gameLauncherName).getPath() + " --start " + game.getConfigName());
 				link.setWorkingDir(launcher.folderPath.replaceAll("GameLauncher/", ""));
-			}else{
+			} else {
 				link = ShellLink.createLink(launcher.folderPath.replaceAll("GameLauncher/", "") + new File(launcher.gameLauncherName).getPath());
 				link.setCMDArgs("--start " + game.getConfigName());
 			}
 			
-			if(oldIcon.contains(".jar"))
-				link.setIconLocation(getIcon(game));
+			if(oldIcon.contains("-jar"))
+				link.setIconLocation(getIcon64(game).replace(".png", ".ico"));
 			else
 				link.setIconLocation(oldIcon);
 			link.saveTo(path);
@@ -384,24 +465,44 @@ public class BattleNET {
 			String path = null;
 			String UID = "";
 			for(Application application : launcher.getApplications(AppTypes.BATTLENET)) {
-				if(application.getName().equalsIgnoreCase(game.getConfigName())){
+				if(application.getName().equalsIgnoreCase(game.getConfigName())) {
 					path = "http://217.79.178.92/games/icon/" + application.getUniqueID() + ".png";
 					UID = application.getUniqueID();
 				}
 			}
-			String newPath = launcher.folderPath+"Games/BattleNET/"+UID+".png";
+			String newPath = launcher.folderPath + "Games/BattleNET/" + UID + ".png";
 			FileUtils.copyURLToFile(new URL(path), new File(newPath));
 			BufferedImage bi = ImageIO.read(new File(newPath));
+			setIconPath(game, new File(newPath).getAbsolutePath(), true);
+			
+			
+			ImageIO.write(resize(bi, 32, 32), "png", new File(newPath.replace(".png", "_32.png")));
+			ImageIO.write(resize(bi, 64, 64), "png", new File(newPath.replace(".png", "_64.png")));
+			ImageIO.write(resize(bi, 128, 128), "png", new File(newPath.replace(".png", "_128.png")));
 			
 			File icon = new File(newPath.replaceAll("\\.png", ".ico"));
 			if(icon.exists())
 				icon.delete();
 			ICOEncoder.write(bi, icon);
+			ICOEncoder.write(resize(bi, 32, 32), new File(icon.getAbsolutePath().replace(".ico", "_32.ico")));
+			ICOEncoder.write(resize(bi, 64, 64), new File(icon.getAbsolutePath().replace(".ico", "_64.ico")));
+			ICOEncoder.write(resize(bi, 128, 128), new File(icon.getAbsolutePath().replace(".ico", "_128.ico")));
 			return;
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
 		return;
+	}
+	
+	public static BufferedImage resize(BufferedImage img, int newW, int newH) {
+		Image tmp = img.getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
+		BufferedImage dimg = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB);
+		
+		Graphics2D g2d = dimg.createGraphics();
+		g2d.drawImage(tmp, 0, 0, null);
+		g2d.dispose();
+		
+		return dimg;
 	}
 	
 	public boolean isRunning() {
@@ -431,6 +532,14 @@ public class BattleNET {
 	
 	public BattleNETSettings getSettings() {
 		return settings;
+	}
+	
+	public boolean isDisabled() {
+		return disabled;
+	}
+	
+	public void setDisabled(boolean disabled) {
+		this.disabled = disabled;
 	}
 	
 	public static void main(String[] args) {

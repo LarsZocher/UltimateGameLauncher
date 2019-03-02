@@ -3,21 +3,21 @@ package api.GameLauncher.BattleNET;
 /**
  * Removing of this disclaimer is forbidden.
  *
- * @author CodingAir
+ * @author BubbleEgg
  * @verions: 1.0.0
  **/
 
 public enum BattleNETGames {
 	OVERWATCH("Overwatch", "Pro", "prometheus"),
-	STARCRAFT_2("StarCraft II", "S2", ""),
-	STARCRAFT("StarCraft", "S1", ""),
-	HOTS("Heroes of the Storm", "Hero", ""),
-	WOW("World of Warcraft", "WoW", ""),
+	STARCRAFT_2("StarCraft II", "S2", "s2_dede"),
+	STARCRAFT("StarCraft", "S1", "s1"),
+	HOTS("Heroes of the Storm", "Hero", "heroes"),
+	WOW("World of Warcraft", "WoW", "wow_dede"),
 	WARCRAFT_3("Warcraft III", "W3", ""),
-	DIABLO_3("Diablo III", "D3", ""),
-	HEARTHSTONE("Hearthstone", "WTCG", ""),
+	DIABLO_3("Diablo III", "D3", "diablo3_dede"),
+	HEARTHSTONE("Hearthstone", "WTCG", "hs_beta"),
 	DESTINY_2("Destiny 2", "DST2", "destiny2"),
-	COD_BO4("Call of Duty: Black Ops 4", "VIPR", "");
+	COD_BO4("Call of Duty: Black Ops 4", "VIPR", "viper");
 	
 	private String name;
 	private String code;
@@ -57,6 +57,10 @@ public enum BattleNETGames {
 			}
 		}
 		return OVERWATCH;
+	}
+	
+	public boolean hasConfigName(){
+		return !configName.isEmpty();
 	}
 	
 	public String getConfigName(){

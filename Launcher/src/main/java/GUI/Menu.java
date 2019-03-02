@@ -1,8 +1,8 @@
 package GUI;
 
-import GUI.Utils.ConfigFile;
 import GUI.Utils.ResizeHelper;
 import GUI.localization.LanguageManager;
+import GUI.screens.AddGame.BattleNET.StartBattleNETGame;
 import GUI.screens.misc.initMenuController;
 import api.GameLauncher.Utils.JsonConfig;
 import javafx.animation.Animation;
@@ -22,6 +22,7 @@ import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 import java.io.File;
+import java.net.MalformedURLException;
 
 /**
  * Removing of this disclaimer is forbidden.
@@ -34,9 +35,7 @@ public class Menu extends Application{
 	
 	public Stage stage;
 	public menuController mainController;
-	public ConfigFile config;
 	public JsonConfig jsonConfig;
-	public static final String configFile = "Launcher.yml";
 	public static String styleSheet = "css/DarkTheme.css";
 	public static LanguageManager lang;
 	
@@ -50,25 +49,33 @@ public class Menu extends Application{
 	
 	
 	
-	@Override
-	public void start(Stage stage) throws Exception {
+	public static String getStyleSheet(){
 		File res = new File("resources");
 		if(!res.exists())
 			res.mkdir();
 		File css = new File("resources//DarkTheme.css");
-		if(css.exists())
-			styleSheet = css.toURI().toURL().toString();
+		if(css.exists()) {
+			try {
+				return css.toURI().toURL().toString();
+			} catch(MalformedURLException e) {
+				e.printStackTrace();
+				return "http://217.79.178.92/launcher/release/resources/DarkTheme.css";
+			}
+		}
 		else
-			styleSheet = "http://217.79.178.92/launcher/release/resources/DarkTheme.css";
+			return "http://217.79.178.92/launcher/release/resources/DarkTheme.css";
+	}
+	
+	@Override
+	public void start(Stage stage) throws Exception {
+		styleSheet = getStyleSheet();
 		System.out.println("[Launcher] Using \""+styleSheet+"\" as StylingSheet");
 		
-		this.config = new ConfigFile(configFile);
-		this.config.createFile();
 		this.stage = stage;
 		
 		this.jsonConfig = new JsonConfig("launcher.json");
 		this.jsonConfig.load();
-		JsonConfig.setDefault(this.jsonConfig.getConfig(), "language", "english");
+		this.jsonConfig.setDefault("language", "english");
 		this.jsonConfig.save();
 		
 		lang = new LanguageManager(jsonConfig.getConfig().getString("language"));
@@ -168,6 +175,12 @@ public class Menu extends Application{
 	}
 	
 	public static void main(String[] args){
+		for(int i = 0; i<args.length; i++){
+			if(args[i].equalsIgnoreCase("--startBNet") && args.length>=1){
+				Application.launch(StartBattleNETGame.class, args[i+1]);
+				return;
+			}
+		}
 		Application.launch(Menu.class, args);
 	}
 	

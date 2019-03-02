@@ -51,7 +51,7 @@ public class SteamGuard {
 			PrintWriter writer = new PrintWriter(vbs);
 			writer.println("Set WshShell = WScript.CreateObject(\"WScript.Shell\")");
 			writer.println("do");
-			writer.println("ret = wshShell.AppActivate(\"Steam Guard - Computerautorisierung erforderlich\")");
+			writer.println("ret = wshShell.AppActivate(\"Steam Guard\")");
 			writer.println("If ret = True Then ");
 			writer.println("    WScript.Sleep 200");
 			writer.println("    WshShell.SendKeys \"" + getCode(user) + "\"");
