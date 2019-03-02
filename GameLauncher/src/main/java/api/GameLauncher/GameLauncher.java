@@ -1,6 +1,7 @@
 package api.GameLauncher;
 
 import api.GameLauncher.BattleNET.BattleNET;
+import api.GameLauncher.BattleNET.BattleNETGameConfig;
 import api.GameLauncher.BattleNET.BattleNETGames;
 import api.GameLauncher.Origin.Origin;
 import api.GameLauncher.Steam.Steam;
@@ -10,6 +11,7 @@ import api.GameLauncher.Steam.SteamUser;
 import api.GameLauncher.Utils.JsonConfig;
 import com.google.gson.Gson;
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -87,7 +89,7 @@ public class GameLauncher {
 						break;
 					}
 					case BATTLENET:{
-						battleNET.launch(name);
+						battleNET.launchWithUserSelection(BattleNETGames.getByConfigName(name), false);
 						break;
 					}
 					case ORIGIN:{
@@ -163,6 +165,7 @@ public class GameLauncher {
 		
 		for(int i = 0; i < applications.length(); i++) {
 			Application app = new Gson().fromJson(applications.getJSONObject(i).toString(), Application.class);
+			app.setContent(applications.getJSONObject(i));
 			if(app.getName().equalsIgnoreCase(name))
 				return app;
 		}
@@ -178,6 +181,28 @@ public class GameLauncher {
 			apps.add(applications.getJSONObject(i).getString("name"));
 		}
 		return apps;
+	}
+	
+	public void overrideApplication(Application app, Class type){
+		cfg.load();
+		JSONArray applications = JsonConfig.getJSONArray(cfg.getConfig(),"Applications");
+		
+		int index = -1;
+		for(int i = 0; i < applications.length(); i++) {
+			Application currentApp = new Gson().fromJson(applications.getJSONObject(i).toString(), Application.class);
+			if(currentApp.getName().equalsIgnoreCase(app.getName())){
+				index = i;
+				break;
+			}
+		}
+		if(index!=-1){
+			applications.remove(index);
+		}
+		JSONObject appJson = new JSONObject(new Gson().toJson(app));
+		appJson.put("content", new JSONObject(new Gson().toJson(app.getContent(type))));
+		applications.put(appJson);
+		cfg.getConfig().put("Applications", applications);
+		cfg.save();
 	}
 	
 	public static void main(String[] args) {

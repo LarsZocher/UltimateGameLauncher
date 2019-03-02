@@ -3,6 +3,7 @@ package api.GameLauncher.Steam;
 import api.GameLauncher.Content;
 import api.GameLauncher.GameLauncher;
 import mslinks.ShellLink;
+import net.sf.image4j.codec.ico.ICODecoder;
 import net.sf.image4j.codec.ico.ICOEncoder;
 
 import javax.imageio.ImageIO;
@@ -36,11 +37,14 @@ public class SteamApp extends Content {
 	private String releaseDate = "";
 	private String user = "";
 	private String configName = "";
-	private String pathToPicture = "";
-	private String pathToBackground = "";
-	private String pathToIcon = "";
+	private String picture = "";
+	private String background = "";
+	private String clientIcon = "";
+	private String icon = "";
 	private String pathToIconICO = "";
+	private String pathToIconPNG = "";
 	private String args = "";
+	private String franchise = "";
 	private List<String> namesToSay;
 	private long creationDate = 0;
 	
@@ -132,15 +136,30 @@ public class SteamApp extends Content {
 		this.namesToSay = namesToSay;
 	}
 	
-	public String getIconPath() {
-		return pathToIcon;
+	public String getClientIcon() {
+		return clientIcon;
 	}
 	
-	public void setIconPath(String pathToIcon) {
-		this.pathToIcon = pathToIcon;
+	public void setClientIcon(String pathToIcon) {
+		this.clientIcon = pathToIcon;
+	}
+	
+	public String getIcon() {
+		return icon;
+	}
+	
+	public void setIcon(String icon) {
+		this.icon = icon;
 	}
 	
 	public String getIconICOPath() {
+		return pathToIconICO;
+	}
+	
+	public String getIconICOPath(GameLauncher launcher, boolean update) {
+		if(pathToIconICO.isEmpty()){
+			savePicture(launcher, update);
+		}
 		return pathToIconICO;
 	}
 	
@@ -156,20 +175,20 @@ public class SteamApp extends Content {
 		this.creationDate = creationDate;
 	}
 	
-	public String getPathToPicture() {
-		return pathToPicture;
+	public String getPicture() {
+		return picture;
 	}
 	
-	public void setPathToPicture(String pathToPicture) {
-		this.pathToPicture = pathToPicture;
+	public void setPicture(String picture) {
+		this.picture = picture;
 	}
 	
-	public String getPathToBackground() {
-		return pathToBackground;
+	public String getBackground() {
+		return background;
 	}
 	
-	public void setPathToBackground(String pathToBackground) {
-		this.pathToBackground = pathToBackground;
+	public void setBackground(String pathToBackground) {
+		this.background = pathToBackground;
 	}
 	
 	public String getArgs() {
@@ -178,6 +197,29 @@ public class SteamApp extends Content {
 	
 	public void setArgs(String args) {
 		this.args = args;
+	}
+	
+	public String getFranchise() {
+		return franchise;
+	}
+	
+	public void setFranchise(String franchise) {
+		this.franchise = franchise;
+	}
+	
+	public String getIconPNGPath() {
+			return pathToIconPNG;
+	}
+	
+	public String getIconPNGPath(GameLauncher launcher, boolean update) {
+		if(pathToIconPNG.isEmpty()){
+			savePicturePNG(launcher, update);
+		}
+		return pathToIconPNG;
+	}
+	
+	public void setIconPNGPath(String pathToIconPNG) {
+		this.pathToIconPNG = pathToIconPNG;
 	}
 	
 	public String getConfigName() {
@@ -216,7 +258,7 @@ public class SteamApp extends Content {
 			createShortcutWithOldIcon(path, getOldShortcutFile().getPath(), launcher);
 			return;
 		}
-		savePicture(launcher);
+		savePicture(launcher, true);
 		ShellLink sl;
 		if(!launcher.jrePath.isEmpty()) {
 			sl = ShellLink.createLink(launcher.jrePath+"javaw.exe");
@@ -320,26 +362,21 @@ public class SteamApp extends Content {
 		return null;
 	}
 	
-	public void savePicture(GameLauncher launcher) {
-		try(InputStream in = new URL(getIconPath()).openStream()) {
+	public void savePicture(GameLauncher launcher, boolean update) {
+		try(InputStream in = new URL(getClientIcon()).openStream()) {
 			File folder = new File(launcher.folderPath + "Games/Steam");
 			if(!folder.exists())
 				folder.mkdir();
-			String path = launcher.folderPath + "Games/Steam/" + getConfigName() + ".jpg";
+			String path = launcher.folderPath + "Games/Steam/" + getConfigName() + ".ico";
 			File file = new File(path);
 			if(file.exists())
 				file.delete();
 			Files.copy(in, Paths.get(path));
-			BufferedImage bi = ImageIO.read(new File(path));
-			
-			File icon = new File(path.replaceAll("\\.jpg", ".ico"));
-			if(icon.exists())
-				icon.delete();
-			ICOEncoder.write(bi, icon);
 			
 			if(getIconICOPath().isEmpty())
-				setIconICOPath(icon.getPath());
-			launcher.getSteam().addApp(this);
+				setIconICOPath(file.getAbsolutePath());
+			if(update)
+				launcher.getSteam().addApp(this);
 			return;
 		} catch(IOException e) {
 			e.printStackTrace();
@@ -347,5 +384,49 @@ public class SteamApp extends Content {
 		return;
 	}
 	
+	public void savePicturePNG(GameLauncher launcher, boolean update) {
+		savePicture(launcher, update);
+		try {
+			List<BufferedImage> images = ICODecoder.read(new File(getIconICOPath()));
+			
+			String path = launcher.folderPath + "Games/Steam/" + getConfigName() + ".png";
+			ImageIO.write(images.get(images.size()-1), "png", new File(path));
+			
+			if(getIconPNGPath().isEmpty())
+				setIconPNGPath(new File(path).getAbsolutePath());
+			
+			if(update)
+				launcher.getSteam().addApp(this);
+			return;
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
+		return;
+	}
 	
+	@Override
+	public String toString() {
+		return "SteamApp{" +
+				"appID='" + appID + '\'' +
+				", appType='" + appType + '\'' +
+				", name='" + name + '\'' +
+				", developer='" + developer + '\'' +
+				", publisher='" + publisher + '\'' +
+				", supportedSystems='" + supportedSystems + '\'' +
+				", lastRecordUpdate='" + lastRecordUpdate + '\'' +
+				", lastChangeNumber='" + lastChangeNumber + '\'' +
+				", releaseDate='" + releaseDate + '\'' +
+				", user='" + user + '\'' +
+				", configName='" + configName + '\'' +
+				", picture='" + picture + '\'' +
+				", background='" + background + '\'' +
+				", clientIcon='" + clientIcon + '\'' +
+				", icon='" + icon + '\'' +
+				", pathToIconICO='" + pathToIconICO + '\'' +
+				", args='" + args + '\'' +
+				", franchise='" + franchise + '\'' +
+				", namesToSay=" + namesToSay +
+				", creationDate=" + creationDate +
+				'}';
+	}
 }

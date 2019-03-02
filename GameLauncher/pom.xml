@@ -26,11 +26,11 @@
             <version>8.0.7</version>
         </dependency>
         <dependency>
-            <groupId>org.bukkit</groupId>
-            <artifactId>bukkit</artifactId>
+            <groupId>net.platinumdigitalgroup</groupId>
+            <artifactId>JVDF</artifactId>
             <version>1.0</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/../jars/spigot-1.12.jar</systemPath>
+            <systemPath>${project.basedir}/../jars/JVDF.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>mslinks</groupId>
@@ -86,6 +86,11 @@
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
             <version>20180813</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>2.9.5</version>
         </dependency>
     </dependencies>
 </project>

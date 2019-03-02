@@ -44,17 +44,17 @@ public class SteamDB {
 			app.setLastRecordUpdate(google.getElementsByTag("td").get(13).text());
 			app.setLastChangeNumber(google.getElementsByTag("td").get(15).text());
 			app.setReleaseDate(google.getElementsByTag("td").get(17).text());
-			app.setIconPath((google.getElementsByTag("img").get(1)+"").split("src=")[1].split("\"")[1]);
-			app.setPathToPicture("https://steamcdn-a.akamaihd.net/steam/apps/"+app.getAppID()+"/header.jpg");
+			app.setClientIcon((google.getElementsByTag("img").get(1)+"").split("src=")[1].split("\"")[1]);
+			app.setPicture("https://steamcdn-a.akamaihd.net/steam/apps/"+app.getAppID()+"/header.jpg");
 			app.setCreationDate(System.currentTimeMillis());
 			
 			for(int i = 0; i<google.getElementsByTag("div").size(); i++){
 				Element element = google.getElementsByTag("div").get(i);
 				if(element.hasClass("header-wrapper header-app owned")) {
 					try {
-						app.setPathToBackground((element + "").split("'")[1]);
+						app.setBackground((element + "").split("'")[1]);
 					} catch(ArrayIndexOutOfBoundsException e) {
-						app.setPathToBackground("https://steamcdn-a.akamaihd.net/steam/apps/271590/page_bg_generated_v6b.jpg?t=1546027132");
+						app.setBackground("https://steamcdn-a.akamaihd.net/steam/apps/271590/page_bg_generated_v6b.jpg?t=1546027132");
 					}
 				}
 			}
@@ -119,17 +119,17 @@ public class SteamDB {
 			app.setLastRecordUpdate(google.getElementsByTag("td").get(13).text());
 			app.setLastChangeNumber(google.getElementsByTag("td").get(15).text());
 			app.setReleaseDate(google.getElementsByTag("td").get(17).text());
-			app.setIconPath((google.getElementsByTag("img").get(1)+"").split("src=")[1].split("\"")[1]);
-			app.setPathToPicture("https://steamcdn-a.akamaihd.net/steam/apps/"+app.getAppID()+"/header.jpg");
+			app.setClientIcon((google.getElementsByTag("img").get(1)+"").split("src=")[1].split("\"")[1]);
+			app.setPicture("https://steamcdn-a.akamaihd.net/steam/apps/"+app.getAppID()+"/header.jpg");
 			app.setCreationDate(System.currentTimeMillis());
 			
 			for(int i = 0; i<google.getElementsByTag("div").size(); i++){
 				Element element = google.getElementsByTag("div").get(i);
 				if(element.hasClass("header-wrapper header-app owned")) {
 					try {
-						app.setPathToBackground((element + "").split("'")[1]);
+						app.setBackground((element + "").split("'")[1]);
 					}catch(ArrayIndexOutOfBoundsException e){
-						app.setPathToBackground("https://steamcdn-a.akamaihd.net/steam/apps/271590/page_bg_generated_v6b.jpg?t=1546027132");
+						app.setBackground("https://steamcdn-a.akamaihd.net/steam/apps/271590/page_bg_generated_v6b.jpg?t=1546027132");
 					}
 				}
 			}

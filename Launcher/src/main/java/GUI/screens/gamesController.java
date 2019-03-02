@@ -1,7 +1,6 @@
 package GUI.screens;
 
 import GUI.Menu;
-import GUI.Utils.ConfigFile;
 import GUI.css.CSSUtils;
 import GUI.localization.Language;
 import GUI.screens.AddGame.ProgramManager;
@@ -12,37 +11,27 @@ import GUI.screens.Notification.NotificationIcon;
 import GUI.screens.misc.*;
 import api.GameLauncher.AppTypes;
 import api.GameLauncher.Application;
-import api.GameLauncher.BattleNET.BattleNETGameConfig;
 import api.GameLauncher.BattleNET.BattleNETGames;
 import api.GameLauncher.GameLauncher;
-import api.GameLauncher.Origin.Origin;
 import api.GameLauncher.Origin.OriginGame;
 import api.GameLauncher.Steam.SteamApp;
 import api.GameLauncher.Steam.SteamUser;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXMasonryPane;
 import com.jfoenix.controls.JFXTextField;
 import javafx.application.Platform;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.geometry.Bounds;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import org.apache.poi.ss.formula.functions.T;
 import org.controlsfx.control.GridCell;
 import org.controlsfx.control.GridView;
 
@@ -83,6 +72,7 @@ public class gamesController extends initMenuController {
 	private List<TabButton> buttons = new ArrayList<>();
 	private GameLauncher launcher;
 	private AppTypes currentAppType;
+	private String currentFilter = "";
 	private ProgramManager manager;
 	private Thread loadingList;
 	private Thread loadingListDisplays;
@@ -94,6 +84,7 @@ public class gamesController extends initMenuController {
 	private int cellHeight = 102;
 	private int index = 0;
 	private boolean loading = false;
+	private boolean firstLoading = true;
 	
 	@Override
 	public void init(Menu menu) {
@@ -112,13 +103,10 @@ public class gamesController extends initMenuController {
 				});
 			}
 		};
+		menu.jsonConfig.load();
+		menu.jsonConfig.setDefault("sort", SortStyle.ALPHABETICALLY.name());
+		menu.jsonConfig.save();
 		
-		ConfigFile cfg = menu.config;
-		cfg.load();
-		cfg.setDefault("Games.Sort", SortStyle.ALPHABETICALLY.name());
-		cfg.save();
-		
-		cfg.load();
 		sort.getStyleClass().add("jfx-combo-box");
 		
 		panes = FXCollections.observableList(new ArrayList<>());
@@ -150,12 +138,12 @@ public class gamesController extends initMenuController {
 				title.setText(Language.format(Menu.lang.getLanguage().TitleGames));
 				search.setPromptText(Language.format(Menu.lang.getLanguage().WindowTitleSearch));
 				
-				cfg.load();
+				menu.jsonConfig.load();
 				CSSUtils.setCSS(sort, "jfx-combo-box");
 				for(SortStyle style : SortStyle.values()) {
 					sort.getItems().add(style.getName());
 				}
-				sort.getSelectionModel().select(SortStyle.valueOf(cfg.getString("Games.Sort")).getName());
+				sort.getSelectionModel().select(SortStyle.valueOf(menu.jsonConfig.getConfig().getString("sort")).getName());
 				
 				stage.getScene().setOnKeyReleased(new EventHandler<KeyEvent>() {
 					@Override
@@ -168,19 +156,9 @@ public class gamesController extends initMenuController {
 						} else {
 							if(event.getCode() == KeyCode.ENTER) {
 								stage.getScene().getRoot().requestFocus();
-								if(search.getText().isEmpty())
-									buttons.get(0).onClick();
-								for(TabButton button : buttons) {
-									button.unfocus();
-								}
-								buttons.get(0).focus();
-								loadList(AppTypes.ALL, search.getText());
+								loadList(currentAppType, search.getText());
 							} else {
-								for(TabButton button : buttons) {
-									button.unfocus();
-								}
-								buttons.get(0).focus();
-								loadList(AppTypes.ALL, search.getText());
+								loadList(currentAppType, search.getText());
 							}
 						}
 					}
@@ -233,6 +211,10 @@ public class gamesController extends initMenuController {
 				search.setText("");
 			}
 		});
+		buttons.get(0).onClick();
+		if(launcher.getBattleNET().isDisabled())
+			buttons.get(2).disable();
+		buttons.get(4).disable();
 	}
 	
 	public void resetButtons() {
@@ -243,7 +225,8 @@ public class gamesController extends initMenuController {
 	
 	public void loadList(AppTypes type, String filter) {
 		loading = true;
-		System.out.println("load " + type);
+		
+		System.out.println("[Launcher] Loading games - Type: "+type.name()+"  Filter: \""+filter+"\"");
 		for(AppTypes value : AppTypes.values()) {
 			acceptNext.put(value, false);
 		}
@@ -280,49 +263,22 @@ public class gamesController extends initMenuController {
 					e.printStackTrace();
 				}
 				currentAppType = type;
+				currentFilter = filter;
 				switch(type) {
-					case ALL: {
-						List<Application> displays = launcher.getApplications();
-						String searchFor = filter;
-						if(!searchFor.isEmpty()) {
-							searchFor = searchFor.toLowerCase().replaceAll("[^a-zA-Z0-9]", "");
-							List<String> chars = new ArrayList<>();
-							for(char c : searchFor.toCharArray()) {
-								chars.add(c+"");
-							}
-							List<Application> filtered = new ArrayList<>();
-							game:
-							for(Application display : displays) {
-								String displayName = getDisplayName(display).toLowerCase().replaceAll("[^a-zA-Z0-9]", "");
-								int containsAll = 0;
-								for(char c : displayName.toCharArray()) {
-									if(containsAll>chars.size()-1){
-										break;
-									}
-									if((c+"").equalsIgnoreCase(chars.get(containsAll))){
-										containsAll++;
-									}
-								}
-								if(containsAll==chars.size())
-									filtered.add(display);
-							}
-							displays = filtered;
-						}
-						
-						Collections.sort(displays, new Comparator<Application>() {
-							@Override
-							public int compare(Application o1, Application o2) {
-								return o1.getName().toLowerCase().compareTo(o2.getName().toLowerCase());
-							}
-						});
-						
-						current = displays;
-						break;
-					}
+					case ALL:
 					case STEAM:
 					case BATTLENET:
 					case ORIGIN: {
-						List<Application> displays = launcher.getApplications(type);
+						List<Application> displays;
+						if(type==AppTypes.ALL)
+							displays = launcher.getApplications();
+						else
+							displays = launcher.getApplications(type);
+						
+						if(type == AppTypes.ALL || type == AppTypes.BATTLENET)
+							displays = filterBattleNETGames(displays);
+						displays = filterApps(displays, filter);
+						
 						switch(SortStyle.getByName(sort.getSelectionModel().getSelectedItem())) {
 							case ALPHABETICALLY: {
 								Collections.sort(displays, new Comparator<Application>() {
@@ -331,29 +287,39 @@ public class gamesController extends initMenuController {
 										return getDisplayName(o1).toLowerCase().compareTo(getDisplayName(o2).toLowerCase());
 									}
 								});
+								break;
 							}
 							case CREATION_DATE: {
-							
+								Collections.sort(displays, new Comparator<Application>() {
+									@Override
+									public int compare(Application o1, Application o2) {
+										return Long.compare(o1.getCreated(), o2.getCreated());
+									}
+								});
+								break;
 							}
 						}
 						current = displays;
 						break;
 					}
-					
-					
 				}
+				
 				List<GameDisplay> toAdd = new ArrayList<>();
 				index = 0;
 				
 				loadingListDisplays = new Thread(new Task<Void>() {
 					@Override
-					protected Void call() throws Exception {
-						System.out.println(current.size());
-						for(int i = 0; i < current.size(); i++) {
-							toAdd.add(loadDisplay(current.get(i)));
+					protected Void call() {
+						try {
+							for(int i = 0; i < current.size(); i++) {
+								toAdd.add(loadDisplay(current.get(i)));
+							}
+							Thread.sleep(100);
+							loading = false;
+							firstLoading = false;
+						}catch(Exception e){
+							e.printStackTrace();
 						}
-						Thread.sleep(100);
-						loading = false;
 						return null;
 					}
 				});
@@ -383,6 +349,68 @@ public class gamesController extends initMenuController {
 		};
 		loadingList = new Thread(task);
 		loadingList.start();
+	}
+	
+	public List<Application> filterBattleNETGames(List<Application> apps){
+		if(launcher.getBattleNET().isDisabled()) {
+			List<Application> filtered = new ArrayList<>();
+			
+			for(Application app : apps) {
+				if(app.getType()!=AppTypes.BATTLENET){
+					filtered.add(app);
+				}
+			}
+			return filtered;
+		}
+		List<BattleNETGames> owned = launcher.getBattleNET().getSettings().getOwnedGames();
+		
+		games : for(BattleNETGames game : BattleNETGames.values()) {
+			if(game.hasConfigName()){
+				for(BattleNETGames ownedGame : owned) {
+					if(game.getCode().equalsIgnoreCase(ownedGame.getCode())){
+						continue games;
+					}
+				}
+				int index = 0;
+				for(int i = 0; i<apps.size(); i++){
+					if(apps.get(i).getName().equalsIgnoreCase(game.getConfigName())){
+						index = i;
+						break;
+					}
+				}
+				apps.remove(index);
+			}
+		}
+		
+		return apps;
+	}
+	
+	public List<Application> filterApps(List<Application> apps, String filter){
+		if(!filter.isEmpty()) {
+			filter = filter.toLowerCase().replaceAll("[^a-zA-Z0-9]", "");
+			List<String> chars = new ArrayList<>();
+			for(char c : filter.toCharArray()) {
+				chars.add(c+"");
+			}
+			List<Application> filtered = new ArrayList<>();
+			game:
+			for(Application display : apps) {
+				String displayName = getDisplayName(display).toLowerCase().replaceAll("[^a-zA-Z0-9]", "");
+				int containsAll = 0;
+				for(char c : displayName.toCharArray()) {
+					if(containsAll>chars.size()-1){
+						break;
+					}
+					if((c+"").equalsIgnoreCase(chars.get(containsAll))){
+						containsAll++;
+					}
+				}
+				if(containsAll==chars.size())
+					filtered.add(display);
+			}
+			apps = filtered;
+		}
+		return apps;
 	}
 	
 	public String getDisplayName(Application app) {
@@ -482,7 +510,7 @@ public class gamesController extends initMenuController {
 					if(launcher.getSteam().getUsernames().size()>0){
 						SteamUser newUser = launcher.getSteam().getUser(launcher.getSteam().getUsernames().get(0));
 						display.setUser(newUser);
-						System.out.println("[STEAM] "+app.getName()+": user "+user.getUsername() + " not found! Setting user to: "+newUser.getUsername());
+						System.out.println("[Steam] "+app.getName()+": user "+user.getUsername() + " not found! Setting user to: "+newUser.getUsername());
 						SteamApp newApp = app.getContent(SteamApp.class);
 						newApp.setUser(newUser.getUsername());
 						launcher.getSteam().addApp(newApp);
@@ -544,7 +572,7 @@ public class gamesController extends initMenuController {
 					
 					@Override
 					public void onRun() {
-						launcher.getBattleNET().launch(battleNETGames);
+						launcher.getBattleNET().launchWithUserSelection(battleNETGames, false);
 					}
 				};
 				return display;
@@ -577,35 +605,10 @@ public class gamesController extends initMenuController {
 		}
 		return null;
 	}
-
-	public void checkList() {
-	
-	}
-	
-	public void calcDynamicDisplays() {
-		if(loading)
-			return;
-		try {
-			if(list.getItems().isEmpty()) {
-				Platform.runLater(new Runnable() {
-					@Override
-					public void run() {
-						GameDisplay display = loadDisplay(current.get(0));
-						list.getItems().add(display);
-					}
-				});
-				return;
-			}
-			checkList();
-			System.out.println("check finished - ");
-		} catch(ArrayIndexOutOfBoundsException e) {
-		
-		}
-	}
 	
 	@Override
 	public void onShow() {
-		buttons.get(0).onClick();
+	
 	}
 	
 	@Override
@@ -620,10 +623,10 @@ public class gamesController extends initMenuController {
 	
 	@FXML
 	void onSortChange() {
-		ConfigFile cfg = menu.config;
-		cfg.load();
-		cfg.set("Games.Sort", SortStyle.getByName(sort.getSelectionModel().getSelectedItem()).name());
-		cfg.save();
-		loadList(currentAppType, "");
+		menu.jsonConfig.load();
+		menu.jsonConfig.getConfig().put("sort", SortStyle.getByName(sort.getSelectionModel().getSelectedItem()).name());
+		menu.jsonConfig.save();
+		if(!firstLoading)
+			loadList(currentAppType, currentFilter);
 	}
 }

@@ -1,42 +1,32 @@
 package api.GameLauncher.BattleNET;
 
-import api.GameLauncher.GameLauncher;
-import net.sf.image4j.codec.ico.ICOEncoder;
-
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
 /**
  * Removing of this disclaimer is forbidden.
  *
- * @author CodingAir
+ * @author BubbleEgg
  * @verions: 1.0.0
  **/
 
 public enum BattleNETGames {
-	OVERWATCH("Overwatch", "Pro"),
-	STARCRAFT_2("StarCraft II", "S2"),
-	STARCRAFT("StarCraft", "S1"),
-	HOTS("Heroes of the Storm", "Hero"),
-	WOW("World of Warcraft", "WoW"),
-	WARCRAFT_3("Warcraft III", "W3"),
-	DIABLO_3("Diablo III", "D3"),
-	HEARTHSTONE("Hearthstone", "WTCG"),
-	DESTINY_2("Destiny 2", "DST2"),
-	COD_BO4("Call of Duty: Black Ops 4", "VIPR");
+	OVERWATCH("Overwatch", "Pro", "prometheus"),
+	STARCRAFT_2("StarCraft II", "S2", "s2_dede"),
+	STARCRAFT("StarCraft", "S1", "s1"),
+	HOTS("Heroes of the Storm", "Hero", "heroes"),
+	WOW("World of Warcraft", "WoW", "wow_dede"),
+	WARCRAFT_3("Warcraft III", "W3", ""),
+	DIABLO_3("Diablo III", "D3", "diablo3_dede"),
+	HEARTHSTONE("Hearthstone", "WTCG", "hs_beta"),
+	DESTINY_2("Destiny 2", "DST2", "destiny2"),
+	COD_BO4("Call of Duty: Black Ops 4", "VIPR", "viper");
 	
 	private String name;
 	private String code;
+	private String configName;
 	
-	BattleNETGames(String name, String code) {
+	BattleNETGames(String name, String code, String configName) {
 		this.name = name;
 		this.code = code;
+		this.configName = configName;
 	}
 	
 	public String getName() {
@@ -45,6 +35,10 @@ public enum BattleNETGames {
 	
 	public String getCode() {
 		return code;
+	}
+	
+	public String getBattleNetConfigName(){
+		return configName;
 	}
 	
 	public static BattleNETGames getByName(String name){
@@ -63,6 +57,10 @@ public enum BattleNETGames {
 			}
 		}
 		return OVERWATCH;
+	}
+	
+	public boolean hasConfigName(){
+		return !configName.isEmpty();
 	}
 	
 	public String getConfigName(){

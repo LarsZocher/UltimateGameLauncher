@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="434.0" prefWidth="364.0" style="-fx-background-color: #353535; -fx-effect: innershadow( gaussian, rgba( 0, 0, 0, 0.5 ), 5, 0, 0, 0 );" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.screens.AddGame.BattleNET.StartBattleNETGameController">
+   <children>
+      <ImageView fx:id="icon" fitHeight="75.0" fitWidth="75.0" layoutX="14.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../icon/battleNETLogo.png" />
+         </image>
+      </ImageView>
+      <Pane prefHeight="7.0" prefWidth="364.0" style="-fx-background-color: #252525;" />
+      <Pane fx:id="timer" prefHeight="7.0" prefWidth="364.0" style="-fx-background-color: -primary;" AnchorPane.leftAnchor="0.0" />
+      <Label fx:id="startingWith" layoutX="110.0" layoutY="32.0" text="Wird gestartet mit:" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="selectedUser" layoutX="110.0" layoutY="64.0" text="max.mustermann@gmail.com" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="39.0" fitWidth="39.0" layoutX="321.0" layoutY="13.0" onMouseReleased="#onExit" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../icon/close.png" />
+         </image>
+      </ImageView>
+      <ScrollPane fx:id="pane" fitToHeight="true" fitToWidth="true" focusTraversable="false" hbarPolicy="NEVER" layoutX="16.0" layoutY="115.0" prefHeight="297.0" prefWidth="332.0" style="-fx-background: #303030; -fx-background-color: #303030; -fx-border-color: #303030;">
+         <content>
+            <VBox fx:id="list" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #272727;">
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </VBox>
+         </content>
+      </ScrollPane>
+   </children>
+</AnchorPane>
