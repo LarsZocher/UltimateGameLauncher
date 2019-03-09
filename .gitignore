@@ -1,3 +1,6 @@
-.idea/
+.idea/*
 steam/*
 !steam/steamcmd.exe
+GameLauncher/target/*
+Launcher/target/*
+Updater/target/*
