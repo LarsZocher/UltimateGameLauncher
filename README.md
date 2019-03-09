@@ -29,7 +29,7 @@ You can create multiple entries of a game in the launcher. Each with different s
 - Switch users
 
 ## Download
-If you already have Java 1.8 installed you can download it from  [here[NoJRE]](bit.ly/2Tqr009).
+If you already have Java 1.8 installed you can download it from  [here[NoJRE]](http://bit.ly/2Tqr009).
 
 Otherwise you can download it from [here[JRE]](http://bit.ly/2J3imjD) with a portable version of Java, so you don't have to install Java.
 
