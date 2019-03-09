@@ -2,6 +2,8 @@
 ## What is this?
 With this launcher you can manage all your steam and blizzard accounts and switch to them with only one click.
 
+![SCREENSHOT](https://tgi.seemslegit.me/launcher/resources/Screenshot_1.png)
+
 ## Features
 ##### Library
 - Lists games from: Steam, Battle.net, Origin
@@ -25,6 +27,8 @@ You can create multiple entries of a game in the launcher. Each with different s
 ##### BattleNet
 - Launch battlenet games instant, without pressing the "play" button in the battle.net app
 - Switch users
+
+![SCREENSHOT2](https://tgi.seemslegit.me/launcher/resources/Screenshot_2.png)
 
 ## Download
 If you already have Java 1.8 installed you can download it from  [here[NoJRE]](https://tgi.seemslegit.me/launcher/download/NoJRE/UltimateGameLauncher.zip).
