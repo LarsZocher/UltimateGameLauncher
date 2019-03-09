@@ -49,6 +49,17 @@ JRE:  jre\bin\java.exe -jar Launcher.jar --noUpdate
 NoJRE:  java -jar Launcher.jar --noUpdate
 ```
 
+## Languages
+Currently the launcher supports:
+```
+English:  english  -  [Almost complete]
+Deutsch:  german
+```
+
+You can change the language by editing the **launcher.json** file.
+
+If you want, that the launcher supports your language, message me.
+
 ## Images
 
 ![SCREENSHOT2](https://tgi.seemslegit.me/launcher/resources/Screenshot_2.png)
