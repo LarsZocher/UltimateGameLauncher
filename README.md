@@ -1,19 +1,6 @@
 # UltimateGameLauncher
-A game launcher to start games and switch users
-
 ## What is this?
 With this launcher you can manage all your steam and blizzard accounts and switch to them with only one click.
-
-## Download
-If you already have Java 1.8 installed you can download it from  [here](https://tgi.seemslegit.me/launcher/download/NoJRE/UltimateGameLauncher.zip).
-
-Otherwise you can download it from [here](https://tgi.seemslegit.me/launcher/download/JRE/UltimateGameLauncher.zip) and Java will be automatically downloaded when you start the updater.
-
-#### Installation
-1. When you downloaded the zip file, extract it into a folder where you want to install the launcher.
-2. Start the **updater.bat** file and all files will be downloaded.
-3. When the Updater is finished, close the console and start the **Launcher.jar** by double clicking it or create a Batch file for it.
-All batch files can be found in the [Batch folder](https://github.com/BubbleEgg/UltimateGameLauncher/tree/master/batch).
 
 ## Features
 ##### Library
@@ -38,3 +25,24 @@ You can create multiple entries of a game in the launcher. Each with different s
 ##### BattleNet
 - Launch battlenet games instant, without pressing the "play" button in the battle.net app
 - Switch users
+
+## Download
+If you already have Java 1.8 installed you can download it from  [here[NoJRE]](https://tgi.seemslegit.me/launcher/download/NoJRE/UltimateGameLauncher.zip).
+
+Otherwise you can download it from [here[JRE]](https://tgi.seemslegit.me/launcher/download/JRE/UltimateGameLauncher.zip) with a portable version of Java, so you don't have to install Java.
+
+#### Installation
+1. When you downloaded the zip file, extract it into a folder where you want to install the launcher.
+2. Start the **updater.bat** file and all files will be downloaded.
+3. When the Updater is finished, close the console and start the **Launcher.jar** by double clicking it or create a Batch file for it.
+All batch files can be found in the [Batch folder](https://github.com/BubbleEgg/UltimateGameLauncher/tree/master/batch).
+
+#### Updates
+The Updater keeps your launcher up-to-date. It automatically checks for 
+updates when you start the **Launcher.jar**. If you want to disable it, 
+add `--noUpdate` to the start options.
+e.g:
+```
+JRE:  jre\bin\java.exe -jar Launcher.jar --noUpdate
+NoJRE:  java -jar Launcher.jar --noUpdate
+```
