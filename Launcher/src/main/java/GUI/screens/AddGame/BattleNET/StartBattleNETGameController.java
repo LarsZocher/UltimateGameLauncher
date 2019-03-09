@@ -61,7 +61,7 @@ public class StartBattleNETGameController extends initController {
 	@FXML
 	private ScrollPane pane;
 	
-	private final int TIME_UNTIL_START = 5000;
+	private int TIME_UNTIL_START;
 	private final int FPS = 30;
 	private final int START_WIDTH = 364;
 	
@@ -83,15 +83,17 @@ public class StartBattleNETGameController extends initController {
 		this.launcher = new GameLauncher();
 		this.list.setSpacing(10);
 		this.startTime = System.currentTimeMillis() + 1000;
-		loadUsers();
-		startTimer();
 		
 		this.jsonConfig = new JsonConfig("launcher.json");
 		this.jsonConfig.load();
 		this.jsonConfig.setDefault("language", "english");
+		this.jsonConfig.setDefault("battleNetStartTime", 4000);
 		this.jsonConfig.save();
 		
+		TIME_UNTIL_START = jsonConfig.getConfig().getInt("battleNetStartTime");
 		lang = new LanguageManager(jsonConfig.getConfig().getString("language"));
+		
+		loadUsers();
 		
 		Platform.runLater(new Runnable() {
 			@Override
@@ -190,7 +192,7 @@ public class StartBattleNETGameController extends initController {
 		});
 	}
 	
-	private void startTimer(){
+	public void startTimer(){
 		timeline = new Timeline(new KeyFrame(Duration.millis(1000/FPS), ev -> {
 			timerIndex++;
 			currentWitdhMultiplierer = 1-(1.0/((TIME_UNTIL_START/1000)*FPS))*timerIndex;

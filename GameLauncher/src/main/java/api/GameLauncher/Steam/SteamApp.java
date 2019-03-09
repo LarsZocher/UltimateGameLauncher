@@ -237,10 +237,7 @@ public class SteamApp extends Content {
 	private String getNiceName() {
 		String name = getName();
 		
-		name = name.replaceAll(":", "");
-		name = name.replaceAll(",", "");
-		name = name.replaceAll("/", "");
-		name = name.replaceAll("\\\\", "");
+		name = name.replaceAll("[^a-zA-Z0-9_\\s]", "");
 		
 		return name;
 	}

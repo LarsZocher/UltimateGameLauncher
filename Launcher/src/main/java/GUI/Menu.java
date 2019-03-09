@@ -4,6 +4,7 @@ import GUI.Utils.ResizeHelper;
 import GUI.localization.LanguageManager;
 import GUI.screens.AddGame.BattleNET.StartBattleNETGame;
 import GUI.screens.misc.initMenuController;
+import Updater.Updater;
 import api.GameLauncher.Utils.JsonConfig;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -22,6 +23,7 @@ import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 
 /**
@@ -175,10 +177,31 @@ public class Menu extends Application{
 	}
 	
 	public static void main(String[] args){
+		boolean skipUpdate = false;
+		boolean console = false;
 		for(int i = 0; i<args.length; i++){
 			if(args[i].equalsIgnoreCase("--startBNet") && args.length>=1){
 				Application.launch(StartBattleNETGame.class, args[i+1]);
 				return;
+			}
+			if(args[i].equalsIgnoreCase("--noUpdate")){
+				skipUpdate = true;
+			}
+			if(args[i].equalsIgnoreCase("--console")){
+				console = true;
+			}
+		}
+		
+		if(!skipUpdate){
+			if(Updater.needsUpdate()){
+				try {
+					String jre = new File("jre/bin/java.exe").exists()?"jre/bin/java.exe":"java";
+					Runtime.getRuntime().exec("cmd.exe /K start "+jre+" -jar Updater.jar --launcher "+(console?"--console ":"") + "--update");
+					System.exit(0);
+					return;
+				} catch(IOException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		Application.launch(Menu.class, args);
@@ -188,3 +211,4 @@ public class Menu extends Application{
 		mainController.loadFXML(name);
 	}
 }
+
