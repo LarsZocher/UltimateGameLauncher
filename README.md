@@ -9,11 +9,10 @@ If you already have Java 1.8 installed you can download it from  [here](https://
 
 Otherwise you can download it from [here](https://tgi.seemslegit.me/launcher/download/JRE/UltimateGameLauncher.zip) and Java will be automatically downloaded when you start the updater.
 
-####Installation
+#### Installation
 1. When you downloaded the zip file, extract it into a folder where you want to install the launcher.
 2. Start the **updater.bat** file and all files will be downloaded.
 3. When the Updater is finished, close the console and start the **Launcher.jar** by double clicking it or create a Batch file for it.
-
 All batch files can be found in the [Batch folder](https://github.com/BubbleEgg/UltimateGameLauncher/tree/master/batch).
 
 ## Features
