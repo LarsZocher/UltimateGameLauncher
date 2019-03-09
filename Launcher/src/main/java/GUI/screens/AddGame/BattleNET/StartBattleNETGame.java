@@ -33,6 +33,7 @@ public class StartBattleNETGame extends Application {
 		
 		FXMLLoader loader = new FXMLLoader(EditBattleNETGame.class.getClassLoader().getResource("fxml/StartBattleNETGame.fxml"));
 		Parent root = loader.load();
+		StartBattleNETGameController controller = loader.getController();
 		Scene scene = new Scene(root);
 		this.stage = primaryStage;
 		
@@ -63,6 +64,8 @@ public class StartBattleNETGame extends Application {
 		this.stage.getIcons().setAll(new Image("file:materials/Icon.png"));
 		this.stage.show();
 		this.stage.requestFocus();
+		
+		controller.startTimer();
 	}
 	
 	public void setApp(BattleNETGames app){

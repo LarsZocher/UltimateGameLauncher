@@ -100,7 +100,6 @@
     <orderEntry type="library" name="Maven: org.apache.opennlp:opennlp-tools:1.8.4" level="project" />
     <orderEntry type="library" name="Maven: com.googlecode.json-simple:json-simple:1.1.1" level="project" />
     <orderEntry type="library" name="Maven: com.github.openjson:openjson:1.0.10" level="project" />
-    <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.8.1" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.24" level="project" />
     <orderEntry type="library" name="Maven: edu.ucar:netcdf4:4.5.5" level="project" />
     <orderEntry type="library" name="Maven: net.jcip:jcip-annotations:1.0" level="project" />
@@ -155,7 +154,6 @@
     <orderEntry type="library" name="Maven: log4j:log4j:1.2.17" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:jcl-over-slf4j:1.7.24" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:jul-to-slf4j:1.7.24" level="project" />
-    <orderEntry type="library" name="Maven: commons-io:commons-io:2.6" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.8.11.3" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.8.10" level="project" />
     <orderEntry type="library" name="Maven: com.squareup.okhttp3:okhttp:3.4.1" level="project" />
@@ -164,5 +162,8 @@
     <orderEntry type="library" name="Maven: com.google.guava:guava:19.0" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.9.5" level="project" />
     <orderEntry type="library" name="Maven: org.controlsfx:controlsfx:8.40.14" level="project" />
+    <orderEntry type="module" module-name="DotBotUpdater" />
+    <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.8.5" level="project" />
+    <orderEntry type="library" name="Maven: commons-io:commons-io:2.6" level="project" />
   </component>
 </module>
