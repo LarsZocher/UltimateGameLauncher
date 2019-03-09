@@ -28,8 +28,6 @@ You can create multiple entries of a game in the launcher. Each with different s
 - Launch battlenet games instant, without pressing the "play" button in the battle.net app
 - Switch users
 
-![SCREENSHOT2](https://tgi.seemslegit.me/launcher/resources/Screenshot_2.png)
-
 ## Download
 If you already have Java 1.8 installed you can download it from  [here[NoJRE]](https://tgi.seemslegit.me/launcher/download/NoJRE/UltimateGameLauncher.zip).
 
@@ -50,3 +48,8 @@ e.g:
 JRE:  jre\bin\java.exe -jar Launcher.jar --noUpdate
 NoJRE:  java -jar Launcher.jar --noUpdate
 ```
+
+## Images
+
+![SCREENSHOT2](https://tgi.seemslegit.me/launcher/resources/Screenshot_2.png)
+![SCREENSHOT2](https://tgi.seemslegit.me/launcher/resources/Screenshot_3.png)
