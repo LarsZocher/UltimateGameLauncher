@@ -29,9 +29,9 @@ You can create multiple entries of a game in the launcher. Each with different s
 - Switch users
 
 ## Download
-If you already have Java 1.8 installed you can download it from  [here[NoJRE]](https://tgi.seemslegit.me/launcher/download/NoJRE/UltimateGameLauncher.zip).
+If you already have Java 1.8 installed you can download it from  [here[NoJRE]](bit.ly/2Tqr009).
 
-Otherwise you can download it from [here[JRE]](https://tgi.seemslegit.me/launcher/download/JRE/UltimateGameLauncher.zip) with a portable version of Java, so you don't have to install Java.
+Otherwise you can download it from [here[JRE]](http://bit.ly/2J3imjD) with a portable version of Java, so you don't have to install Java.
 
 #### Installation
 1. When you downloaded the zip file, extract it into a folder where you want to install the launcher.
