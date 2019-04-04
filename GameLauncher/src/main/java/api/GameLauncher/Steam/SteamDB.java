@@ -36,28 +36,23 @@ public class SteamDB {
 			google = Jsoup.connect(URL).userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.152 Safari/537.36").get();
 			
 			app.setAppID(google.getElementsByTag("td").get(1).text());
-			app.setAppType(google.getElementsByTag("td").get(3).text());
 			app.setName(google.getElementsByTag("td").get(5).text());
 			app.setDeveloper(google.getElementsByTag("td").get(7).text());
 			app.setPublisher(google.getElementsByTag("td").get(9).text());
 			app.setSupportedSystems(google.getElementsByTag("td").get(11).text());
-			app.setLastRecordUpdate(google.getElementsByTag("td").get(13).text());
-			app.setLastChangeNumber(google.getElementsByTag("td").get(15).text());
-			app.setReleaseDate(google.getElementsByTag("td").get(17).text());
 			app.setClientIcon((google.getElementsByTag("img").get(1)+"").split("src=")[1].split("\"")[1]);
-			app.setPicture("https://steamcdn-a.akamaihd.net/steam/apps/"+app.getAppID()+"/header.jpg");
 			app.setCreationDate(System.currentTimeMillis());
 			
-			for(int i = 0; i<google.getElementsByTag("div").size(); i++){
-				Element element = google.getElementsByTag("div").get(i);
-				if(element.hasClass("header-wrapper header-app owned")) {
-					try {
-						app.setBackground((element + "").split("'")[1]);
-					} catch(ArrayIndexOutOfBoundsException e) {
-						app.setBackground("https://steamcdn-a.akamaihd.net/steam/apps/271590/page_bg_generated_v6b.jpg?t=1546027132");
-					}
-				}
-			}
+//			for(int i = 0; i<google.getElementsByTag("div").size(); i++){
+//				Element element = google.getElementsByTag("div").get(i);
+//				if(element.hasClass("header-wrapper header-app owned")) {
+//					try {
+//						app.setBackground((element + "").split("'")[1]);
+//					} catch(ArrayIndexOutOfBoundsException e) {
+//						app.setBackground("https://steamcdn-a.akamaihd.net/steam/apps/271590/page_bg_generated_v6b.jpg?t=1546027132");
+//					}
+//				}
+//			}
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
@@ -111,28 +106,23 @@ public class SteamDB {
 			Document google = Jsoup.connect("https://steamdb.info/app/"+URLEncoder.encode(AppID, encoding)+"/").userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.152 Safari/537.36").get();
 			
 			app.setAppID(google.getElementsByTag("td").get(1).text());
-			app.setAppType(google.getElementsByTag("td").get(3).text());
 			app.setName(google.getElementsByTag("td").get(5).text());
 			app.setDeveloper(google.getElementsByTag("td").get(7).text());
 			app.setPublisher(google.getElementsByTag("td").get(9).text());
 			app.setSupportedSystems(google.getElementsByTag("td").get(11).text());
-			app.setLastRecordUpdate(google.getElementsByTag("td").get(13).text());
-			app.setLastChangeNumber(google.getElementsByTag("td").get(15).text());
-			app.setReleaseDate(google.getElementsByTag("td").get(17).text());
 			app.setClientIcon((google.getElementsByTag("img").get(1)+"").split("src=")[1].split("\"")[1]);
-			app.setPicture("https://steamcdn-a.akamaihd.net/steam/apps/"+app.getAppID()+"/header.jpg");
 			app.setCreationDate(System.currentTimeMillis());
 			
-			for(int i = 0; i<google.getElementsByTag("div").size(); i++){
-				Element element = google.getElementsByTag("div").get(i);
-				if(element.hasClass("header-wrapper header-app owned")) {
-					try {
-						app.setBackground((element + "").split("'")[1]);
-					}catch(ArrayIndexOutOfBoundsException e){
-						app.setBackground("https://steamcdn-a.akamaihd.net/steam/apps/271590/page_bg_generated_v6b.jpg?t=1546027132");
-					}
-				}
-			}
+//			for(int i = 0; i<google.getElementsByTag("div").size(); i++){
+//				Element element = google.getElementsByTag("div").get(i);
+//				if(element.hasClass("header-wrapper header-app owned")) {
+//					try {
+//						app.setBackground((element + "").split("'")[1]);
+//					}catch(ArrayIndexOutOfBoundsException e){
+//						app.setBackground("https://steamcdn-a.akamaihd.net/steam/apps/271590/page_bg_generated_v6b.jpg?t=1546027132");
+//					}
+//				}
+//			}
 		} catch(IOException e) {
 			e.printStackTrace();
 		}

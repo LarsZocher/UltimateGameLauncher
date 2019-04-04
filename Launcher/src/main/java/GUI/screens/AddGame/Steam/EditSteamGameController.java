@@ -3,10 +3,17 @@ package GUI.screens.AddGame.Steam;
 import GUI.Menu;
 import GUI.css.CSSUtils;
 import GUI.localization.Language;
+import api.GameLauncher.AppTypes;
+import api.GameLauncher.Application;
 import api.GameLauncher.GameLauncher;
+import api.GameLauncher.Image.IconSize;
+import api.GameLauncher.Image.PathType;
+import api.GameLauncher.Image.TempImageData;
 import api.GameLauncher.Steam.DBSearchResult;
+import api.GameLauncher.Steam.Steam;
 import api.GameLauncher.Steam.SteamApp;
 import api.GameLauncher.Steam.SteamDB;
+import com.google.gson.Gson;
 import com.jfoenix.controls.*;
 import javafx.animation.*;
 import javafx.application.Platform;
@@ -22,6 +29,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -73,6 +81,8 @@ public class EditSteamGameController {
 	private HBox change;
 	
 	private EditSteamGame editSteamGame;
+	private Application application = new Application();
+	private TempImageData tid = new TempImageData();
 	private SteamApp app = new SteamApp();
 	private GameLauncher launcher;
 	private Timeline timeline;
@@ -101,7 +111,7 @@ public class EditSteamGameController {
 				next2.setText(Language.format(Menu.lang.getLanguage().ButtonReturn));
 			}
 		});
-		loadSteamApp(app);
+		loadSteamApp(application);
 		timeline = new Timeline(new KeyFrame(Duration.millis(50), ev -> {
 			if(name.getText().isEmpty() || appid.getText().isEmpty()) {
 				next.setDisable(true);
@@ -179,7 +189,8 @@ public class EditSteamGameController {
 	
 	
 	
-	public void loadSteamApp(SteamApp app) {
+	public void loadSteamApp(Application application) {
+		SteamApp app = application.getName()!=null?application.getContent(SteamApp.class):new SteamApp();
 		name.setText(app.getName());
 		appid.setText(app.getAppID());
 		args.setText(app.getArgs());
@@ -209,22 +220,34 @@ public class EditSteamGameController {
 			}
 		});
 		this.app = app;
+		this.application = application;
 		
 		Image header;
-		Image icon = null;
+		Image icon;
+		
 		if(!app.getAppID().isEmpty()) {
-			header = new Image(app.getPicture(), 225, 103, false, true, true);
-			try {
-				icon = new Image(new File(app.getIconPNGPath(launcher, false)).toURI().toURL().toExternalForm(), 103, 103, false, true, true);
-			} catch(MalformedURLException e) {
-				e.printStackTrace();
-			}
+			System.out.println(launcher.getImageManager().getHeaderURL(application));
+			System.out.println(launcher.getImageManager().getHeaderFile(application));
+			System.out.println(launcher.getImageManager().getIconPNG(application, IconSize.S_DEFAULT, PathType.FILE));
+			System.out.println(launcher.getImageManager().getIconPNG(application, IconSize.S_32, PathType.URL));
+			System.out.println(launcher.getImageManager().getIconICO(application, IconSize.S_64, PathType.FILE));
+			System.out.println(launcher.getImageManager().getIconICO(application, IconSize.S_128, PathType.URL));
+		}
+		
+		if(!app.getAppID().isEmpty()) {
+			header = new Image(launcher.getImageManager().getHeaderURL(application), 225, 103, false, true, true);
+			icon = new Image(launcher.getImageManager().getIconPNG(application, IconSize.S_DEFAULT, PathType.URL), 103, 103, false, true, true);
 		} else {
 			header = new Image("icon/loading_dark.png", 225, 103, false, true, true);
 			icon = new Image("icon/loading_dark.png", 103, 103, false, true, true);
 		}
 		pic_header.setImage(header);
 		pic_icon.setImage(icon);
+		
+	}
+	
+	private void setApplicationData(SteamApp app){
+		application.setContent(new JSONObject(new Gson().toJson(app)));
 	}
 	
 	public void setLauncher(GameLauncher launcher) {
@@ -250,9 +273,19 @@ public class EditSteamGameController {
 				app.setConfigName(app.getName());
 				CheckName();
 			}
+			
+			application.setDisplayName(app.getName());
+			application.setName(app.getConfigName());
+			application.setUniqueID("STEAM_"+app.getAppID());
+			application.setType(AppTypes.STEAM);
+			
+			JSONObject json = application.getRawContent();
+			json.put("content", new JSONObject(new Gson().toJson(app)));
+			application.setContent(json);
+			
 			stage.close();
 			timeline.stop();
-			editSteamGame.onContinue(app);
+			editSteamGame.onContinue(application);
 		}
 	}
 	
@@ -281,20 +314,17 @@ public class EditSteamGameController {
 				appid.setText(app.getAppID());
 				dev.setText(app.getDeveloper());
 				
+				application.setDisplayName(app.getName());
+				application.setName(app.getConfigName());
+				application.setUniqueID("STEAM_"+app.getAppID());
+				application.setType(AppTypes.STEAM);
+				JSONObject json = application.getRawContent();
+				json.put("content", new JSONObject(new Gson().toJson(app)));
+				application.setContent(json);
 				
-				Image header;
-				Image icon = null;
-				if(!app.getPicture().isEmpty()) {
-					header = new Image(app.getPicture(), 225, 103, false, true, true);
-					try {
-						icon = new Image(new File(app.getIconPNGPath(launcher, false)).toURI().toURL().toExternalForm(), 103, 103, false, true, true);
-					} catch(MalformedURLException e) {
-						e.printStackTrace();
-					}
-				} else {
-					header = new Image("icon/loading_dark.png", 225, 103, false, true, true);
-					icon = new Image("icon/loading_dark.png", 103, 103, false, true, true);
-				}
+				Image header = new Image(launcher.getImageManager().getHeaderURL(application), 225, 103, false, true, true);
+				Image icon = new Image(launcher.getImageManager().getIconPNG(application, IconSize.S_DEFAULT, PathType.URL), 103, 103, false, true, true);
+				
 				pic_header.setImage(header);
 				pic_icon.setImage(icon);
 				

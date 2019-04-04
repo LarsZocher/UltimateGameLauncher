@@ -3,6 +3,7 @@ package api.GameLauncher;
 import api.GameLauncher.BattleNET.BattleNET;
 import api.GameLauncher.BattleNET.BattleNETGameConfig;
 import api.GameLauncher.BattleNET.BattleNETGames;
+import api.GameLauncher.Image.ImageManager;
 import api.GameLauncher.Origin.Origin;
 import api.GameLauncher.Steam.Steam;
 import api.GameLauncher.Steam.SteamApp;
@@ -31,6 +32,7 @@ public class GameLauncher {
 	public Steam steam;
 	public BattleNET battleNET;
 	public Origin origin;
+	private ImageManager imageManager;
 	public String folderPath = "GameLauncher/";
 	public String gameLauncherName = "GameLauncher.jar";
 	public String jrePath = "jre/bin/";
@@ -70,6 +72,7 @@ public class GameLauncher {
 		steam = new Steam(this);
 		battleNET = new BattleNET(this);
 		origin = new Origin(this);
+		imageManager = new ImageManager(this);
 	}
 	
 	public void launch(SteamApp app){
@@ -299,6 +302,8 @@ public class GameLauncher {
 	public Origin getOrigin() {
 		return origin;
 	}
+	
+	public ImageManager getImageManager() {return imageManager;}
 	
 	public void start(String name) {
 	

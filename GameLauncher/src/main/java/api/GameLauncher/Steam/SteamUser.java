@@ -140,7 +140,6 @@ public class SteamUser {
 			}
 			app.setUser(username);
 			app.setConfigName(app.getName());
-			app.setConfigName(app.getConfigName());
 			launcher.getSteam().addApp(app);
 			System.out.println("[Steam] Added: "+app.getName()+"!");
 		}

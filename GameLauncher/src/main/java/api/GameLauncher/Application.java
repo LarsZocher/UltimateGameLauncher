@@ -56,6 +56,13 @@ public class Application {
 		return new Gson().fromJson(content.getJSONObject("content").toString(), type);
 	}
 	
+	public JSONObject getRawContent(){
+		if(this.content != null)
+			return this.content;
+		else
+			return new JSONObject();
+	}
+	
 	public void setContent(JSONObject content) {
 		this.content = content;
 	}

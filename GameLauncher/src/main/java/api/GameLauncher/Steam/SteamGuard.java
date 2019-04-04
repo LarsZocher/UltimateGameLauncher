@@ -53,9 +53,13 @@ public class SteamGuard {
 			writer.println("do");
 			writer.println("ret = wshShell.AppActivate(\"Steam Guard\")");
 			writer.println("If ret = True Then ");
-			writer.println("    WScript.Sleep 200");
+			writer.println("    WScript.Sleep 100");
+			writer.println("    wshShell.AppActivate(\"Steam Guard\")");
+			writer.println("    WScript.Sleep 100");
+			writer.println("    wshShell.AppActivate(\"Steam Guard\")");
 			writer.println("    WshShell.SendKeys \"" + getCode(user) + "\"");
 			writer.println("    WScript.Sleep 20");
+			writer.println("    wshShell.AppActivate(\"Steam Guard\")");
 			writer.println("    WshShell.SendKeys \"{ENTER}\"");
 			writer.println("    WScript.Sleep 20");
 			writer.println("    Wscript.Quit");

@@ -47,7 +47,14 @@ public class JsonConfig {
 		try {
 			if(!exists())
 				createFile();
-			config = new JSONObject(FileUtils.readFileToString(getFile(), "UTF-8"));
+			String json = "";
+			
+			BufferedReader reader = new BufferedReader(new FileReader(new File(filePath)));
+			String current;
+			while((current = reader.readLine()) != null){
+				json += current;
+			}
+			config = new JSONObject(json);
 		} catch(JSONException e) {
 		} catch(IOException e) {
 			e.printStackTrace();

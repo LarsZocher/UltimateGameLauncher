@@ -69,9 +69,9 @@ public abstract class EditSteamGame extends Application{
 		this.stage.show();
 	}
 	
-	public abstract void onContinue(SteamApp app);
+	public abstract void onContinue(api.GameLauncher.Application app);
 	
-	public void loadSteamApp(SteamApp app){
+	public void loadSteamApp(api.GameLauncher.Application app){
 		controller.loadSteamApp(app);
 	}
 	

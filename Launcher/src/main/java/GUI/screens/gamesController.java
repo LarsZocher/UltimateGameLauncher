@@ -35,6 +35,7 @@ import javafx.util.Callback;
 import org.controlsfx.control.GridCell;
 import org.controlsfx.control.GridView;
 
+import java.io.File;
 import java.util.*;
 
 
@@ -430,7 +431,7 @@ public class gamesController extends initMenuController {
 			case STEAM: {
 				SteamApp steamApp = launcher.getSteam().getApp(app.getName());
 				SteamUser user = new SteamUser(launcher, steamApp.getUser());
-				GameDisplay display = new GameDisplay(app.getDisplayName(), app, app.getHeaderPath(), true, true, true) {
+				GameDisplay display = new GameDisplay(app.getDisplayName(), app, launcher.getImageManager().getHeaderURL(app), true, true, true) {
 					@Override
 					public void onDelete() {
 						try {
@@ -459,7 +460,7 @@ public class gamesController extends initMenuController {
 					
 					@Override
 					public void onEdit() {
-						manager.editSteamGame(steamApp);
+						manager.editSteamGame(app);
 					}
 					
 					@Override
@@ -521,7 +522,7 @@ public class gamesController extends initMenuController {
 			}
 			case BATTLENET: {
 				BattleNETGames battleNETGames = BattleNETGames.getByConfigName(app.getName());
-				GameDisplay display = new GameDisplay(battleNETGames.getName(), app, "http://217.79.178.92/games/header/" + app.getUniqueID() + ".jpg", true, true, false) {
+				GameDisplay display = new GameDisplay(battleNETGames.getName(), app, launcher.getImageManager().getHeaderURL(app), true, true, false) {
 					@Override
 					public void onLink() {
 						GUI.screens.Notification.Notification note = new GUI.screens.Notification.Notification();
@@ -579,7 +580,7 @@ public class gamesController extends initMenuController {
 			}
 			case ORIGIN: {
 				OriginGame originGame = launcher.getOrigin().getGame(app.getName());
-				GameDisplay display = new GameDisplay(originGame.getName(), app, "http://217.79.178.92/games/header/" + app.getUniqueID() + ".jpg", true, true, false) {
+				GameDisplay display = new GameDisplay(originGame.getName(), app, launcher.getImageManager().getHeaderURL(app), true, true, false) {
 					@Override
 					public void onLink() {
 					

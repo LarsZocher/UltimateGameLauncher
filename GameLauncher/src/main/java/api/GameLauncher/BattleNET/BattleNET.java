@@ -60,7 +60,7 @@ public class BattleNET {
 			}
 		};
 		battleCfg.load();
-		JsonConfig.setDefault(battleCfg.get(), "path", settings.getLauncherPath() + "\\\\");
+		JsonConfig.setDefault(battleCfg.get(), "path", settings.getLauncherPath() + "\\");
 		battleCfg.save();
 		
 		users:

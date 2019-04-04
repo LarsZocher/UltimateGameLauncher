@@ -68,6 +68,8 @@ public abstract class GameDisplay {
 		if(isShown)
 			return;
 		
+		System.out.println("\""+picture+"\"");
+		
 		isShown = true;
 		Label label = new Label(name);
 		label.setFont(new Font(13));
