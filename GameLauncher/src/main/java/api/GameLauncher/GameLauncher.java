@@ -32,11 +32,12 @@ public class GameLauncher {
 	public Steam steam;
 	public BattleNET battleNET;
 	public Origin origin;
-	private ImageManager imageManager;
 	public String folderPath = "GameLauncher/";
 	public String gameLauncherName = "GameLauncher.jar";
 	public String jrePath = "jre/bin/";
 	public JsonConfig cfg;
+	private ImageManager imageManager;
+	private ShortcutManager shortcutManager;
 	
 	public GameLauncher() {
 		File dotbot = new File("DotBot.jar");
@@ -73,6 +74,7 @@ public class GameLauncher {
 		battleNET = new BattleNET(this);
 		origin = new Origin(this);
 		imageManager = new ImageManager(this);
+		shortcutManager = new ShortcutManager(this);
 	}
 	
 	public void launch(SteamApp app){
@@ -303,7 +305,9 @@ public class GameLauncher {
 		return origin;
 	}
 	
-	public ImageManager getImageManager() {return imageManager;}
+	public ImageManager getImageManager() { return imageManager; }
+	
+	public ShortcutManager getShortcutManager() { return shortcutManager; }
 	
 	public void start(String name) {
 	

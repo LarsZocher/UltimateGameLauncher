@@ -83,6 +83,10 @@ public class Application {
 		this.displayName = displayName;
 	}
 	
+	public String getNiceName() {
+		return getDisplayName().replaceAll("[^a-zA-Z0-9_\\s-]", "");
+	}
+	
 	public String getIconPath() {
 		return iconPath;
 	}

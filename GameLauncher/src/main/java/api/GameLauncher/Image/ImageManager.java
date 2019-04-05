@@ -18,6 +18,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -199,7 +200,11 @@ public class ImageManager {
 				
 				if(customFile.endsWith(".ico")) {
 					List<BufferedImage> images = ICODecoder.read(icoFile);
-					ImageIO.write(images.get(images.size() - 1), "png", pngFile);
+//					for(int i = 0; i<images.size(); i++){
+//						ImageIO.write(images.get(i), "png", new File(launcher.folderPath+"Games\\Icon\\"+app.getName()+i+".png"));
+//						System.out.println(i);
+//					}
+					ImageIO.write(images.get(0), "png", pngFile);
 				}
 				return pngFile.getAbsolutePath();
 			} catch(IOException e) {
@@ -229,7 +234,13 @@ public class ImageManager {
 					Files.copy(in, Paths.get(icoPath));
 					
 					List<BufferedImage> images = ICODecoder.read(icoFile);
-					ImageIO.write(images.get(images.size()-1), "png", new File(filePath));
+					images.sort(new Comparator<BufferedImage>() {
+						@Override
+						public int compare(BufferedImage o1, BufferedImage o2) {
+							return Integer.compare(o2.getWidth(), o1.getWidth());
+						}
+					});
+					ImageIO.write(images.get(0), "png", new File(filePath));
 				} catch(IOException e) {
 					System.out.println("Failed to download steam icon!");
 				}

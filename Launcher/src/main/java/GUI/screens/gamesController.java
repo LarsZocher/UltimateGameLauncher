@@ -14,6 +14,7 @@ import api.GameLauncher.Application;
 import api.GameLauncher.BattleNET.BattleNETGames;
 import api.GameLauncher.GameLauncher;
 import api.GameLauncher.Origin.OriginGame;
+import api.GameLauncher.ShortcutManager;
 import api.GameLauncher.Steam.SteamApp;
 import api.GameLauncher.Steam.SteamUser;
 import com.jfoenix.controls.JFXButton;
@@ -496,7 +497,7 @@ public class gamesController extends initMenuController {
 							});
 							note2.show();
 						} else {
-							steamApp.createShortcutOnDesktop(launcher);
+							launcher.getShortcutManager().createShortcut(app, ShortcutManager.getDesktopFolder());
 							note.show();
 						}
 					}
