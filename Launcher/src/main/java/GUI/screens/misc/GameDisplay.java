@@ -77,7 +77,7 @@ public abstract class GameDisplay {
 		label.setMinWidth(width);
 		label.setStyle("-fx-text-fill: WHITE");
 		
-		Image deleteIcon = new Image("icon/close.png", 22, 22, true, true);
+		Image deleteIcon = new Image("icon/close.png");
 		ImageView delete = new ImageView(deleteIcon);
 		delete.setFitHeight(22);
 		delete.setFitWidth(22);
@@ -89,7 +89,7 @@ public abstract class GameDisplay {
 			}
 		});
 		
-		Image editIcon = new Image("icon/edit.png", 22, 22, true, true);
+		Image editIcon = new Image("icon/edit.png");
 		ImageView edit = new ImageView(editIcon);
 		edit.setFitHeight(22);
 		edit.setFitWidth(22);
@@ -101,7 +101,7 @@ public abstract class GameDisplay {
 			}
 		});
 		
-		Image linkIcon = new Image("icon/link.png", 22, 22, true, true);
+		Image linkIcon = new Image("icon/link.png");
 		ImageView link = new ImageView(linkIcon);
 		link.setFitHeight(22);
 		link.setFitWidth(22);

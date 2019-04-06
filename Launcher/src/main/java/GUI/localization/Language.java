@@ -64,6 +64,7 @@ public class Language {
 	public String SteamUserToolTipAuthenticator = "NOT SET";
 	public String SteamUserLinkSuccessfulCreated = "NOT SET";
 	public String SteamUserDeleteUserConfirmation = "NOT SET";
+	public String SteamConfirmationEmpty = "NOT SET";
 	public String StatusLoggingIn = "NOT SET";
 	public String StatusFailed = "NOT SET";
 	public String StatusWaiting = "NOT SET";

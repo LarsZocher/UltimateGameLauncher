@@ -77,6 +77,7 @@ public class steamController extends initMenuController {
 	private ArrayList<confirmationController> confController = new ArrayList<>();
 	private int userCount = 0;
 	private SteamUser currentUser;
+	private long lastRefresh = 0;
 	
 	int pos = 0;
 	final int minPos = 0;
@@ -89,9 +90,6 @@ public class steamController extends initMenuController {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-//				devMode.setText(Language.format(Menu.lang.getLanguage().SteamDeveloperMode));
-//				steamPath.setPromptText(Language.format(Menu.lang.getLanguage().SteamPath));
-//				open.setText(Language.format(Menu.lang.getLanguage().ButtonOpenFile));
 				title.setText(Language.format(Menu.lang.getLanguage().TitleSteamUser));
 				refresh.setText(Language.format(Menu.lang.getLanguage().ButtonRefresh));
 			}
@@ -110,18 +108,20 @@ public class steamController extends initMenuController {
 				
 			}
 		});
-
-//		devMode.setSelected(launcher.getSteam().getDeveloperMode());
-//		steamPath.setText(launcher.getSteam().getPath());
-		forceRefreshList();
+		
 		new Thread(new Task<Void>() {
 			@Override
 			protected Void call() throws Exception {
-				reloadConfirmations();
+				forceRefreshList();
+				reloadConfirmations(true, true);
 				return null;
 			}
 		}).start();
 		
+		startTimers();
+	}
+	
+	private void startTimers(){
 		Timeline timeline = new Timeline(new KeyFrame(Duration.minutes(10), ev -> {
 			for(String value : launcher.getSteam().getSteamGuard().getSga().keySet()) {
 				SteamUser user = launcher.getSteam().getUser(value);
@@ -137,20 +137,51 @@ public class steamController extends initMenuController {
 		}));
 		timeline.setCycleCount(Animation.INDEFINITE);
 		timeline.play();
+		
+		Timeline timeline2 = new Timeline(new KeyFrame(Duration.seconds(30), ev -> {
+			new Thread(new Task<Void>() {
+				@Override
+				protected Void call() throws Exception {
+					if(isCurrentlyShown())
+						reloadConfirmations(false, false);
+					return null;
+				}
+			}).start();
+		}));
+		timeline2.setCycleCount(Animation.INDEFINITE);
+		timeline2.play();
 	}
 	
 	@FXML
 	public void reloadConfirmations(){
-		Platform.runLater(new Runnable() {
+		new Thread(new Task<Void>() {
 			@Override
-			public void run() {
-				steamController.this.confirmations.getChildren().clear();
-				Label loading = new Label("loading...");
-				loading.setFont(new Font(16));
-				loading.setStyle("-fx-text-fill: #d2d2d2");
-				steamController.this.confirmations.getChildren().add(loading);
+			protected Void call() throws Exception {
+				reloadConfirmations(true, true);
+				return null;
 			}
-		});
+		}).start();
+	}
+	
+	public void reloadConfirmations(boolean showLoading, boolean override){
+		if(!override){
+			if(System.currentTimeMillis()-15000<lastRefresh){
+				return;
+			}
+		}
+		lastRefresh = System.currentTimeMillis();
+		
+		if(showLoading)
+			Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+					steamController.this.confirmations.getChildren().clear();
+					Label loading = new Label("loading...");
+					loading.setFont(new Font(16));
+					loading.setStyle("-fx-text-fill: #d2d2d2");
+					steamController.this.confirmations.getChildren().add(loading);
+				}
+			});
 		List<Confirmation> confirmations = new ArrayList<>();
 		for(String username : launcher.getSteam().getUsernames()) {
 			if(launcher.getSteam().getUser(username).hasSteamGuard()) {
@@ -175,6 +206,20 @@ public class steamController extends initMenuController {
 						steamController.this.confirmations.getChildren().add(root);
 					} catch(IOException e) {
 						e.printStackTrace();
+					}
+				}
+				if(confirmations.size()==0){
+					if(steamController.this.confirmations.getChildren().size()!=0) {
+						Label loading = (Label) steamController.this.confirmations.getChildren().get(0);
+						loading.setText(Language.format(Menu.lang.getLanguage().SteamConfirmationEmpty));
+						loading.setFont(new Font(16));
+						loading.setStyle("-fx-text-fill: #d2d2d2");
+					}else{
+						steamController.this.confirmations.getChildren().clear();
+						Label loading = new Label(Language.format(Menu.lang.getLanguage().SteamConfirmationEmpty));
+						loading.setFont(new Font(16));
+						loading.setStyle("-fx-text-fill: #d2d2d2");
+						steamController.this.confirmations.getChildren().add(loading);
 					}
 				}
 			}

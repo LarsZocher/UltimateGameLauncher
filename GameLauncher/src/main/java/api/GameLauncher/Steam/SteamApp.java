@@ -1,22 +1,6 @@
 package api.GameLauncher.Steam;
 
 import api.GameLauncher.Content;
-import api.GameLauncher.GameLauncher;
-import api.GameLauncher.Image.IconSize;
-import api.GameLauncher.Image.PathType;
-import mslinks.ShellLink;
-import net.sf.image4j.codec.ico.ICODecoder;
-import net.sf.image4j.codec.ico.ICOEncoder;
-
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.List;
 
 /**

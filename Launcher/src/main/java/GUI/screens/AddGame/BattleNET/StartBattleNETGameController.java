@@ -159,7 +159,7 @@ public class StartBattleNETGameController extends initController {
 						@Override
 						public void onClick(BattleNETUser user) {
 							launcher.getBattleNET().changeUser(user);
-							launcher.launch(app);
+							launcher.getBattleNET().launch(app.getName());
 							stage.hide();
 						}
 						
@@ -210,7 +210,7 @@ public class StartBattleNETGameController extends initController {
 			@Override
 			public void handle(ActionEvent event) {
 				launcher.getBattleNET().changeUser(items.get(listIndex).getUser());
-				launcher.launch(app);
+				launcher.getBattleNET().launch(app.getName());
 				stage.hide();
 			}
 		});
