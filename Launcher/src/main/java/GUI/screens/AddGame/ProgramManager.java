@@ -5,6 +5,7 @@ import GUI.screens.AddGame.Steam.EditSteamGame;
 import GUI.screens.AddGame.Steam.NewSteamUser;
 import GUI.screens.Notification.*;
 import api.GameLauncher.AppTypes;
+import api.GameLauncher.Application;
 import api.GameLauncher.BattleNET.BattleNETGames;
 import api.GameLauncher.GameLauncher;
 import api.GameLauncher.Steam.SteamApp;
@@ -86,9 +87,9 @@ public abstract class ProgramManager {
 	private void newSteamGame(){
 		EditSteamGame editSteamGame = new EditSteamGame(launcher) {
 			@Override
-			public void onContinue(SteamApp app) {
+			public void onContinue(Application app) {
 				launcher.getSteam().addApp(app);
-				onSuccessfullyCreated(app);
+				onSuccessfullyCreated(app.getContent(SteamApp.class));
 			}
 		};
 		try {
@@ -98,12 +99,12 @@ public abstract class ProgramManager {
 		}
 	}
 	
-	public void editSteamGame(SteamApp app){
+	public void editSteamGame(Application app){
 		EditSteamGame editSteamGame = new EditSteamGame(launcher) {
 			@Override
-			public void onContinue(SteamApp app) {
+			public void onContinue(Application app) {
 				launcher.getSteam().addApp(app);
-				onSuccessfullyCreated(app);
+				onSuccessfullyCreated(app.getContent(SteamApp.class));
 			}
 		};
 		try {

@@ -14,6 +14,7 @@ import api.GameLauncher.Application;
 import api.GameLauncher.BattleNET.BattleNETGames;
 import api.GameLauncher.GameLauncher;
 import api.GameLauncher.Origin.OriginGame;
+import api.GameLauncher.ShortcutManager;
 import api.GameLauncher.Steam.SteamApp;
 import api.GameLauncher.Steam.SteamUser;
 import com.jfoenix.controls.JFXButton;
@@ -35,6 +36,7 @@ import javafx.util.Callback;
 import org.controlsfx.control.GridCell;
 import org.controlsfx.control.GridView;
 
+import java.io.File;
 import java.util.*;
 
 
@@ -430,7 +432,7 @@ public class gamesController extends initMenuController {
 			case STEAM: {
 				SteamApp steamApp = launcher.getSteam().getApp(app.getName());
 				SteamUser user = new SteamUser(launcher, steamApp.getUser());
-				GameDisplay display = new GameDisplay(app.getDisplayName(), app, app.getHeaderPath(), true, true, true) {
+				GameDisplay display = new GameDisplay(app.getDisplayName(), app, launcher.getImageManager().getHeaderURL(app), true, true, true) {
 					@Override
 					public void onDelete() {
 						try {
@@ -459,7 +461,7 @@ public class gamesController extends initMenuController {
 					
 					@Override
 					public void onEdit() {
-						manager.editSteamGame(steamApp);
+						manager.editSteamGame(app);
 					}
 					
 					@Override
@@ -474,7 +476,7 @@ public class gamesController extends initMenuController {
 							
 							}
 						});
-						if(steamApp.hasAlreadyAShortcut()) {
+						if(launcher.getShortcutManager().hasShortcut(app)) {
 							GUI.screens.Notification.Notification note2 = new GUI.screens.Notification.Notification();
 							note2.setText("Es wurde bereits eine Verknüpfung von diesem Spiel gefunden! Möchten Sie diese ersetzten?");
 							note2.setTitle("Warnung");
@@ -482,20 +484,20 @@ public class gamesController extends initMenuController {
 							note2.addOption(ButtonOption.YES, ButtonAlignment.RIGHT, new ButtonCallback() {
 								@Override
 								public void onClick() {
-									steamApp.replaceShortcut(steamApp.getOldShortcutFile().getPath(), launcher);
+									launcher.getShortcutManager().replaceShortcut(app, launcher.getShortcutManager().getOldShortcutFile(app).getAbsolutePath(), false);
 									note.show();
 								}
 							});
 							note2.addOption(ButtonOption.NO, ButtonAlignment.RIGHT, new ButtonCallback() {
 								@Override
 								public void onClick() {
-									steamApp.createShortcutOnDesktop(launcher);
+									launcher.getShortcutManager().createShortcut(app, ShortcutManager.getDesktopFolder());
 									note.show();
 								}
 							});
 							note2.show();
 						} else {
-							steamApp.createShortcutOnDesktop(launcher);
+							launcher.getShortcutManager().createShortcut(app, ShortcutManager.getDesktopFolder());
 							note.show();
 						}
 					}
@@ -521,7 +523,7 @@ public class gamesController extends initMenuController {
 			}
 			case BATTLENET: {
 				BattleNETGames battleNETGames = BattleNETGames.getByConfigName(app.getName());
-				GameDisplay display = new GameDisplay(battleNETGames.getName(), app, "http://217.79.178.92/games/header/" + app.getUniqueID() + ".jpg", true, true, false) {
+				GameDisplay display = new GameDisplay(battleNETGames.getName(), app, launcher.getImageManager().getHeaderURL(app), true, true, false) {
 					@Override
 					public void onLink() {
 						GUI.screens.Notification.Notification note = new GUI.screens.Notification.Notification();
@@ -534,7 +536,7 @@ public class gamesController extends initMenuController {
 							
 							}
 						});
-						if(launcher.getBattleNET().hasAlreadyAShortcut(battleNETGames)) {
+						if(launcher.getShortcutManager().hasShortcut(app)) {
 							GUI.screens.Notification.Notification note2 = new GUI.screens.Notification.Notification();
 							note2.setText("Es wurde bereits eine Verknüpfung von diesem Spiel gefunden! Möchten Sie diese ersetzten?");
 							note2.setTitle("Warnung");
@@ -542,20 +544,20 @@ public class gamesController extends initMenuController {
 							note2.addOption(ButtonOption.YES, ButtonAlignment.RIGHT, new ButtonCallback() {
 								@Override
 								public void onClick() {
-									launcher.getBattleNET().replaceShortcut(launcher, battleNETGames);
+									launcher.getShortcutManager().replaceShortcut(app, launcher.getShortcutManager().getOldShortcutFile(app).getAbsolutePath(), true);
 									note.show();
 								}
 							});
 							note2.addOption(ButtonOption.NO, ButtonAlignment.RIGHT, new ButtonCallback() {
 								@Override
 								public void onClick() {
-									launcher.getBattleNET().createShortcutOnDesktop(launcher, battleNETGames);
+									launcher.getShortcutManager().createShortcut(app, ShortcutManager.getDesktopFolder());
 									note.show();
 								}
 							});
 							note2.show();
 						} else {
-							launcher.getBattleNET().createShortcutOnDesktop(launcher, battleNETGames);
+							launcher.getShortcutManager().createShortcut(app, ShortcutManager.getDesktopFolder());
 							note.show();
 						}
 					}
@@ -579,10 +581,43 @@ public class gamesController extends initMenuController {
 			}
 			case ORIGIN: {
 				OriginGame originGame = launcher.getOrigin().getGame(app.getName());
-				GameDisplay display = new GameDisplay(originGame.getName(), app, "http://217.79.178.92/games/header/" + app.getUniqueID() + ".jpg", true, true, false) {
+				GameDisplay display = new GameDisplay(originGame.getName(), app, launcher.getImageManager().getHeaderURL(app), true, true, false) {
 					@Override
 					public void onLink() {
-					
+						GUI.screens.Notification.Notification note = new GUI.screens.Notification.Notification();
+						note.setText("Die Desktopverknüpfung wurde erfolgreich erstellt!");
+						note.setTitle("Information");
+						note.setIcon(NotificationIcon.INFO);
+						note.addOption(ButtonOption.OK, ButtonAlignment.RIGHT, new ButtonCallback() {
+							@Override
+							public void onClick() {
+							
+							}
+						});
+						if(launcher.getShortcutManager().hasShortcut(app)) {
+							GUI.screens.Notification.Notification note2 = new GUI.screens.Notification.Notification();
+							note2.setText("Es wurde bereits eine Verknüpfung von diesem Spiel gefunden! Möchten Sie diese ersetzten?");
+							note2.setTitle("Warnung");
+							note2.setIcon(NotificationIcon.QUESTION);
+							note2.addOption(ButtonOption.YES, ButtonAlignment.RIGHT, new ButtonCallback() {
+								@Override
+								public void onClick() {
+									launcher.getShortcutManager().replaceShortcut(app, launcher.getShortcutManager().getOldShortcutFile(app).getAbsolutePath(), true);
+									note.show();
+								}
+							});
+							note2.addOption(ButtonOption.NO, ButtonAlignment.RIGHT, new ButtonCallback() {
+								@Override
+								public void onClick() {
+									launcher.getShortcutManager().createShortcut(app, ShortcutManager.getDesktopFolder());
+									note.show();
+								}
+							});
+							note2.show();
+						} else {
+							launcher.getShortcutManager().createShortcut(app, ShortcutManager.getDesktopFolder());
+							note.show();
+						}
 					}
 					
 					@Override

@@ -5,12 +5,14 @@ import api.GameLauncher.Application;
 import api.GameLauncher.GameLauncher;
 import api.GameLauncher.Utils.JsonConfig;
 import api.GameLauncher.Utils.JsonPartManager;
+import api.GameLauncher.Utils.WinRegistry;
 import com.google.gson.Gson;
 import org.apache.commons.io.FileUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -164,14 +166,11 @@ public class Steam {
 		return users;
 	}
 	
-	public void addApp(SteamApp app) {
-		this.launcher.cfg.load();
-		
+	public void addApp(SteamApp app){
 		Application application = null;
 		for(Application apps : launcher.getApplications()){
 			if(apps.getName().equalsIgnoreCase(app.getConfigName())){
 				application = apps;
-				removeApp(app.getConfigName());
 			}
 		}
 		
@@ -183,17 +182,30 @@ public class Steam {
 			application.setCreated(System.currentTimeMillis());
 			application.setUniqueID("STEAM_"+app.getAppID());
 			application.setDefaultHeader(true);
-			application.setHeaderPath(app.getPicture());
+			application.setHeaderPath("default");
 			application.setDefaultIcon(true);
-			application.setIconPath(app.getClientIcon());
+			application.setIconPath("default");
+		}
+		JSONObject json = application.getRawContent();
+		json.put("content", new JSONObject(new Gson().toJson(app)));
+		application.setContent(json);
+		
+		addApp(application);
+	}
+	
+	public void addApp(Application app) {
+		this.launcher.cfg.load();
+		
+		for(Application apps : launcher.getApplications()){
+			if(apps.getName().equalsIgnoreCase(app.getName())){
+				removeApp(app.getName());
+			}
 		}
 		
 		JSONArray applications = JsonConfig.getJSONArray(launcher.cfg.getConfig(),"Applications");
-		JSONObject appJson = new JSONObject(new Gson().toJson(application));
-		appJson.put("content", new JSONObject(new Gson().toJson(app)));
-		
+		JSONObject appJson = new JSONObject(new Gson().toJson(app));
+		appJson.put("content", new JSONObject(new Gson().toJson(app.getContent(SteamApp.class))));
 		applications.put(appJson);
-		
 		launcher.cfg.getConfig().put("Applications", applications);
 		
 		this.launcher.cfg.save();
@@ -214,13 +226,6 @@ public class Steam {
 		}
 		
 		return new Gson().fromJson(applications.getJSONObject(id).getJSONObject("content").toString(), SteamApp.class);
-	}
-	
-	public void checkCompatibility(SteamApp app) {
-		SteamApp newApp = SteamDB.getSteamAppByID(app.getAppID());
-		app.setPicture(newApp.getPicture());
-		app.setBackground(newApp.getBackground());
-		addApp(app);
 	}
 	
 	public void removeApp(String name) {
@@ -430,17 +435,13 @@ public class Steam {
 	}
 	
 	public String findDirectory(){
-		List<String> defaults = new ArrayList<>();
-		defaults.add("Program Files (x86)\\Steam\\");
-		defaults.add("Program Files\\Steam\\");
-		String mustContain = "Steam.exe";
-		for(File drive : File.listRoots()){
-			for(String path : defaults){
-				File file = new File(drive.getPath()+path+mustContain);
-				if(file.exists()){
-					return drive.getPath()+path;
-				}
-			}
+		try {
+			String path = WinRegistry.readString(WinRegistry.HKEY_CURRENT_USER, "Software\\Valve\\Steam", "SteamPath");
+			return path.replaceAll("/", "\\\\")+"\\";
+		} catch(IllegalAccessException e) {
+			e.printStackTrace();
+		} catch(InvocationTargetException e) {
+			e.printStackTrace();
 		}
 		return "";
 	}

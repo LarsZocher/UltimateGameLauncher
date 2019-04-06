@@ -1,0 +1,26 @@
+<component name="ArtifactManager">
+  <artifact build-on-make="true" name="Launcher">
+    <output-path>D:/Java/GameLauncher</output-path>
+    <root id="root">
+      <element id="directory" name="libs">
+        <element id="library" level="project" name="Maven: com.google.guava:guava:19.0" />
+        <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.8.0" />
+        <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.8.10" />
+        <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.8.11.3" />
+        <element id="library" level="project" name="Maven: com.squareup.okhttp3:okhttp:3.4.1" />
+        <element id="library" level="project" name="Maven: com.google.code.gson:gson:2.8.1" />
+        <element id="library" level="project" name="Maven: com.squareup.okio:okio:1.9.0" />
+        <element id="library" level="project" name="Maven: commons-codec:commons-codec:1.10" />
+        <element id="library" level="module" name="Maven: org.bukkit:bukkit:1.0" module-name="DotBotGameLauncher" />
+        <element id="library" level="project" name="Maven: org.json:json:20180813" />
+        <element id="library" level="project" name="Maven: com.jfoenix:jfoenix:8.0.7" />
+        <element id="library" level="module" name="Maven: image4j:image4j:1.0" module-name="DotBotGameLauncher" />
+        <element id="library" level="module" name="Maven: mslinks:mslinks:1.0" module-name="DotBotGameLauncher" />
+        <element id="library" level="project" name="Maven: org.jsoup:jsoup:1.11.3" />
+      </element>
+      <element id="archive" name="Launcher.jar">
+        <element id="module-output" name="DotBotLauncher" />
+      </element>
+    </root>
+  </artifact>
+</component>

@@ -3,6 +3,7 @@ package api.GameLauncher;
 import api.GameLauncher.BattleNET.BattleNET;
 import api.GameLauncher.BattleNET.BattleNETGameConfig;
 import api.GameLauncher.BattleNET.BattleNETGames;
+import api.GameLauncher.Image.ImageManager;
 import api.GameLauncher.Origin.Origin;
 import api.GameLauncher.Steam.Steam;
 import api.GameLauncher.Steam.SteamApp;
@@ -35,6 +36,8 @@ public class GameLauncher {
 	public String gameLauncherName = "GameLauncher.jar";
 	public String jrePath = "jre/bin/";
 	public JsonConfig cfg;
+	private ImageManager imageManager;
+	private ShortcutManager shortcutManager;
 	
 	public GameLauncher() {
 		File dotbot = new File("DotBot.jar");
@@ -70,6 +73,8 @@ public class GameLauncher {
 		steam = new Steam(this);
 		battleNET = new BattleNET(this);
 		origin = new Origin(this);
+		imageManager = new ImageManager(this);
+		shortcutManager = new ShortcutManager(this);
 	}
 	
 	public void launch(SteamApp app){
@@ -100,6 +105,10 @@ public class GameLauncher {
 				break;
 			}
 		}
+	}
+	
+	public void launch(Application application){
+		launchByConfigName(application.getName());
 	}
 	
 	public void launchByNameToSay(String name){
@@ -281,7 +290,6 @@ public class GameLauncher {
 				case "search": {
 					System.out.print("Name: ");
 					String name = s.nextLine();
-					System.out.println(SteamDB.getSteamAppByName(name).hasAlreadyAShortcut());
 					break;
 				}
 			}
@@ -299,6 +307,10 @@ public class GameLauncher {
 	public Origin getOrigin() {
 		return origin;
 	}
+	
+	public ImageManager getImageManager() { return imageManager; }
+	
+	public ShortcutManager getShortcutManager() { return shortcutManager; }
 	
 	public void start(String name) {
 	

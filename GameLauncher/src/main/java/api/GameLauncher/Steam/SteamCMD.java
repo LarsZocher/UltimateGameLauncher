@@ -98,7 +98,7 @@ public class SteamCMD {
 			VDFNode common = node.getSubNode(id+"").getSubNode("common");
 			SteamApp app = new SteamApp();
 			app.setAppID(id+"");
-			app.setAppType(common.getString("type"));
+			app.setType(common.getString("type"));
 			app.setName(common.getString("name"));
 			if(common.containsKey("oslist"))
 				app.setSupportedSystems(common.getString("oslist"));
@@ -122,21 +122,14 @@ public class SteamCMD {
 						}
 					}
 				}
-			if(common.containsKey("steam_release_date"))
-				app.setReleaseDate(new Date(common.getLong("steam_release_date") * 1000).toString());
-			else
-				app.setReleaseDate(new Date(1000).toString());
-			app.setPicture("https://steamcdn-a.akamaihd.net/steam/apps/"+app.getAppID()+"/header.jpg");
-			app.setBackground("https://steamcdn-a.akamaihd.net/steam/apps/"+app.getAppID()+"/page_bg_generated_v6b.jpg");
 			if(common.containsKey("icon"))
-				app.setIcon("http://media.steampowered.com/steamcommunity/public/images/apps/"+app.getAppID()+"/"+common.getString("icon")+".jpg");
+				app.setIcon(common.getString("icon"));
 			if(common.containsKey("clienticon"))
-				app.setClientIcon("http://media.steampowered.com/steamcommunity/public/images/apps/"+app.getAppID()+"/"+common.getString("clienticon")+".ico");
+				app.setClientIcon(common.getString("clienticon"));
 			else
 				app.setClientIcon(app.getIcon());
 			app.setCreationDate(System.currentTimeMillis());
 			app.setConfigName(app.getName());
-			app.setConfigName(app.getConfigName());
 			apps.put(id, app);
 		}
 		return apps;
