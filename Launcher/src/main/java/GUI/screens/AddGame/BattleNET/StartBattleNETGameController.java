@@ -7,9 +7,12 @@ import GUI.screens.misc.initController;
 import GUI.screens.misc.initMenuController;
 import api.GameLauncher.Application;
 import api.GameLauncher.BattleNET.BattleNET;
+import api.GameLauncher.BattleNET.BattleNETGameConfig;
 import api.GameLauncher.BattleNET.BattleNETGames;
 import api.GameLauncher.BattleNET.BattleNETUser;
 import api.GameLauncher.GameLauncher;
+import api.GameLauncher.Image.IconSize;
+import api.GameLauncher.Image.PathType;
 import api.GameLauncher.Utils.JsonConfig;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
@@ -70,7 +73,7 @@ public class StartBattleNETGameController extends initController {
 	private double currentWitdhMultiplierer = 1;
 	private int timerIndex = 0;
 	private String currentUser;
-	private BattleNETGames app;
+	private Application app;
 	private List<BattleNETUserItem> items = new ArrayList<>();
 	private int listIndex = 0;
 	private long startTime;
@@ -80,7 +83,6 @@ public class StartBattleNETGameController extends initController {
 	@Override
 	public void init(Stage stage) {
 		super.init(stage);
-		this.launcher = new GameLauncher();
 		this.list.setSpacing(10);
 		this.startTime = System.currentTimeMillis() + 1000;
 		
@@ -139,6 +141,10 @@ public class StartBattleNETGameController extends initController {
 		});
 	}
 	
+	public void setLauncher(GameLauncher launcher) {
+		this.launcher = launcher;
+	}
+	
 	public void loadUsers(){
 		Platform.runLater(new Runnable() {
 			@Override
@@ -153,7 +159,7 @@ public class StartBattleNETGameController extends initController {
 						@Override
 						public void onClick(BattleNETUser user) {
 							launcher.getBattleNET().changeUser(user);
-							launcher.getBattleNET().launch(app);
+							launcher.launch(app);
 							stage.hide();
 						}
 						
@@ -182,12 +188,12 @@ public class StartBattleNETGameController extends initController {
 		});
 	}
 	
-	public void setApp(BattleNETGames app){
+	public void setApp(Application app){
 		this.app = app;
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				icon.setImage(new Image(launcher.getBattleNET().getIconAsURL128(app)));
+				icon.setImage(new Image(launcher.getImageManager().getIconPNG(app, IconSize.S_128, PathType.URL)));
 			}
 		});
 	}
@@ -204,7 +210,7 @@ public class StartBattleNETGameController extends initController {
 			@Override
 			public void handle(ActionEvent event) {
 				launcher.getBattleNET().changeUser(items.get(listIndex).getUser());
-				launcher.getBattleNET().launch(app);
+				launcher.launch(app);
 				stage.hide();
 			}
 		});

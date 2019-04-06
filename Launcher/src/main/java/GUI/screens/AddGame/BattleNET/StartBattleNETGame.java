@@ -26,9 +26,11 @@ public class StartBattleNETGame extends Application {
 	
 	private Stage stage;
 	private StartBattleNETGameController controller;
+	private GameLauncher launcher;
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		this.launcher = new GameLauncher();
 		String game = getParameters().getRaw().get(0);
 		
 		FXMLLoader loader = new FXMLLoader(EditBattleNETGame.class.getClassLoader().getResource("fxml/StartBattleNETGame.fxml"));
@@ -53,8 +55,9 @@ public class StartBattleNETGame extends Application {
 		scene.getStylesheets().add(Menu.styleSheet);
 		
 		controller = loader.getController();
+		controller.setLauncher(launcher);
 		controller.init(stage);
-		controller.setApp(BattleNETGames.getByConfigName(game));
+		controller.setApp(launcher.getApplication(game));
 		
 		this.stage.setScene(scene);
 		

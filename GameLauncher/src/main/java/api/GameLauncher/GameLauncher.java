@@ -107,6 +107,10 @@ public class GameLauncher {
 		}
 	}
 	
+	public void launch(Application application){
+		launchByConfigName(application.getName());
+	}
+	
 	public void launchByNameToSay(String name){
 		List<nameInformation> names = new ArrayList<>();
 		for(String s : getSteam().getApps()) {
@@ -286,7 +290,6 @@ public class GameLauncher {
 				case "search": {
 					System.out.print("Name: ");
 					String name = s.nextLine();
-					System.out.println(SteamDB.getSteamAppByName(name).hasAlreadyAShortcut());
 					break;
 				}
 			}
