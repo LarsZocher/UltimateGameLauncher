@@ -16,6 +16,8 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -40,6 +42,8 @@ public class Menu extends Application{
 	public JsonConfig jsonConfig;
 	public static String styleSheet = "css/DarkTheme.css";
 	public static LanguageManager lang;
+	public static StackPane root;
+	public static AnchorPane rootAnchor;
 	
 	private double xOffset = 0;
 	private double yOffset = 0;
@@ -127,6 +131,8 @@ public class Menu extends Application{
 		
 		mainController = loader.getController();
 		mainController.init(this);
+		this.root = mainController.getRootStack();
+		this.rootAnchor = mainController.getRootAnchorPane();
 		
 		this.stage.setScene(scene);
 		this.stage.initStyle(StageStyle.UNDECORATED);

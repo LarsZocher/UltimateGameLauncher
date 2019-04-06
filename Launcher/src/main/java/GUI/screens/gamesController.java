@@ -4,6 +4,7 @@ import GUI.Menu;
 import GUI.css.CSSUtils;
 import GUI.localization.Language;
 import GUI.screens.AddGame.ProgramManager;
+import GUI.screens.Alert.AlertManager;
 import GUI.screens.Notification.ButtonAlignment;
 import GUI.screens.Notification.ButtonCallback;
 import GUI.screens.Notification.ButtonOption;
@@ -653,7 +654,26 @@ public class gamesController extends initMenuController {
 	
 	@FXML
 	void onAdd() {
-		this.manager.createNew();
+		//this.manager.createNew();
+		new Thread(new Task<Void>() {
+			@Override
+			protected Void call() throws Exception {
+				Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+						AlertManager.showSimpleAlert(Menu.root, Menu.rootAnchor, "Willst du wirklich fortfahren?");
+					}
+				});
+				Thread.sleep(1000);
+				Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+						AlertManager.showSimpleAlert(Menu.root, Menu.rootAnchor, "Willst du wirklich fortfahren?asfafkllllllllllllllllllllllkadfjbabnfbdbmasfbmbaf\njidaflaffahusdhulflksa");
+					}
+				});
+				return null;
+			}
+		}).start();
 	}
 	
 	@FXML

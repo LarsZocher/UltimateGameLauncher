@@ -9,9 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,6 +36,10 @@ public class menuController extends initMenuController {
 	private HBox infos;
 	@FXML
 	private BorderPane borderpane;
+	@FXML
+	private AnchorPane anchorPane;
+	@FXML
+	private StackPane rootStack;
 	
 	
 	private ArrayList<MenuButton> buttons;
@@ -111,6 +113,14 @@ public class menuController extends initMenuController {
 			}
 		}
 		return buttons.get(0);
+	}
+	
+	public StackPane getRootStack(){
+		return rootStack;
+	}
+	
+	public AnchorPane getRootAnchorPane(){
+		return anchorPane;
 	}
 	
 	private HashMap<String, Parent> roots = new HashMap<>();
