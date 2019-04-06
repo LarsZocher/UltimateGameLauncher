@@ -63,12 +63,7 @@ public class Origin {
 							break;
 						}
 					}
-					for(String name : launcher.getApplicationsNames()) {
-						if(!name.equalsIgnoreCase(originGame.getConfigName())) {
-							addGame(originGame);
-							break;
-						}
-					}
+					addGame(originGame);
 				}
 			}
 		}
@@ -100,6 +95,9 @@ public class Origin {
 			application.setType(AppTypes.ORIGIN);
 			application.setUniqueID("ORIGIN_"+game.getProductID());
 			application.setCreated(System.currentTimeMillis());
+			application.setDisplayName(game.getName());
+			application.setHeaderPath("default");
+			application.setIconPath("default");
 		}
 		
 		JSONArray applications = JsonConfig.getJSONArray(launcher.cfg.getConfig(), "Applications");

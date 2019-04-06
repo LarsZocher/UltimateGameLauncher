@@ -200,10 +200,12 @@ public class ImageManager {
 				
 				if(customFile.endsWith(".ico")) {
 					List<BufferedImage> images = ICODecoder.read(icoFile);
-//					for(int i = 0; i<images.size(); i++){
-//						ImageIO.write(images.get(i), "png", new File(launcher.folderPath+"Games\\Icon\\"+app.getName()+i+".png"));
-//						System.out.println(i);
-//					}
+					images.sort(new Comparator<BufferedImage>() {
+						@Override
+						public int compare(BufferedImage o1, BufferedImage o2) {
+							return Integer.compare(o2.getWidth(), o1.getWidth());
+						}
+					});
 					ImageIO.write(images.get(0), "png", pngFile);
 				}
 				return pngFile.getAbsolutePath();
@@ -248,7 +250,7 @@ public class ImageManager {
 			}
 			case ORIGIN:
 			case BATTLENET:{
-				try(InputStream in = new URL("http://217.79.178.92/games/icon/"+app.getName()+".png").openStream()) {
+				try(InputStream in = new URL("http://217.79.178.92/games/icon/"+app.getUniqueID()+".png").openStream()) {
 					File pngFile = new File(filePath);
 					if(pngFile.exists())
 						pngFile.delete();

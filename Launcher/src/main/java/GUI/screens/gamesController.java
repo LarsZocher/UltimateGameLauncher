@@ -476,7 +476,7 @@ public class gamesController extends initMenuController {
 							
 							}
 						});
-						if(steamApp.hasAlreadyAShortcut()) {
+						if(launcher.getShortcutManager().hasShortcut(app)) {
 							GUI.screens.Notification.Notification note2 = new GUI.screens.Notification.Notification();
 							note2.setText("Es wurde bereits eine Verknüpfung von diesem Spiel gefunden! Möchten Sie diese ersetzten?");
 							note2.setTitle("Warnung");
@@ -484,14 +484,14 @@ public class gamesController extends initMenuController {
 							note2.addOption(ButtonOption.YES, ButtonAlignment.RIGHT, new ButtonCallback() {
 								@Override
 								public void onClick() {
-									steamApp.replaceShortcut(steamApp.getOldShortcutFile().getPath(), launcher);
+									launcher.getShortcutManager().replaceShortcut(app, launcher.getShortcutManager().getOldShortcutFile(app).getAbsolutePath(), false);
 									note.show();
 								}
 							});
 							note2.addOption(ButtonOption.NO, ButtonAlignment.RIGHT, new ButtonCallback() {
 								@Override
 								public void onClick() {
-									steamApp.createShortcutOnDesktop(launcher);
+									launcher.getShortcutManager().createShortcut(app, ShortcutManager.getDesktopFolder());
 									note.show();
 								}
 							});
@@ -536,7 +536,7 @@ public class gamesController extends initMenuController {
 							
 							}
 						});
-						if(launcher.getBattleNET().hasAlreadyAShortcut(battleNETGames)) {
+						if(launcher.getShortcutManager().hasShortcut(app)) {
 							GUI.screens.Notification.Notification note2 = new GUI.screens.Notification.Notification();
 							note2.setText("Es wurde bereits eine Verknüpfung von diesem Spiel gefunden! Möchten Sie diese ersetzten?");
 							note2.setTitle("Warnung");
@@ -544,20 +544,20 @@ public class gamesController extends initMenuController {
 							note2.addOption(ButtonOption.YES, ButtonAlignment.RIGHT, new ButtonCallback() {
 								@Override
 								public void onClick() {
-									launcher.getBattleNET().replaceShortcut(launcher, battleNETGames);
+									launcher.getShortcutManager().replaceShortcut(app, launcher.getShortcutManager().getOldShortcutFile(app).getAbsolutePath(), true);
 									note.show();
 								}
 							});
 							note2.addOption(ButtonOption.NO, ButtonAlignment.RIGHT, new ButtonCallback() {
 								@Override
 								public void onClick() {
-									launcher.getBattleNET().createShortcutOnDesktop(launcher, battleNETGames);
+									launcher.getShortcutManager().createShortcut(app, ShortcutManager.getDesktopFolder());
 									note.show();
 								}
 							});
 							note2.show();
 						} else {
-							launcher.getBattleNET().createShortcutOnDesktop(launcher, battleNETGames);
+							launcher.getShortcutManager().createShortcut(app, ShortcutManager.getDesktopFolder());
 							note.show();
 						}
 					}
@@ -584,7 +584,40 @@ public class gamesController extends initMenuController {
 				GameDisplay display = new GameDisplay(originGame.getName(), app, launcher.getImageManager().getHeaderURL(app), true, true, false) {
 					@Override
 					public void onLink() {
-					
+						GUI.screens.Notification.Notification note = new GUI.screens.Notification.Notification();
+						note.setText("Die Desktopverknüpfung wurde erfolgreich erstellt!");
+						note.setTitle("Information");
+						note.setIcon(NotificationIcon.INFO);
+						note.addOption(ButtonOption.OK, ButtonAlignment.RIGHT, new ButtonCallback() {
+							@Override
+							public void onClick() {
+							
+							}
+						});
+						if(launcher.getShortcutManager().hasShortcut(app)) {
+							GUI.screens.Notification.Notification note2 = new GUI.screens.Notification.Notification();
+							note2.setText("Es wurde bereits eine Verknüpfung von diesem Spiel gefunden! Möchten Sie diese ersetzten?");
+							note2.setTitle("Warnung");
+							note2.setIcon(NotificationIcon.QUESTION);
+							note2.addOption(ButtonOption.YES, ButtonAlignment.RIGHT, new ButtonCallback() {
+								@Override
+								public void onClick() {
+									launcher.getShortcutManager().replaceShortcut(app, launcher.getShortcutManager().getOldShortcutFile(app).getAbsolutePath(), true);
+									note.show();
+								}
+							});
+							note2.addOption(ButtonOption.NO, ButtonAlignment.RIGHT, new ButtonCallback() {
+								@Override
+								public void onClick() {
+									launcher.getShortcutManager().createShortcut(app, ShortcutManager.getDesktopFolder());
+									note.show();
+								}
+							});
+							note2.show();
+						} else {
+							launcher.getShortcutManager().createShortcut(app, ShortcutManager.getDesktopFolder());
+							note.show();
+						}
 					}
 					
 					@Override
