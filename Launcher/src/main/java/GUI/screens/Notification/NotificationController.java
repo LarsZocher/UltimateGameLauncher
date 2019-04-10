@@ -75,7 +75,7 @@ public class NotificationController extends initController {
 		button.setPrefHeight(29);
 		button.setMaxHeight(29);
 		button.setFocusTraversable(false);
-		CSSUtils.setCSS(button, Menu.styleSheet, "note-button");
+		CSSUtils.addCSS(button, Menu.styleSheet, "note-button");
 		button.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {

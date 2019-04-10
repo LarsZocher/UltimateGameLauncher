@@ -9,7 +9,6 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import sun.security.util.ManifestEntryVerifier;
 
 /**
  * Removing of this disclaimer is forbidden.
@@ -54,8 +53,7 @@ public abstract class AddGame extends Application{
 		scene.getStylesheets().add(Menu.styleSheet);
 		
 		controller = loader.getController();
-		controller.setAddGame(this);
-		controller.init(stage);
+		controller.init();
 		
 		this.stage.setScene(scene);
 		this.stage.initStyle(StageStyle.TRANSPARENT);

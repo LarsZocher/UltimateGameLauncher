@@ -11,6 +11,7 @@ public class Option {
 	
 	private String option;
 	private ButtonAlignment alignment;
+	private ButtonStyle style = ButtonStyle.FLAT;
 	private ButtonCallback callback;
 	private boolean closeOnClick = true;
 	
@@ -23,6 +24,14 @@ public class Option {
 	public Option(String option, ButtonAlignment alignment, ButtonCallback callback, boolean closeOnClick) {
 		this.option = option;
 		this.alignment = alignment;
+		this.callback = callback;
+		this.closeOnClick = closeOnClick;
+	}
+	
+	public Option(String option, ButtonAlignment alignment, ButtonCallback callback, boolean closeOnClick, ButtonStyle style) {
+		this.option = option;
+		this.alignment = alignment;
+		this.style = style;
 		this.callback = callback;
 		this.closeOnClick = closeOnClick;
 	}
@@ -57,5 +66,13 @@ public class Option {
 	
 	public void setCloseOnClick(boolean closeOnClick) {
 		this.closeOnClick = closeOnClick;
+	}
+	
+	public ButtonStyle getStyle() {
+		return style;
+	}
+	
+	public void setStyle(ButtonStyle style) {
+		this.style = style;
 	}
 }

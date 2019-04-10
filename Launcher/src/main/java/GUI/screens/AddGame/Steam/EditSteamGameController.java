@@ -93,7 +93,7 @@ public class EditSteamGameController {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				CSSUtils.setCSS(user, "jfx-combo-box");
+				CSSUtils.addCSS(user, "jfx-combo-box");
 				List<String> users = launcher.getSteam().getUsernames();
 				for(String username : users) {
 					user.getItems().add(launcher.getSteam().getUser(username).getCurrentUsername());

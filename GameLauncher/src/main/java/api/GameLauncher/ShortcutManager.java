@@ -46,6 +46,7 @@ public class ShortcutManager {
 		sl.setIconLocation(image);
 		
 		try {
+			
 			sl.saveTo(folder + name + ".lnk");
 		} catch(IOException e) {
 			e.printStackTrace();
@@ -90,6 +91,7 @@ public class ShortcutManager {
 	}
 	
 	public File getOldShortcutFile(Application application) {
+		if(application.getType()==null) return null;
 		switch(application.getType()) {
 			case STEAM: {
 				for(File file : new File(getDesktopFolder()).listFiles()) {

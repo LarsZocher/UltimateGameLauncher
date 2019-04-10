@@ -32,6 +32,7 @@ public class Steam {
 	private SteamGuard steamGuard;
 	private JsonPartManager steamManager;
 	private SteamCMD steamCMD;
+	private boolean disabled = false;
 	
 	public Steam(GameLauncher launcher) {
 		this.launcher = launcher;
@@ -52,8 +53,12 @@ public class Steam {
 			}
 		};
 		
+		String path = findDirectory();
+		
+		if(disabled) return;
+		
 		steamManager.load();
-		JsonConfig.setDefault(steamManager.get(), "path", findDirectory());
+		JsonConfig.setDefault(steamManager.get(), "path", path);
 		JsonConfig.setDefault(steamManager.get(), "developer", false);
 		JsonConfig.setDefault(steamManager.get(), "lastUsedAccount", "none");
 		steamManager.save();
@@ -94,6 +99,7 @@ public class Steam {
 	}
 	
 	public List<SteamApp> getAppsFromUser(String steam64id, boolean free){
+		if(disabled) return new ArrayList<>();
 		System.out.println("[Steam] Searching games from: "+steam64id);
 		List<SteamApp> apps = new ArrayList<>();
 		try {
@@ -167,6 +173,7 @@ public class Steam {
 	}
 	
 	public void addApp(SteamApp app){
+		if(disabled) return;
 		Application application = null;
 		for(Application apps : launcher.getApplications()){
 			if(apps.getName().equalsIgnoreCase(app.getConfigName())){
@@ -194,6 +201,7 @@ public class Steam {
 	}
 	
 	public void addApp(Application app) {
+		if(disabled) return;
 		this.launcher.cfg.load();
 		
 		for(Application apps : launcher.getApplications()){
@@ -290,6 +298,7 @@ public class Steam {
 	}
 	
 	public void launch(SteamApp app) {
+		if(disabled) return;
 		if(app.getAppID().isEmpty()) {
 			System.out.println("AppID is empty!");
 		}
@@ -337,6 +346,7 @@ public class Steam {
 	}
 	
 	public void changeUser(SteamUser user) {
+		if(disabled) return;
 		if(user.getUsername().isEmpty() || user.getPassword().isEmpty()) {
 			return;
 		}
@@ -364,6 +374,7 @@ public class Steam {
 	}
 	
 	public void forceChangeUser(SteamUser user) {
+		if(disabled) return;
 		if(user.getUsername().isEmpty() || user.getPassword().isEmpty()) {
 			return;
 		}
@@ -437,6 +448,10 @@ public class Steam {
 	public String findDirectory(){
 		try {
 			String path = WinRegistry.readString(WinRegistry.HKEY_CURRENT_USER, "Software\\Valve\\Steam", "SteamPath");
+			if(path==null){
+				setDisabled(true);
+				return null;
+			}
 			return path.replaceAll("/", "\\\\")+"\\";
 		} catch(IllegalAccessException e) {
 			e.printStackTrace();
@@ -456,5 +471,13 @@ public class Steam {
 	
 	public SteamCMD getSteamCMD() {
 		return steamCMD;
+	}
+	
+	public boolean isDisabled() {
+		return disabled;
+	}
+	
+	public void setDisabled(boolean disabled) {
+		this.disabled = disabled;
 	}
 }

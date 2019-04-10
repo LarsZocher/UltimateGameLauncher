@@ -2,7 +2,9 @@ package GUI.screens.AddGame.Steam;
 
 import GUI.Menu;
 import GUI.localization.Language;
+import GUI.screens.Alert.Alert;
 import GUI.screens.Notification.*;
+import GUI.screens.misc.Callback;
 import api.GameLauncher.GameLauncher;
 import api.GameLauncher.Steam.SteamConfigUser;
 import com.jfoenix.controls.JFXButton;
@@ -12,7 +14,6 @@ import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.stage.Stage;
 
 /**
  * Removing of this disclaimer is forbidden.
@@ -40,13 +41,12 @@ public class NewSteamUserController {
 	@FXML
 	private JFXButton add;
 	
-	private Stage stage;
-	private NewSteamUser newSteamUser;
+	private Alert alert;
 	private GameLauncher launcher;
+	private NewSteamUserCallback callback;
 	
-	public void init(Stage stage) {
-		this.stage = stage;
-		this.launcher = new GameLauncher();
+	public void init(Alert alert) {
+		this.alert = alert;
 		error.setVisible(false);
 		
 		Platform.runLater(new Runnable() {
@@ -58,10 +58,6 @@ public class NewSteamUserController {
 				add.setText(Language.format(Menu.lang.getLanguage().AddSteamUser));
 			}
 		});
-	}
-	
-	public void setNewSteamUser(NewSteamUser newSteamUser) {
-		this.newSteamUser = newSteamUser;
 	}
 	
 	@FXML
@@ -116,8 +112,7 @@ public class NewSteamUserController {
 		}, true);
 		note.show();
 		
-		stage.close();
-		newSteamUser.onFinish();
+		alert.close();
 	}
 	
 	@FXML
@@ -130,13 +125,12 @@ public class NewSteamUserController {
 			}
 		}
 	}
-	@FXML
-	void onExit() {
-		stage.close();
-		newSteamUser.onCancel();
+	
+	public void setLauncher(GameLauncher launcher) {
+		this.launcher = launcher;
 	}
-	@FXML
-	void onMinimize() {
-		stage.setIconified(true);
+	
+	public void setCallback(NewSteamUserCallback callback) {
+		this.callback = callback;
 	}
 }

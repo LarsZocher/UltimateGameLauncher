@@ -3,6 +3,8 @@ package GUI.screens.AddGame;
 import GUI.Menu;
 import GUI.css.CSSUtils;
 import GUI.localization.Language;
+import GUI.screens.Alert.Alert;
+import GUI.screens.misc.Callback;
 import GUI.screens.misc.initController;
 import api.GameLauncher.AppTypes;
 import com.jfoenix.controls.JFXButton;
@@ -19,56 +21,51 @@ import javafx.stage.Stage;
  * @verions: 1.0.0
  **/
 
-public class AddGameController extends initController {
+public class AddGameController {
 	
 	@FXML
 	private JFXComboBox<String> types;
 	@FXML
-	private Label title;
-	@FXML
 	private Label text;
+	@FXML
+	private Label title;
 	@FXML
 	private JFXButton next;
 	
-	private AddGame addGame;
+	private Callback<AppTypes> callback;
+	private Alert alert;
 	
-	@Override
-	public void init(Stage stage) {
-		super.init(stage);
+	public void init() {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				CSSUtils.setCSS(types, "jfx-combo-box");
+				CSSUtils.addCSS(types, "jfx-combo-box");
 				for(AppTypes type : AppTypes.values()){
 					if(type.isCreateable())
 						types.getItems().add(type.getName());
 				}
 				types.getSelectionModel().select(0);
 				
-				title.setText(Language.format(Menu.lang.getLanguage().WindowTitleAddGame));
+				
 				text.setText(Language.format(Menu.lang.getLanguage().ChooseGame));
 				next.setText(Language.format(Menu.lang.getLanguage().ButtonContinue));
+				title.setText(Language.format(Menu.lang.getLanguage().WindowTitleAddGame));
 			}
 		});
 	}
 	
-	public void setAddGame(AddGame addGame) {
-		this.addGame = addGame;
+	public void setCallback(Callback<AppTypes> callback) {
+		this.callback = callback;
+	}
+	
+	public void setAlert(Alert alert) {
+		this.alert = alert;
 	}
 	
 	@FXML
 	void onContinue(){
 		AppTypes type = AppTypes.getByName(types.getSelectionModel().getSelectedItem());
-		addGame.onContinue(type);
-		stage.close();
-	}
-	
-	@FXML
-	void onExit() {
-		stage.close();
-	}
-	@FXML
-	void onMinimize() {
-		stage.setIconified(true);
+		callback.onCallback(type);
+		alert.close();
 	}
 }

@@ -2,7 +2,10 @@ package GUI.screens;
 
 import GUI.Menu;
 import GUI.localization.Language;
+import GUI.screens.AddGame.ProgramManager;
 import GUI.screens.AddGame.Steam.NewSteamUser;
+import GUI.screens.AddGame.Steam.NewSteamUserController;
+import GUI.screens.Alert.Alert;
 import GUI.screens.misc.SteamMobileConfirmation;
 import GUI.screens.misc.initMenuController;
 import api.GameLauncher.GameLauncher;
@@ -20,14 +23,12 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -345,19 +346,23 @@ public class steamController extends initMenuController {
 	@FXML
 	void onAdd() {
 		try {
-			NewSteamUser user = new NewSteamUser() {
-				@Override
-				public void onFinish() {
-					forceRefreshList();
-				}
-				
-				@Override
-				public void onCancel() {
-				
-				}
-			};
-			user.start(new Stage());
-		} catch(Exception e) {
+			FXMLLoader userLoader = new FXMLLoader(ProgramManager.class.getClassLoader().getResource("fxml/NewSteamUser.fxml"));
+			Parent userRoot = userLoader.load();
+			Alert userAlert = new Alert(Menu.root);
+			
+			NewSteamUserController userController = userLoader.getController();
+			userController.init(userAlert);
+			userController.setLauncher(launcher);
+			userController.setCallback(() -> {
+				forceRefreshList();
+			});
+			
+			userAlert.setContent((Region)userRoot);
+			userAlert.setBackground(Menu.rootAnchor);
+			userAlert.setBackgroundBlur(10);
+			userAlert.setBackgroundColorAdjust(0, 0, -0.3, 0);
+			userAlert.show();
+		}catch(IOException e){
 			e.printStackTrace();
 		}
 	}

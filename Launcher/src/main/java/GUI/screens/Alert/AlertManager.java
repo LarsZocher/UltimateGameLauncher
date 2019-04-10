@@ -19,6 +19,7 @@ import javafx.scene.effect.BoxBlur;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import org.mp4parser.aspectj.lang.reflect.AjType;
@@ -35,6 +36,21 @@ public class AlertManager {
 	private static int activeAlerts = 0;
 	
 	public static void showSimpleAlert(StackPane root, Node back, String message){
+//		JFXDialogLayout layout = new JFXDialogLayout();
+//		layout.setBody(new Label(message));
+//
+//		JFXButton button = new JFXButton("OK");
+//		button.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+//			@Override
+//			public void handle(MouseEvent event) {
+//				dialog.close();
+//			}
+//		});
+//		layout.setActions(button);
+//		showAlert(root, back, message);
+	}
+	
+	public static void showAlert(StackPane root, Node back, Region content, String message){
 		GaussianBlur blur = new GaussianBlur(0);
 		ColorAdjust adjust = new ColorAdjust(0, 0, 0, 0);
 		adjust.setInput(blur);
@@ -56,19 +72,9 @@ public class AlertManager {
 		final KeyFrame kf2 = new KeyFrame(Duration.millis(200), kv2);
 		timeline2.getKeyFrames().add(kf2);
 		
-		JFXDialogLayout layout = new JFXDialogLayout();
-		JFXDialog dialog = new JFXDialog(root, layout, JFXDialog.DialogTransition.CENTER);
+		back.setEffect(adjust);
 		
-		layout.setBody(new Label(message));
-		
-		JFXButton button = new JFXButton("OK");
-		button.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				dialog.close();
-			}
-		});
-		layout.setActions(button);
+		JFXDialog dialog = new JFXDialog(root, content, JFXDialog.DialogTransition.CENTER);
 		
 		dialog.show();
 		dialog.setOnDialogClosed(new EventHandler<JFXDialogEvent>() {
@@ -89,8 +95,6 @@ public class AlertManager {
 		});
 		activeAlerts++;
 		if(activeAlerts!=1)return;
-		FadeTransition ft = new FadeTransition(Duration.millis(500), back);
-		back.setEffect(adjust);
 		timeline.playFromStart();
 	}
 }
