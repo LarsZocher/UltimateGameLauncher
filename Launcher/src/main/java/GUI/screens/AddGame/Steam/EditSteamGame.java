@@ -59,9 +59,8 @@ public abstract class EditSteamGame extends Application{
 		scene.getStylesheets().add(Menu.styleSheet);
 		
 		controller = loader.getController();
-		controller.setEditSteamGame(this);
 		controller.setLauncher(launcher);
-		controller.init(stage);
+		controller.init(null);
 		
 		this.stage.setScene(scene);
 		this.stage.initStyle(StageStyle.TRANSPARENT);

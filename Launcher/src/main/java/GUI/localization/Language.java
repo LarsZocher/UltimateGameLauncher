@@ -23,12 +23,15 @@ public class Language {
 	public String ButtonReturn = "NOT SET";
 	public String ButtonSearchGame = "NOT SET";
 	public String ButtonSearch = "NOT SET";
+	public String ButtonReplace = "NOT SET";
 	public String ButtonFinish = "NOT SET";
 	public String ButtonSwitch = "NOT SET";
 	public String ButtonDelete = "NOT SET";
 	public String ButtonRefresh = "NOT SET";
 	public String ButtonCode = "NOT SET";
+	public String ButtonOK = "NOT SET";
 	public String ButtonYes = "NOT SET";
+	public String ButtonNo = "NOT SET";
 	public String GameUIAll = "NOT SET";
 	public String TitleGames = "NOT SET";
 	public String TitleSteamUser = "NOT SET";
@@ -90,6 +93,20 @@ public class Language {
 	public String AuthenticatorNormalRecoveryCode = "NOT SET";
 	public String AuthenticatorNormalTitle = "NOT SET";
 	public String StartBattleNETGameWith = "NOT SET";
+	public String AlertApplicationDeleteTile = "NOT SET";
+	public String AlertApplicationDeleteMessage = "NOT SET";
+	public String AlertApplicationLinkTitle = "NOT SET";
+	public String AlertApplicationLinkMessage = "NOT SET";
+	public String AlertApplicationLinkReplaceTitle = "NOT SET";
+	public String AlertApplicationLinkReplaceMessage = "NOT SET";
+	public String AlertSteamUserLinkTitle = "NOT SET";
+	public String AlertSteamUserLinkMessage = "NOT SET";
+	public String AlertSteamUserDeleteTitle = "NOT SET";
+	public String AlertSteamUserDeleteMessage = "NOT SET";
+	public String AlertSteamUserAskCreateTitle = "NOT SET";
+	public String AlertSteamUserAskCreateMessage = "NOT SET";
+	public String AlertSteamUserImportAppsTitle = "NOT SET";
+	public String AlertSteamUserImportAppsMessage = "NOT SET";
 	
 	public static String format(String string){
 		return string

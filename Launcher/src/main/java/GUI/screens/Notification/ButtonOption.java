@@ -32,4 +32,8 @@ public enum ButtonOption {
 		this.text = text;
 		return this;
 	}
+	
+	public String getText() {
+		return text;
+	}
 }

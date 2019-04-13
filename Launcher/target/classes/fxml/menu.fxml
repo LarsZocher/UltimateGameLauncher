@@ -10,141 +10,150 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane fx:id="borderpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="554.0" prefWidth="936.0" style="-fx-effect: innershadow( gaussian, rgba( 0, 0, 0, 0.5 ), 5, 0, 0, 0 );" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.menuController">
-   <left>
-      <VBox prefHeight="503.0" prefWidth="167.0" style="-fx-background-color: #292929; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 10, 0, 0, 0);" BorderPane.alignment="CENTER">
+
+<StackPane fx:id="rootStack" prefHeight="554.0" prefWidth="911.0" style="-fx-background-color: #212121;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.menuController">
+   <children>
+      <AnchorPane fx:id="anchorPane" style="-fx-background-color: #212121;">
          <children>
-            <Label text="SPIELE" textFill="WHITE">
-               <VBox.margin>
-                  <Insets bottom="5.0" left="15.0" top="20.0" />
-               </VBox.margin>
-            </Label>
-            <HBox fx:id="games" alignment="CENTER_LEFT" maxHeight="36.0" maxWidth="199.0" minHeight="36.0" minWidth="42.0" prefHeight="36.0" prefWidth="42.0" spacing="5.0">
-               <children>
-                  <Rectangle fill="#0099b7" height="36.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="3.0" />
-                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../icon/games.png" />
-                     </image>
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </ImageView>
-                  <Label text="Bibliothek" textFill="WHITE">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Label>
-               </children>
-            </HBox>
-            <Label text="EINSTELLUNGEN" textFill="WHITE">
-               <VBox.margin>
-                  <Insets bottom="5.0" left="15.0" top="20.0" />
-               </VBox.margin>
-            </Label>
-            <HBox fx:id="steam" alignment="CENTER_LEFT" maxHeight="36.0" maxWidth="199.0" minHeight="36.0" minWidth="42.0" prefHeight="36.0" prefWidth="42.0" spacing="5.0">
-               <children>
-                  <Rectangle fill="#21c0ff00" height="36.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="3.0" />
-                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../icon/steamLogo.png" />
-                     </image>
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </ImageView>
-                  <Label text="Steam" textFill="WHITE">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Label>
-               </children>
-            </HBox>
-            <HBox fx:id="settings" alignment="CENTER_LEFT" maxHeight="36.0" maxWidth="199.0" minHeight="36.0" minWidth="42.0" prefHeight="36.0" prefWidth="42.0" spacing="5.0">
-               <children>
-                  <Rectangle fill="#21c0ff00" height="36.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="3.0" />
-                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../icon/settings.png" />
-                     </image>
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </ImageView>
-                  <Label text="Einstellungen" textFill="WHITE">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Label>
-               </children>
-            </HBox>
-            <Label text="SONSTIGES" textFill="WHITE">
-               <VBox.margin>
-                  <Insets bottom="5.0" left="15.0" top="20.0" />
-               </VBox.margin>
-            </Label>
-            <HBox fx:id="infos" alignment="CENTER_LEFT" maxHeight="36.0" maxWidth="199.0" minHeight="36.0" minWidth="42.0" prefHeight="36.0" prefWidth="42.0" spacing="5.0">
-               <children>
-                  <Rectangle fill="#21c0ff00" height="36.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="3.0" />
-                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../icon/info.png" />
-                     </image>
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </ImageView>
-                  <Label text="Informationen" textFill="WHITE">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Label>
-               </children>
-            </HBox>
-         </children>
-      </VBox>
-   </left>
-   <top>
-      <VBox prefHeight="51.0" prefWidth="778.0" style="-fx-background-color: #212121;" BorderPane.alignment="CENTER_RIGHT">
-         <children>
-            <Pane fx:id="bar" minHeight="2.0" prefHeight="2.0" prefWidth="778.0" />
-            <HBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="49.0" prefWidth="901.0">
-               <children>
-                  <Label prefHeight="30.0" prefWidth="634.0" text="Ultimate GameLauncher" textFill="#ffffffb2">
-                     <font>
-                        <Font name="System Bold" size="20.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets left="10.0" />
-                     </HBox.margin>
-                  </Label>
-                  <Pane prefHeight="49.0" prefWidth="284.0" HBox.hgrow="SOMETIMES" />
-                  <HBox alignment="CENTER_RIGHT" prefHeight="49.0" prefWidth="114.0">
+            <BorderPane fx:id="borderpane" layoutX="9.0" style="-fx-effect: innershadow( gaussian, rgba( 0, 0, 0, 0.5 ), 5, 0, 0, 0 );" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <left>
+                  <VBox prefHeight="503.0" prefWidth="167.0" style="-fx-background-color: #292929; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 10, 0, 0, 0);" BorderPane.alignment="CENTER">
                      <children>
-                        <ImageView fx:id="minimize" fitHeight="32.0" fitWidth="32.0" onMouseReleased="#onMinimize" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../icon/minimize.png" />
-                           </image>
-                           <HBox.margin>
-                              <Insets bottom="5.0" right="5.0" />
-                           </HBox.margin>
-                        </ImageView>
-                        <ImageView fx:id="exit" fitHeight="33.0" fitWidth="32.0" onMouseReleased="#onExit" pickOnBounds="true" preserveRatio="true">
-                           <HBox.margin>
-                              <Insets right="8.0" />
-                           </HBox.margin>
-                           <image>
-                              <Image url="@../icon/close.png" />
-                           </image>
-                        </ImageView>
+                        <Label text="SPIELE" textFill="WHITE">
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="15.0" top="20.0" />
+                           </VBox.margin>
+                        </Label>
+                        <HBox fx:id="games" alignment="CENTER_LEFT" maxHeight="36.0" maxWidth="199.0" minHeight="36.0" minWidth="42.0" prefHeight="36.0" prefWidth="42.0" spacing="5.0">
+                           <children>
+                              <Rectangle fill="#0099b7" height="36.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="3.0" />
+                              <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../icon/games.png" />
+                                 </image>
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </ImageView>
+                              <Label text="Bibliothek" textFill="WHITE">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <Label text="EINSTELLUNGEN" textFill="WHITE">
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="15.0" top="20.0" />
+                           </VBox.margin>
+                        </Label>
+                        <HBox fx:id="steam" alignment="CENTER_LEFT" maxHeight="36.0" maxWidth="199.0" minHeight="36.0" minWidth="42.0" prefHeight="36.0" prefWidth="42.0" spacing="5.0">
+                           <children>
+                              <Rectangle fill="#21c0ff00" height="36.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="3.0" />
+                              <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../icon/steamLogo.png" />
+                                 </image>
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </ImageView>
+                              <Label text="Steam" textFill="WHITE">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox fx:id="settings" alignment="CENTER_LEFT" maxHeight="36.0" maxWidth="199.0" minHeight="36.0" minWidth="42.0" prefHeight="36.0" prefWidth="42.0" spacing="5.0">
+                           <children>
+                              <Rectangle fill="#21c0ff00" height="36.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="3.0" />
+                              <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../icon/settings.png" />
+                                 </image>
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </ImageView>
+                              <Label text="Einstellungen" textFill="WHITE">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <Label text="SONSTIGES" textFill="WHITE">
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="15.0" top="20.0" />
+                           </VBox.margin>
+                        </Label>
+                        <HBox fx:id="infos" alignment="CENTER_LEFT" maxHeight="36.0" maxWidth="199.0" minHeight="36.0" minWidth="42.0" prefHeight="36.0" prefWidth="42.0" spacing="5.0">
+                           <children>
+                              <Rectangle fill="#21c0ff00" height="36.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="3.0" />
+                              <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../icon/info.png" />
+                                 </image>
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </ImageView>
+                              <Label text="Informationen" textFill="WHITE">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
                      </children>
-                  </HBox>
-               </children>
-            </HBox>
+                  </VBox>
+               </left>
+               <top>
+                  <VBox prefHeight="51.0" prefWidth="778.0" style="-fx-background-color: #212121;" BorderPane.alignment="CENTER_RIGHT">
+                     <children>
+                        <Pane fx:id="bar" minHeight="2.0" prefHeight="2.0" prefWidth="778.0" />
+                        <HBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="49.0" prefWidth="901.0">
+                           <children>
+                              <Label prefHeight="30.0" prefWidth="634.0" text="Ultimate GameLauncher" textFill="#ffffffb2">
+                                 <font>
+                                    <Font name="System Bold" size="20.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Pane prefHeight="49.0" prefWidth="284.0" HBox.hgrow="SOMETIMES" />
+                              <HBox alignment="CENTER_RIGHT" prefHeight="49.0" prefWidth="114.0">
+                                 <children>
+                                    <ImageView fx:id="minimize" fitHeight="32.0" fitWidth="32.0" onMouseReleased="#onMinimize" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../icon/minimize.png" />
+                                       </image>
+                                       <HBox.margin>
+                                          <Insets bottom="5.0" right="5.0" />
+                                       </HBox.margin>
+                                    </ImageView>
+                                    <ImageView fx:id="exit" fitHeight="33.0" fitWidth="32.0" onMouseReleased="#onExit" pickOnBounds="true" preserveRatio="true">
+                                       <HBox.margin>
+                                          <Insets right="8.0" />
+                                       </HBox.margin>
+                                       <image>
+                                          <Image url="@../icon/close.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </top>
+               <center>
+                  <Pane minHeight="503.0" minWidth="770.0" style="-fx-background-color: GREY;" BorderPane.alignment="CENTER_RIGHT" />
+               </center>
+            </BorderPane>
          </children>
-      </VBox>
-   </top>
-   <center>
-      <Pane maxHeight="503.0" maxWidth="770.0" minHeight="503.0" minWidth="770.0" prefHeight="503.0" prefWidth="770.0" style="-fx-background-color: GREY;" BorderPane.alignment="CENTER_RIGHT" />
-   </center>
-</BorderPane>
+      </AnchorPane>
+   </children>
+</StackPane>

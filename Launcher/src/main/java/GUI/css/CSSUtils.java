@@ -22,6 +22,10 @@ public class CSSUtils {
 		}
 	}
 	public static void setCSS(Parent node, String... cssClasses){
+		node.getStyleClass().setAll(cssClasses);
+	}
+	
+	public static void addCSS(Parent node, String... cssClasses){
 		for(String cssClass : cssClasses) {
 			node.getStyleClass().add(cssClass);
 		}

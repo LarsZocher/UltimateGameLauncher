@@ -2,8 +2,13 @@ package GUI.screens;
 
 import GUI.Menu;
 import GUI.localization.Language;
+import GUI.screens.AddGame.ProgramManager;
 import GUI.screens.AddGame.Steam.EditSteamUser;
+import GUI.screens.AddGame.Steam.EditSteamUserMode;
+import GUI.screens.AddGame.Steam.NewSteamUserController;
 import GUI.screens.AddGame.Steam.SteamGuard.AuthenticatorMenu;
+import GUI.screens.Alert.Alert;
+import GUI.screens.Alert.SimpleAlert;
 import GUI.screens.Notification.*;
 import GUI.screens.misc.initMenuController;
 import api.GameLauncher.GameLauncher;
@@ -11,13 +16,18 @@ import api.GameLauncher.Steam.SteamUser;
 import com.jfoenix.controls.JFXButton;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 
 /**
@@ -60,7 +70,7 @@ public class steamUserController extends initMenuController {
 		super.init(menu);
 		user = launcher.getSteam().getUser(name);
 		username.setText(user.getCurrentUsername());
-		if(user.getImageMedium()==null||user.getImageMedium().isEmpty())
+		if(user.getImageMedium() == null || user.getImageMedium().isEmpty())
 			usericon.setImage(new Image("icon/loading.png"));
 		else
 			usericon.setImage(new Image(user.getImageMedium()));
@@ -69,13 +79,13 @@ public class steamUserController extends initMenuController {
 		else
 			setSelected(false);
 		
-		if(user.isMainAccount()){
+		if(user.isMainAccount()) {
 			star.setImage(new Image("icon/star.png"));
-		}else{
+		} else {
 			star.setImage(new Image("icon/star_border.png"));
 		}
 		
-		if(!user.hasSteamGuard()){
+		if(!user.hasSteamGuard()) {
 			steamGuard.setImage(new Image("icon/phone_delete.png"));
 		}
 		
@@ -100,13 +110,10 @@ public class steamUserController extends initMenuController {
 		Tooltip.install(star, starTip);
 		Tooltip.install(steamGuard, authTip);
 		
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				change.setText(Language.format(Menu.lang.getLanguage().ButtonSwitch));
-				code.setText(Language.format(Menu.lang.getLanguage().ButtonCode));
-			}
-		});
+		
+		change.setText(Language.format(Menu.lang.getLanguage().ButtonSwitch));
+		code.setText(Language.format(Menu.lang.getLanguage().ButtonCode));
+		
 		
 		bar.setId("bar-2");
 		
@@ -121,14 +128,14 @@ public class steamUserController extends initMenuController {
 		this.launcher = launcher;
 	}
 	
-	public void setSteamController(steamController controller){
+	public void setSteamController(steamController controller) {
 		this.controller = controller;
 	}
 	
-	public void setSelected(boolean selected){
-		if(selected){
+	public void setSelected(boolean selected) {
+		if(selected) {
 			bar.setId("bar-2");
-		}else{
+		} else {
 			bar.setId("lkljö");
 		}
 	}
@@ -141,14 +148,27 @@ public class steamUserController extends initMenuController {
 	@FXML
 	void onEdit() {
 		try {
-			EditSteamUser editSteamUser = new EditSteamUser() {
-				@Override
-				public void onFinish() {
+			try {
+				FXMLLoader userLoader = new FXMLLoader(ProgramManager.class.getClassLoader().getResource("fxml/NewSteamUser.fxml"));
+				Parent userRoot = userLoader.load();
+				Alert userAlert = new Alert(Menu.root);
+				
+				NewSteamUserController userController = userLoader.getController();
+				userController.init(userAlert, EditSteamUserMode.EDIT);
+				userController.setUserData(user);
+				userController.setLauncher(launcher);
+				userController.setCallback(() -> {
 					controller.forceRefreshList();
-				}
-			};
-			editSteamUser.setUser(name);
-			editSteamUser.start(new Stage());
+				});
+				
+				userAlert.setContent((Region)userRoot);
+				userAlert.setBackground(Menu.rootAnchor);
+				userAlert.setBackgroundBlur(10);
+				userAlert.setBackgroundColorAdjust(0, 0, -0.3, 0);
+				userAlert.show();
+			}catch(IOException e){
+				e.printStackTrace();
+			}
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -158,17 +178,23 @@ public class steamUserController extends initMenuController {
 	void onLink() {
 		try {
 			launcher.getSteam().getUser(name).createShortcutOnDesktop();
-			Notification note = new Notification();
-			note.setText(Language.format(Menu.lang.getLanguage().SteamUserLinkSuccessfulCreated));
-			note.setTitle(Language.format(Menu.lang.getLanguage().WindowTitleInformation));
-			note.setIcon(NotificationIcon.INFO);
-			note.addOption(ButtonOption.OK, ButtonAlignment.RIGHT, new ButtonCallback() {
+			
+			SimpleAlert sa = new SimpleAlert();
+			sa.setTitle(Language.format(Menu.lang.getLanguage().AlertSteamUserLinkTitle));
+			sa.setMessage(Language.format(Menu.lang.getLanguage().AlertSteamUserLinkMessage, user.getCurrentUsername()));
+			sa.addOption(Language.format(Menu.lang.getLanguage().ButtonOK), ButtonAlignment.RIGHT, new ButtonCallback() {
 				@Override
 				public void onClick() {
 				
 				}
-			});
-			note.show();
+			}, true, ButtonStyle.GHOST);
+			
+			Alert alert = new Alert(Menu.root);
+			alert.setContent(sa);
+			alert.setBackground(Menu.rootAnchor);
+			alert.setBackgroundBlur(10);
+			alert.setBackgroundColorAdjust(0, 0, -0.3, 0);
+			alert.show();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -177,23 +203,27 @@ public class steamUserController extends initMenuController {
 	@FXML
 	void onDelete() {
 		try {
-			Notification note = new Notification();
-			note.setTitle(Language.format(Menu.lang.getLanguage().WindowTitleWarning));
-			note.setText(Language.format(Menu.lang.getLanguage().SteamUserDeleteUserConfirmation));
-			note.setIcon(NotificationIcon.QUESTION);
-			note.addOption(Language.format(Menu.lang.getLanguage().ButtonDelete), ButtonAlignment.RIGHT, new ButtonCallback() {
+			SimpleAlert sa = new SimpleAlert();
+			sa.setTitle(Language.format(Menu.lang.getLanguage().AlertSteamUserDeleteTitle));
+			sa.setMessage(Language.format(Menu.lang.getLanguage().AlertSteamUserDeleteMessage, user.getCurrentUsername()));
+			sa.addOption(Language.format(Menu.lang.getLanguage().ButtonDelete), ButtonAlignment.RIGHT, new ButtonCallback() {
 				@Override
 				public void onClick() {
 					launcher.getSteam().deleteUser(name);
 				}
-			});
-			note.addOption(Language.format(Menu.lang.getLanguage().ButtonCancel), ButtonAlignment.RIGHT, new ButtonCallback() {
+			}, true, ButtonStyle.GHOST);
+			sa.addOption(Language.format(Menu.lang.getLanguage().ButtonCancel), ButtonAlignment.RIGHT, new ButtonCallback() {
 				@Override
 				public void onClick() {
-				
 				}
-			});
-			note.show();
+			}, true, ButtonStyle.GHOST);
+			
+			Alert alert = new Alert(Menu.root);
+			alert.setContent(sa);
+			alert.setBackground(Menu.rootAnchor);
+			alert.setBackgroundBlur(10);
+			alert.setBackgroundColorAdjust(0, 0, -0.3, 0);
+			alert.show();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -263,7 +293,7 @@ public class steamUserController extends initMenuController {
 		}
 	}
 	
-	public void showIcons(boolean show){
+	public void showIcons(boolean show) {
 		deleteUser.setVisible(show);
 		editUser.setVisible(show);
 		linkUser.setVisible(show);

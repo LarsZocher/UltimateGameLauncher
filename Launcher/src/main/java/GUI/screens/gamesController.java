@@ -4,10 +4,10 @@ import GUI.Menu;
 import GUI.css.CSSUtils;
 import GUI.localization.Language;
 import GUI.screens.AddGame.ProgramManager;
-import GUI.screens.Notification.ButtonAlignment;
-import GUI.screens.Notification.ButtonCallback;
-import GUI.screens.Notification.ButtonOption;
-import GUI.screens.Notification.NotificationIcon;
+import GUI.screens.Alert.Alert;
+import GUI.screens.Alert.AlertManager;
+import GUI.screens.Alert.SimpleAlert;
+import GUI.screens.Notification.*;
 import GUI.screens.misc.*;
 import api.GameLauncher.AppTypes;
 import api.GameLauncher.Application;
@@ -20,6 +20,7 @@ import api.GameLauncher.Steam.SteamUser;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.events.JFXDialogEvent;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -100,7 +101,7 @@ public class gamesController extends initMenuController {
 				Platform.runLater(new Runnable() {
 					@Override
 					public void run() {
-						loadList(currentAppType, "");
+						loadList(currentAppType, currentFilter);
 					}
 				});
 			}
@@ -141,7 +142,7 @@ public class gamesController extends initMenuController {
 				search.setPromptText(Language.format(Menu.lang.getLanguage().WindowTitleSearch));
 				
 				menu.jsonConfig.load();
-				CSSUtils.setCSS(sort, "jfx-combo-box");
+				CSSUtils.addCSS(sort, "jfx-combo-box");
 				for(SortStyle style : SortStyle.values()) {
 					sort.getItems().add(style.getName());
 				}
@@ -150,6 +151,7 @@ public class gamesController extends initMenuController {
 				stage.getScene().setOnKeyReleased(new EventHandler<KeyEvent>() {
 					@Override
 					public void handle(KeyEvent event) {
+						if(Alert.activeAlerts!=0) return;
 						if(!search.isFocused()) {
 							search.setText("");
 							search.requestFocus();
@@ -214,6 +216,8 @@ public class gamesController extends initMenuController {
 			}
 		});
 		buttons.get(0).onClick();
+		if(launcher.getSteam().isDisabled())
+			buttons.get(1).disable();
 		if(launcher.getBattleNET().isDisabled())
 			buttons.get(2).disable();
 		buttons.get(4).disable();
@@ -228,7 +232,7 @@ public class gamesController extends initMenuController {
 	public void loadList(AppTypes type, String filter) {
 		loading = true;
 		
-		System.out.println("[Launcher] Loading games - Type: "+type.name()+"  Filter: \""+filter+"\"");
+		System.out.println("[Launcher] Loading games - Type: " + type.name() + "  Filter: \"" + filter + "\"");
 		for(AppTypes value : AppTypes.values()) {
 			acceptNext.put(value, false);
 		}
@@ -272,7 +276,7 @@ public class gamesController extends initMenuController {
 					case BATTLENET:
 					case ORIGIN: {
 						List<Application> displays;
-						if(type==AppTypes.ALL)
+						if(type == AppTypes.ALL)
 							displays = launcher.getApplications();
 						else
 							displays = launcher.getApplications(type);
@@ -319,7 +323,7 @@ public class gamesController extends initMenuController {
 							Thread.sleep(100);
 							loading = false;
 							firstLoading = false;
-						}catch(Exception e){
+						} catch(Exception e) {
 							e.printStackTrace();
 						}
 						return null;
@@ -327,9 +331,9 @@ public class gamesController extends initMenuController {
 				});
 				loadingListDisplays.start();
 				
-				while(loading){
+				while(loading) {
 					try {
-						if(index<50)
+						if(index < 50)
 							Thread.sleep(200);
 						else
 							Thread.sleep(2000);
@@ -353,12 +357,12 @@ public class gamesController extends initMenuController {
 		loadingList.start();
 	}
 	
-	public List<Application> filterBattleNETGames(List<Application> apps){
+	public List<Application> filterBattleNETGames(List<Application> apps) {
 		if(launcher.getBattleNET().isDisabled()) {
 			List<Application> filtered = new ArrayList<>();
 			
 			for(Application app : apps) {
-				if(app.getType()!=AppTypes.BATTLENET){
+				if(app.getType() != AppTypes.BATTLENET) {
 					filtered.add(app);
 				}
 			}
@@ -366,16 +370,17 @@ public class gamesController extends initMenuController {
 		}
 		List<BattleNETGames> owned = launcher.getBattleNET().getSettings().getOwnedGames();
 		
-		games : for(BattleNETGames game : BattleNETGames.values()) {
-			if(game.hasConfigName()){
+		games:
+		for(BattleNETGames game : BattleNETGames.values()) {
+			if(game.hasConfigName()) {
 				for(BattleNETGames ownedGame : owned) {
-					if(game.getCode().equalsIgnoreCase(ownedGame.getCode())){
+					if(game.getCode().equalsIgnoreCase(ownedGame.getCode())) {
 						continue games;
 					}
 				}
 				int index = 0;
-				for(int i = 0; i<apps.size(); i++){
-					if(apps.get(i).getName().equalsIgnoreCase(game.getConfigName())){
+				for(int i = 0; i < apps.size(); i++) {
+					if(apps.get(i).getName().equalsIgnoreCase(game.getConfigName())) {
 						index = i;
 						break;
 					}
@@ -387,12 +392,12 @@ public class gamesController extends initMenuController {
 		return apps;
 	}
 	
-	public List<Application> filterApps(List<Application> apps, String filter){
+	public List<Application> filterApps(List<Application> apps, String filter) {
 		if(!filter.isEmpty()) {
 			filter = filter.toLowerCase().replaceAll("[^a-zA-Z0-9]", "");
 			List<String> chars = new ArrayList<>();
 			for(char c : filter.toCharArray()) {
-				chars.add(c+"");
+				chars.add(c + "");
 			}
 			List<Application> filtered = new ArrayList<>();
 			game:
@@ -400,14 +405,14 @@ public class gamesController extends initMenuController {
 				String displayName = getDisplayName(display).toLowerCase().replaceAll("[^a-zA-Z0-9]", "");
 				int containsAll = 0;
 				for(char c : displayName.toCharArray()) {
-					if(containsAll>chars.size()-1){
+					if(containsAll > chars.size() - 1) {
 						break;
 					}
-					if((c+"").equalsIgnoreCase(chars.get(containsAll))){
+					if((c + "").equalsIgnoreCase(chars.get(containsAll))) {
 						containsAll++;
 					}
 				}
-				if(containsAll==chars.size())
+				if(containsAll == chars.size())
 					filtered.add(display);
 			}
 			apps = filtered;
@@ -435,28 +440,29 @@ public class gamesController extends initMenuController {
 				GameDisplay display = new GameDisplay(app.getDisplayName(), app, launcher.getImageManager().getHeaderURL(app), true, true, true) {
 					@Override
 					public void onDelete() {
-						try {
-							GUI.screens.Notification.Notification note = new GUI.screens.Notification.Notification();
-							note.setText("Sind Sie sicher, dass Sie diese Spiele-Verknüpfung löschen möchten?");
-							note.setTitle("Warnung");
-							note.setIcon(NotificationIcon.QUESTION);
-							note.addOption(ButtonOption.DELETE, ButtonAlignment.RIGHT, new ButtonCallback() {
-								@Override
-								public void onClick() {
-									launcher.getSteam().removeApp(steamApp.getConfigName());
-									loadList(currentAppType, "");
-								}
-							});
-							note.addOption(ButtonOption.CANCEL, ButtonAlignment.RIGHT, new ButtonCallback() {
-								@Override
-								public void onClick() {
+						SimpleAlert sa = new SimpleAlert();
+						sa.setTitle(Language.format(Menu.lang.getLanguage().AlertApplicationDeleteTile, app.getDisplayName()));
+						sa.setMessage(Language.format(Menu.lang.getLanguage().AlertApplicationDeleteMessage));
+						sa.addOption(Language.format(Menu.lang.getLanguage().ButtonDelete), ButtonAlignment.RIGHT, new ButtonCallback() {
+							@Override
+							public void onClick() {
+								launcher.getSteam().removeApp(steamApp.getConfigName());
+								loadList(currentAppType, "");
+							}
+						}, true, ButtonStyle.GHOST);
+						sa.addOption(Language.format(Menu.lang.getLanguage().ButtonCancel), ButtonAlignment.RIGHT, new ButtonCallback() {
+							@Override
+							public void onClick() {
 								
-								}
-							});
-							note.show();
-						} catch(Exception e) {
-							e.printStackTrace();
-						}
+							}
+						}, true, ButtonStyle.GHOST);
+						
+						Alert alert = new Alert(Menu.root);
+						alert.setContent(sa);
+						alert.setBackground(Menu.rootAnchor);
+						alert.setBackgroundBlur(10);
+						alert.setBackgroundColorAdjust(0, 0, -0.3, 0);
+						alert.show();
 					}
 					
 					@Override
@@ -466,39 +472,49 @@ public class gamesController extends initMenuController {
 					
 					@Override
 					public void onLink() {
-						GUI.screens.Notification.Notification note = new GUI.screens.Notification.Notification();
-						note.setText("Die Desktopverknüpfung wurde erfolgreich erstellt!");
-						note.setTitle("Information");
-						note.setIcon(NotificationIcon.INFO);
-						note.addOption(ButtonOption.OK, ButtonAlignment.RIGHT, new ButtonCallback() {
+						SimpleAlert sa = new SimpleAlert();
+						sa.setTitle(Language.format(Menu.lang.getLanguage().AlertApplicationLinkTitle));
+						sa.setMessage(Language.format(Menu.lang.getLanguage().AlertApplicationLinkMessage, app.getDisplayName()));
+						sa.addOption(Language.format(Menu.lang.getLanguage().ButtonOK), ButtonAlignment.RIGHT, new ButtonCallback() {
 							@Override
 							public void onClick() {
 							
 							}
-						});
+						}, true, ButtonStyle.GHOST);
+						
+						Alert alert = new Alert(Menu.root);
+						alert.setContent(sa);
+						alert.setBackground(Menu.rootAnchor);
+						alert.setBackgroundBlur(10);
+						alert.setBackgroundColorAdjust(0, 0, -0.3, 0);
 						if(launcher.getShortcutManager().hasShortcut(app)) {
-							GUI.screens.Notification.Notification note2 = new GUI.screens.Notification.Notification();
-							note2.setText("Es wurde bereits eine Verknüpfung von diesem Spiel gefunden! Möchten Sie diese ersetzten?");
-							note2.setTitle("Warnung");
-							note2.setIcon(NotificationIcon.QUESTION);
-							note2.addOption(ButtonOption.YES, ButtonAlignment.RIGHT, new ButtonCallback() {
+							SimpleAlert sa2 = new SimpleAlert();
+							sa2.setTitle(Language.format(Menu.lang.getLanguage().AlertApplicationLinkReplaceTitle));
+							sa2.setMessage(Language.format(Menu.lang.getLanguage().AlertApplicationLinkReplaceMessage, app.getDisplayName()));
+							sa2.addOption(Language.format(Menu.lang.getLanguage().ButtonReplace), ButtonAlignment.RIGHT, new ButtonCallback() {
 								@Override
 								public void onClick() {
 									launcher.getShortcutManager().replaceShortcut(app, launcher.getShortcutManager().getOldShortcutFile(app).getAbsolutePath(), false);
-									note.show();
+									alert.show();
 								}
-							});
-							note2.addOption(ButtonOption.NO, ButtonAlignment.RIGHT, new ButtonCallback() {
+							}, true, ButtonStyle.GHOST);
+							sa2.addOption(Language.format(Menu.lang.getLanguage().ButtonNo), ButtonAlignment.RIGHT, new ButtonCallback() {
 								@Override
 								public void onClick() {
 									launcher.getShortcutManager().createShortcut(app, ShortcutManager.getDesktopFolder());
-									note.show();
+									alert.show();
 								}
-							});
-							note2.show();
+							}, true, ButtonStyle.GHOST);
+							
+							Alert alert2 = new Alert(Menu.root);
+							alert2.setContent(sa2);
+							alert2.setBackground(Menu.rootAnchor);
+							alert2.setBackgroundBlur(10);
+							alert2.setBackgroundColorAdjust(0, 0, -0.3, 0);
+							alert2.show();
 						} else {
 							launcher.getShortcutManager().createShortcut(app, ShortcutManager.getDesktopFolder());
-							note.show();
+							alert.show();
 						}
 					}
 					
@@ -508,16 +524,16 @@ public class gamesController extends initMenuController {
 					}
 					
 				};
-				if(!user.exists()){
-					if(launcher.getSteam().getUsernames().size()>0){
+				if(!user.exists()) {
+					if(launcher.getSteam().getUsernames().size() > 0) {
 						SteamUser newUser = launcher.getSteam().getUser(launcher.getSteam().getUsernames().get(0));
 						display.setUser(newUser);
-						System.out.println("[Steam] "+app.getName()+": user "+user.getUsername() + " not found! Setting user to: "+newUser.getUsername());
+						System.out.println("[Steam] " + app.getName() + ": user " + user.getUsername() + " not found! Setting user to: " + newUser.getUsername());
 						SteamApp newApp = app.getContent(SteamApp.class);
 						newApp.setUser(newUser.getUsername());
 						launcher.getSteam().addApp(newApp);
 					}
-				}else
+				} else
 					display.setUser(user);
 				return display;
 			}
@@ -526,39 +542,49 @@ public class gamesController extends initMenuController {
 				GameDisplay display = new GameDisplay(battleNETGames.getName(), app, launcher.getImageManager().getHeaderURL(app), true, true, false) {
 					@Override
 					public void onLink() {
-						GUI.screens.Notification.Notification note = new GUI.screens.Notification.Notification();
-						note.setText("Die Desktopverknüpfung wurde erfolgreich erstellt!");
-						note.setTitle("Information");
-						note.setIcon(NotificationIcon.INFO);
-						note.addOption(ButtonOption.OK, ButtonAlignment.RIGHT, new ButtonCallback() {
+						SimpleAlert sa = new SimpleAlert();
+						sa.setTitle(Language.format(Menu.lang.getLanguage().AlertApplicationLinkTitle));
+						sa.setMessage(Language.format(Menu.lang.getLanguage().AlertApplicationLinkMessage, app.getDisplayName()));
+						sa.addOption(Language.format(Menu.lang.getLanguage().ButtonOK), ButtonAlignment.RIGHT, new ButtonCallback() {
 							@Override
 							public void onClick() {
 							
 							}
-						});
+						}, true, ButtonStyle.GHOST);
+						
+						Alert alert = new Alert(Menu.root);
+						alert.setContent(sa);
+						alert.setBackground(Menu.rootAnchor);
+						alert.setBackgroundBlur(10);
+						alert.setBackgroundColorAdjust(0, 0, -0.3, 0);
 						if(launcher.getShortcutManager().hasShortcut(app)) {
-							GUI.screens.Notification.Notification note2 = new GUI.screens.Notification.Notification();
-							note2.setText("Es wurde bereits eine Verknüpfung von diesem Spiel gefunden! Möchten Sie diese ersetzten?");
-							note2.setTitle("Warnung");
-							note2.setIcon(NotificationIcon.QUESTION);
-							note2.addOption(ButtonOption.YES, ButtonAlignment.RIGHT, new ButtonCallback() {
+							SimpleAlert sa2 = new SimpleAlert();
+							sa2.setTitle(Language.format(Menu.lang.getLanguage().AlertApplicationLinkReplaceTitle));
+							sa2.setMessage(Language.format(Menu.lang.getLanguage().AlertApplicationLinkReplaceMessage, app.getDisplayName()));
+							sa2.addOption(Language.format(Menu.lang.getLanguage().ButtonReplace), ButtonAlignment.RIGHT, new ButtonCallback() {
 								@Override
 								public void onClick() {
-									launcher.getShortcutManager().replaceShortcut(app, launcher.getShortcutManager().getOldShortcutFile(app).getAbsolutePath(), true);
-									note.show();
+									launcher.getShortcutManager().replaceShortcut(app, launcher.getShortcutManager().getOldShortcutFile(app).getAbsolutePath(), false);
+									alert.show();
 								}
-							});
-							note2.addOption(ButtonOption.NO, ButtonAlignment.RIGHT, new ButtonCallback() {
+							}, true, ButtonStyle.GHOST);
+							sa2.addOption(Language.format(Menu.lang.getLanguage().ButtonNo), ButtonAlignment.RIGHT, new ButtonCallback() {
 								@Override
 								public void onClick() {
 									launcher.getShortcutManager().createShortcut(app, ShortcutManager.getDesktopFolder());
-									note.show();
+									alert.show();
 								}
-							});
-							note2.show();
+							}, true, ButtonStyle.GHOST);
+							
+							Alert alert2 = new Alert(Menu.root);
+							alert2.setContent(sa2);
+							alert2.setBackground(Menu.rootAnchor);
+							alert2.setBackgroundBlur(10);
+							alert2.setBackgroundColorAdjust(0, 0, -0.3, 0);
+							alert2.show();
 						} else {
 							launcher.getShortcutManager().createShortcut(app, ShortcutManager.getDesktopFolder());
-							note.show();
+							alert.show();
 						}
 					}
 					
@@ -584,39 +610,49 @@ public class gamesController extends initMenuController {
 				GameDisplay display = new GameDisplay(originGame.getName(), app, launcher.getImageManager().getHeaderURL(app), true, true, false) {
 					@Override
 					public void onLink() {
-						GUI.screens.Notification.Notification note = new GUI.screens.Notification.Notification();
-						note.setText("Die Desktopverknüpfung wurde erfolgreich erstellt!");
-						note.setTitle("Information");
-						note.setIcon(NotificationIcon.INFO);
-						note.addOption(ButtonOption.OK, ButtonAlignment.RIGHT, new ButtonCallback() {
+						SimpleAlert sa = new SimpleAlert();
+						sa.setTitle(Language.format(Menu.lang.getLanguage().AlertApplicationLinkTitle));
+						sa.setMessage(Language.format(Menu.lang.getLanguage().AlertApplicationLinkMessage, app.getDisplayName()));
+						sa.addOption(Language.format(Menu.lang.getLanguage().ButtonOK), ButtonAlignment.RIGHT, new ButtonCallback() {
 							@Override
 							public void onClick() {
 							
 							}
-						});
+						}, true, ButtonStyle.GHOST);
+						
+						Alert alert = new Alert(Menu.root);
+						alert.setContent(sa);
+						alert.setBackground(Menu.rootAnchor);
+						alert.setBackgroundBlur(10);
+						alert.setBackgroundColorAdjust(0, 0, -0.3, 0);
 						if(launcher.getShortcutManager().hasShortcut(app)) {
-							GUI.screens.Notification.Notification note2 = new GUI.screens.Notification.Notification();
-							note2.setText("Es wurde bereits eine Verknüpfung von diesem Spiel gefunden! Möchten Sie diese ersetzten?");
-							note2.setTitle("Warnung");
-							note2.setIcon(NotificationIcon.QUESTION);
-							note2.addOption(ButtonOption.YES, ButtonAlignment.RIGHT, new ButtonCallback() {
+							SimpleAlert sa2 = new SimpleAlert();
+							sa2.setTitle(Language.format(Menu.lang.getLanguage().AlertApplicationLinkReplaceTitle));
+							sa2.setMessage(Language.format(Menu.lang.getLanguage().AlertApplicationLinkReplaceMessage, app.getDisplayName()));
+							sa2.addOption(Language.format(Menu.lang.getLanguage().ButtonReplace), ButtonAlignment.RIGHT, new ButtonCallback() {
 								@Override
 								public void onClick() {
-									launcher.getShortcutManager().replaceShortcut(app, launcher.getShortcutManager().getOldShortcutFile(app).getAbsolutePath(), true);
-									note.show();
+									launcher.getShortcutManager().replaceShortcut(app, launcher.getShortcutManager().getOldShortcutFile(app).getAbsolutePath(), false);
+									alert.show();
 								}
-							});
-							note2.addOption(ButtonOption.NO, ButtonAlignment.RIGHT, new ButtonCallback() {
+							}, true, ButtonStyle.GHOST);
+							sa2.addOption(Language.format(Menu.lang.getLanguage().ButtonNo), ButtonAlignment.RIGHT, new ButtonCallback() {
 								@Override
 								public void onClick() {
 									launcher.getShortcutManager().createShortcut(app, ShortcutManager.getDesktopFolder());
-									note.show();
+									alert.show();
 								}
-							});
-							note2.show();
+							}, true, ButtonStyle.GHOST);
+							
+							Alert alert2 = new Alert(Menu.root);
+							alert2.setContent(sa2);
+							alert2.setBackground(Menu.rootAnchor);
+							alert2.setBackgroundBlur(10);
+							alert2.setBackgroundColorAdjust(0, 0, -0.3, 0);
+							alert2.show();
 						} else {
 							launcher.getShortcutManager().createShortcut(app, ShortcutManager.getDesktopFolder());
-							note.show();
+							alert.show();
 						}
 					}
 					
