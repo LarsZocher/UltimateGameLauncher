@@ -105,6 +105,8 @@ public class Language {
 	public String AlertSteamUserDeleteMessage = "NOT SET";
 	public String AlertSteamUserAskCreateTitle = "NOT SET";
 	public String AlertSteamUserAskCreateMessage = "NOT SET";
+	public String AlertSteamUserImportAppsTitle = "NOT SET";
+	public String AlertSteamUserImportAppsMessage = "NOT SET";
 	
 	public static String format(String string){
 		return string

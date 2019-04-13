@@ -2,6 +2,7 @@ package GUI.screens.AddGame.Steam;
 
 import GUI.Menu;
 import GUI.localization.Language;
+import GUI.screens.Alert.Alert;
 import api.GameLauncher.Steam.DBSearchResult;
 import api.GameLauncher.Steam.SteamDB;
 import com.jfoenix.controls.JFXButton;
@@ -47,12 +48,12 @@ public class SearchSteamGameController {
 	private List<Label> labels = new ArrayList<>();
 	private List<HBox> boxes = new ArrayList<>();
 	private List<DBSearchResult> results = new ArrayList<>();
-	private SearchSteamGame steamGame;
 	private HBox selected;
-	private Stage stage;
+	private Alert alert;
+	private SearchSteamGameCallback callback;
 	
-	public void init(Stage stage) {
-		this.stage = stage;
+	public void init(Alert alert) {
+		this.alert = alert;
 		for(Node node : list.getChildren()) {
 			HBox box = (HBox) node;
 			box.setOnMouseReleased(new EventHandler<MouseEvent>() {
@@ -60,7 +61,7 @@ public class SearchSteamGameController {
 				public void handle(MouseEvent event) {
 					unselectAllBoxes();
 					if(!((Label)box.getChildren().get(0)).getText().isEmpty()) {
-						box.setStyle("-fx-background-color: #0099b7");
+						box.setStyle("-fx-background-color: -primary");
 						selected = box;
 						next.setDisable(false);
 					}
@@ -94,16 +95,13 @@ public class SearchSteamGameController {
 		}
 	}
 	
-	public void setSteamGame(SearchSteamGame steamGame) {
-		this.steamGame = steamGame;
-	}
 	
 	@FXML
 	void onFinish(){
 		for(DBSearchResult result : results) {
 			if(result.getName().equalsIgnoreCase(((Label)selected.getChildren().get(0)).getText())){
-				steamGame.onContinue(result);
-				stage.close();
+				callback.onContinue(result);
+				alert.close();
 				return;
 			}
 		}
@@ -126,12 +124,12 @@ public class SearchSteamGameController {
 		}
 	}
 	
-	@FXML
-	void onExit() {
-		stage.close();
+	public void setOnContinue(SearchSteamGameCallback callback) {
+		this.callback = callback;
 	}
+	
 	@FXML
-	void onMinimize() {
-		stage.setIconified(true);
+	public void onExit(){
+		alert.close();
 	}
 }

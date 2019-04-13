@@ -10,7 +10,6 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-
 <VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.screens.AddGame.Steam.NewSteamUserController">
    <children>
       <Pane id="bar-4" prefHeight="3.0" />
@@ -97,7 +96,7 @@
                         <Font size="15.0" />
                      </font>
                   </Label>
-                  <JFXButton fx:id="add" buttonType="RAISED" focusTraversable="false" layoutX="372.0" layoutY="170.0" onAction="#onFinish" prefHeight="37.0" prefWidth="106.0" text="HINZUFÜGEN" textFill="WHITE">
+                  <JFXButton id="alert-button" fx:id="add" buttonType="RAISED" focusTraversable="false" layoutX="372.0" layoutY="170.0" onAction="#onFinish" prefHeight="37.0" prefWidth="106.0" text="HINZUFÜGEN" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="13.0" />
                      </font>

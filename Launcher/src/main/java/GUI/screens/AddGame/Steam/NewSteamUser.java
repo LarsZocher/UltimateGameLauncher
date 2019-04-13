@@ -46,7 +46,6 @@ public abstract class NewSteamUser extends Application{
 		scene.getStylesheets().add(Menu.styleSheet);
 		
 		NewSteamUserController controller = loader.getController();
-		controller.init(null);
 		
 		this.stage.setScene(scene);
 		this.stage.initStyle(StageStyle.TRANSPARENT);

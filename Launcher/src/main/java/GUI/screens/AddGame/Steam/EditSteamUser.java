@@ -27,7 +27,7 @@ public abstract class EditSteamUser extends Application{
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		FXMLLoader loader = new FXMLLoader(EditSteamUser.class.getClassLoader().getResource("fxml/EditSteamUser.fxml"));
+		FXMLLoader loader = new FXMLLoader(EditSteamUser.class.getClassLoader().getResource("fxml/EditSteamUserOLD.fxml"));
 		Parent root = loader.load();
 		Scene scene = new Scene(root);
 		this.stage = primaryStage;

@@ -1,10 +1,12 @@
 package GUI.screens.Alert;
 
+import GUI.Menu;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.events.JFXDialogEvent;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.ActionEvent;
@@ -108,6 +110,13 @@ public class Alert {
 					}
 				});
 				
+			}
+		});
+		
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				Menu.root.requestFocus();
 			}
 		});
 		

@@ -3,16 +3,14 @@ package GUI.screens.AddGame.Steam;
 import GUI.Menu;
 import GUI.css.CSSUtils;
 import GUI.localization.Language;
+import GUI.screens.Alert.Alert;
 import api.GameLauncher.AppTypes;
 import api.GameLauncher.Application;
 import api.GameLauncher.GameLauncher;
 import api.GameLauncher.Image.IconSize;
 import api.GameLauncher.Image.PathType;
-import api.GameLauncher.Image.TempImageData;
 import api.GameLauncher.Steam.DBSearchResult;
-import api.GameLauncher.Steam.Steam;
 import api.GameLauncher.Steam.SteamApp;
-import api.GameLauncher.Steam.SteamDB;
 import com.google.gson.Gson;
 import com.jfoenix.controls.*;
 import javafx.animation.*;
@@ -21,18 +19,20 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.net.MalformedURLException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,8 +58,6 @@ public class EditSteamGameController {
 	@FXML
 	private Label title;
 	@FXML
-	private Label userLabel;
-	@FXML
 	private JFXListView<HBox> names;
 	@FXML
 	private JFXButton next;
@@ -77,19 +75,16 @@ public class EditSteamGameController {
 	private StackPane stack_header;
 	@FXML
 	private StackPane stack_icon;
-	@FXML
-	private HBox change;
 	
-	private EditSteamGame editSteamGame;
+	private EditSteamGameCallback callback;
 	private Application application = new Application();
-	private TempImageData tid = new TempImageData();
 	private SteamApp app = new SteamApp();
 	private GameLauncher launcher;
 	private Timeline timeline;
-	private Stage stage;
+	private Alert alert;
 	
-	public void init(Stage stage) {
-		this.stage = stage;
+	public void init(Alert alert) {
+		this.alert = alert;
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
@@ -104,7 +99,6 @@ public class EditSteamGameController {
 				name.setPromptText(Language.format(Menu.lang.getLanguage().Name));
 				dev.setPromptText(Language.format(Menu.lang.getLanguage().Developer));
 				appid.setPromptText(Language.format(Menu.lang.getLanguage().AppID));
-				userLabel.setText(Language.format(Menu.lang.getLanguage().AdvancedSettings));
 				args.setPromptText(Language.format(Menu.lang.getLanguage().StartOptions));
 				next.setText(Language.format(Menu.lang.getLanguage().ButtonFinish));
 				next1.setText(Language.format(Menu.lang.getLanguage().ButtonSearchGame));
@@ -171,23 +165,11 @@ public class EditSteamGameController {
 				pic_icon.toFront();
 			}
 		});
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				stage.getScene().setOnMouseExited(new EventHandler<MouseEvent>() {
-					@Override
-					public void handle(MouseEvent event) {
-						pic_icon.toFront();
-						pic_header.toFront();
-						pic_header.setOpacity(1);
-						pic_icon.setOpacity(1);
-					}
-				});
-			}
-		});
 	}
 	
-	
+	public void setOnContinue(EditSteamGameCallback callback){
+		this.callback = callback;
+	}
 	
 	public void loadSteamApp(Application application) {
 		SteamApp app = application.getName()!=null?application.getContent(SteamApp.class):new SteamApp();
@@ -246,16 +228,8 @@ public class EditSteamGameController {
 		
 	}
 	
-	private void setApplicationData(SteamApp app){
-		application.setContent(new JSONObject(new Gson().toJson(app)));
-	}
-	
 	public void setLauncher(GameLauncher launcher) {
 		this.launcher = launcher;
-	}
-	
-	public void setEditSteamGame(EditSteamGame editSteamGame) {
-		this.editSteamGame = editSteamGame;
 	}
 	
 	@FXML
@@ -283,9 +257,9 @@ public class EditSteamGameController {
 			json.put("content", new JSONObject(new Gson().toJson(app)));
 			application.setContent(json);
 			
-			stage.close();
+			alert.close();
 			timeline.stop();
-			editSteamGame.onContinue(application);
+			callback.onContinue(application);
 		}
 	}
 	
@@ -301,54 +275,54 @@ public class EditSteamGameController {
 	@FXML
 	void onBack() {
 		timeline.stop();
-		stage.close();
+		alert.close();
 	}
 	
 	@FXML
 	void onSearch() {
-		SearchSteamGame steamGame = new SearchSteamGame() {
-			@Override
-			public void onContinue(DBSearchResult result) {
-				SteamApp app = launcher.getSteam().getSteamCMD().getSteamApps(Integer.valueOf(result.getAppID())).get(Integer.valueOf(result.getAppID()));
-				name.setText(app.getName());
-				appid.setText(app.getAppID());
-				dev.setText(app.getDeveloper());
-				
-				application.setDisplayName(app.getName());
-				application.setName(app.getConfigName());
-				application.setUniqueID("STEAM_"+app.getAppID());
-				application.setType(AppTypes.STEAM);
-				JSONObject json = application.getRawContent();
-				json.put("content", new JSONObject(new Gson().toJson(app)));
-				application.setContent(json);
-				
-				Image header = new Image(launcher.getImageManager().getHeaderURL(application), 225, 103, false, true, true);
-				Image icon = new Image(launcher.getImageManager().getIconPNG(application, IconSize.S_DEFAULT, PathType.URL), 103, 103, false, true, true);
-				
-				pic_header.setImage(header);
-				pic_icon.setImage(icon);
-				
-				app.setUser(getUser());
-				app.setConfigName(EditSteamGameController.this.app.getConfigName());
-				EditSteamGameController.this.app = app;
-			}
-		};
 		try {
-			steamGame.start(new Stage());
-		} catch(Exception e) {
+			FXMLLoader loader = new FXMLLoader(EditSteamGameController.class.getClassLoader().getResource("fxml/SearchSteamGame.fxml"));
+			Parent root = loader.load();
+			Alert alert = new Alert(Menu.root);
+			
+			SearchSteamGameController controller = loader.getController();
+			controller.init(alert);
+			controller.setOnContinue(new SearchSteamGameCallback() {
+				@Override
+				public void onContinue(DBSearchResult result) {
+					SteamApp app = launcher.getSteam().getSteamCMD().getSteamApps(Integer.valueOf(result.getAppID())).get(Integer.valueOf(result.getAppID()));
+					name.setText(app.getName());
+					appid.setText(app.getAppID());
+					dev.setText(app.getDeveloper());
+					
+					application.setDisplayName(app.getName());
+					application.setName(app.getConfigName());
+					application.setUniqueID("STEAM_"+app.getAppID());
+					application.setType(AppTypes.STEAM);
+					JSONObject json = application.getRawContent();
+					json.put("content", new JSONObject(new Gson().toJson(app)));
+					application.setContent(json);
+					
+					Image header = new Image(launcher.getImageManager().getHeaderURL(application), 225, 103, false, true, true);
+					Image icon = new Image(launcher.getImageManager().getIconPNG(application, IconSize.S_DEFAULT, PathType.URL), 103, 103, false, true, true);
+					
+					pic_header.setImage(header);
+					pic_icon.setImage(icon);
+					
+					app.setUser(getUser());
+					app.setConfigName(EditSteamGameController.this.app.getConfigName());
+					EditSteamGameController.this.app = app;
+				}
+			});
+			
+			alert.setContent((Region)root);
+			alert.setBackground(Menu.rootAnchor);
+			alert.setBackgroundBlur(10);
+			alert.setBackgroundColorAdjust(0, 0, -0.3, 0);
+			alert.show();
+		} catch(IOException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	@FXML
-	void onExit() {
-		timeline.stop();
-		stage.close();
-	}
-	
-	@FXML
-	void onMinimize() {
-		stage.setIconified(true);
 	}
 	
 	private String getUser() {

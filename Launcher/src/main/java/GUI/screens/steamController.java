@@ -3,6 +3,7 @@ package GUI.screens;
 import GUI.Menu;
 import GUI.localization.Language;
 import GUI.screens.AddGame.ProgramManager;
+import GUI.screens.AddGame.Steam.EditSteamUserMode;
 import GUI.screens.AddGame.Steam.NewSteamUser;
 import GUI.screens.AddGame.Steam.NewSteamUserController;
 import GUI.screens.Alert.Alert;
@@ -351,7 +352,7 @@ public class steamController extends initMenuController {
 			Alert userAlert = new Alert(Menu.root);
 			
 			NewSteamUserController userController = userLoader.getController();
-			userController.init(userAlert);
+			userController.init(userAlert, EditSteamUserMode.NEW);
 			userController.setLauncher(launcher);
 			userController.setCallback(() -> {
 				forceRefreshList();

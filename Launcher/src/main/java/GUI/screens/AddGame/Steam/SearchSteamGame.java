@@ -54,8 +54,6 @@ public abstract class SearchSteamGame extends Application{
 		scene.getStylesheets().add(Menu.styleSheet);
 		
 		controller = loader.getController();
-		controller.setSteamGame(this);
-		controller.init(stage);
 		
 		this.stage.setScene(scene);
 		this.stage.initStyle(StageStyle.TRANSPARENT);

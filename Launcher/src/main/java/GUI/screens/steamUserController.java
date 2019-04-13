@@ -2,7 +2,10 @@ package GUI.screens;
 
 import GUI.Menu;
 import GUI.localization.Language;
+import GUI.screens.AddGame.ProgramManager;
 import GUI.screens.AddGame.Steam.EditSteamUser;
+import GUI.screens.AddGame.Steam.EditSteamUserMode;
+import GUI.screens.AddGame.Steam.NewSteamUserController;
 import GUI.screens.AddGame.Steam.SteamGuard.AuthenticatorMenu;
 import GUI.screens.Alert.Alert;
 import GUI.screens.Alert.SimpleAlert;
@@ -13,13 +16,18 @@ import api.GameLauncher.Steam.SteamUser;
 import com.jfoenix.controls.JFXButton;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 
 /**
@@ -140,14 +148,27 @@ public class steamUserController extends initMenuController {
 	@FXML
 	void onEdit() {
 		try {
-			EditSteamUser editSteamUser = new EditSteamUser() {
-				@Override
-				public void onFinish() {
+			try {
+				FXMLLoader userLoader = new FXMLLoader(ProgramManager.class.getClassLoader().getResource("fxml/NewSteamUser.fxml"));
+				Parent userRoot = userLoader.load();
+				Alert userAlert = new Alert(Menu.root);
+				
+				NewSteamUserController userController = userLoader.getController();
+				userController.init(userAlert, EditSteamUserMode.EDIT);
+				userController.setUserData(user);
+				userController.setLauncher(launcher);
+				userController.setCallback(() -> {
 					controller.forceRefreshList();
-				}
-			};
-			editSteamUser.setUser(name);
-			editSteamUser.start(new Stage());
+				});
+				
+				userAlert.setContent((Region)userRoot);
+				userAlert.setBackground(Menu.rootAnchor);
+				userAlert.setBackgroundBlur(10);
+				userAlert.setBackgroundColorAdjust(0, 0, -0.3, 0);
+				userAlert.show();
+			}catch(IOException e){
+				e.printStackTrace();
+			}
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

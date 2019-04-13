@@ -151,6 +151,7 @@ public class gamesController extends initMenuController {
 				stage.getScene().setOnKeyReleased(new EventHandler<KeyEvent>() {
 					@Override
 					public void handle(KeyEvent event) {
+						if(Alert.activeAlerts!=0) return;
 						if(!search.isFocused()) {
 							search.setText("");
 							search.requestFocus();

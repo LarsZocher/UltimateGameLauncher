@@ -3,10 +3,7 @@ package GUI.screens.AddGame;
 import GUI.Menu;
 import GUI.localization.Language;
 import GUI.screens.AddGame.BattleNET.EditBattleNETGame;
-import GUI.screens.AddGame.Steam.EditSteamGame;
-import GUI.screens.AddGame.Steam.NewSteamUser;
-import GUI.screens.AddGame.Steam.NewSteamUserCallback;
-import GUI.screens.AddGame.Steam.NewSteamUserController;
+import GUI.screens.AddGame.Steam.*;
 import GUI.screens.Alert.Alert;
 import GUI.screens.Alert.SimpleAlert;
 import GUI.screens.Notification.*;
@@ -64,7 +61,7 @@ public abstract class ProgramManager {
 											Alert userAlert = new Alert(Menu.root);
 											
 											NewSteamUserController userController = userLoader.getController();
-											userController.init(userAlert);
+											userController.init(userAlert, EditSteamUserMode.NEW);
 											userController.setLauncher(launcher);
 											userController.setCallback(() -> {
 												newSteamGame();
@@ -115,34 +112,58 @@ public abstract class ProgramManager {
 	}
 	
 	private void newSteamGame(){
-		EditSteamGame editSteamGame = new EditSteamGame(launcher) {
-			@Override
-			public void onContinue(Application app) {
-				launcher.getSteam().addApp(app);
-				onSuccessfullyCreated(app.getContent(SteamApp.class));
-			}
-		};
 		try {
-			editSteamGame.start(new Stage());
-		} catch(Exception e) {
+			FXMLLoader loader = new FXMLLoader(EditSteamGame.class.getClassLoader().getResource("fxml/EditSteamGame3.fxml"));
+			Parent root = loader.load();
+			Alert alert = new Alert(Menu.root);
+			
+			EditSteamGameController controller = loader.getController();
+			controller.init(alert);
+			controller.setLauncher(launcher);
+			controller.setOnContinue(new EditSteamGameCallback() {
+				@Override
+				public void onContinue(Application app) {
+					launcher.getSteam().addApp(app);
+					onSuccessfullyCreated(app.getContent(SteamApp.class));
+				}
+			});
+			
+			alert.setContent((Region)root);
+			alert.setBackground(Menu.rootAnchor);
+			alert.setBackgroundBlur(10);
+			alert.setBackgroundColorAdjust(0, 0, -0.3, 0);
+			alert.show();
+		} catch(IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
 	public void editSteamGame(Application app){
-		EditSteamGame editSteamGame = new EditSteamGame(launcher) {
-			@Override
-			public void onContinue(Application app) {
-				launcher.getSteam().addApp(app);
-				onSuccessfullyCreated(app.getContent(SteamApp.class));
-			}
-		};
 		try {
-			editSteamGame.start(new Stage());
-		} catch(Exception e) {
+			FXMLLoader loader = new FXMLLoader(EditSteamGame.class.getClassLoader().getResource("fxml/EditSteamGame3.fxml"));
+			Parent root = loader.load();
+			Alert alert = new Alert(Menu.root);
+			
+			EditSteamGameController controller = loader.getController();
+			controller.init(alert);
+			controller.setLauncher(launcher);
+			controller.loadSteamApp(app);
+			controller.setOnContinue(new EditSteamGameCallback() {
+				@Override
+				public void onContinue(Application app) {
+					launcher.getSteam().addApp(app);
+					onSuccessfullyCreated(app.getContent(SteamApp.class));
+				}
+			});
+			
+			alert.setContent((Region)root);
+			alert.setBackground(Menu.rootAnchor);
+			alert.setBackgroundBlur(10);
+			alert.setBackgroundColorAdjust(0, 0, -0.3, 0);
+			alert.show();
+		} catch(IOException e) {
 			e.printStackTrace();
 		}
-		editSteamGame.loadSteamApp(app);
 	}
 	
 	public void editBattleNETGame(BattleNETGames game){
