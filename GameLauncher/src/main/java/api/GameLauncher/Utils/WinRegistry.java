@@ -1,5 +1,6 @@
 package api.GameLauncher.Utils;
 
+import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -76,6 +77,26 @@ public class WinRegistry {
 	}
 	
 	private WinRegistry() {  }
+	
+	public static String read(String location, String key){
+		try {
+			Process process = Runtime.getRuntime().exec("reg query " + '"'+ location + "\" /v " + key);
+			
+			BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+			String out = "";
+			String line;
+			while ((line = reader.readLine()) != null) {
+				out+=line;
+			}
+			reader.close();
+			String[] parsed = out.split("    ");
+			return parsed[parsed.length-1];
+		}
+		catch (Exception e) {
+			return null;
+		}
+		
+	}
 	
 	/**
 	 * Read a value from key and value name
@@ -385,5 +406,13 @@ public class WinRegistry {
 		}
 		result[str.length()] = 0;
 		return result;
+	}
+	
+	public static int hexToInt(String hex){
+		hex = hex.toLowerCase();
+		if(hex.contains("x")){
+			hex = hex.split("x")[1];
+		}
+		return Integer.parseInt(hex, 16);
 	}
 }

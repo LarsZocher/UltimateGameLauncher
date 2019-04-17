@@ -64,6 +64,10 @@ public class Steam {
 		steamManager.save();
 		
 		loadAccounts();
+		
+		System.out.println("is logged in: "+isLoggedIn());
+		System.out.println("last logged in user: "+getLastUser());
+		System.out.println("current user: "+getCurrentUser());
 	}
 	
 	public List<SteamConfigUser> loadAccounts() {
@@ -307,10 +311,11 @@ public class Steam {
 				SteamUser user = getUser(app.getUser());
 				
 				steamManager.load();
-				if(!steamManager.get().getString("lastUsedAccount").equalsIgnoreCase(user.getUsername())) {
+				if(isRunning()&&!getCurrentUser().equalsIgnoreCase(user.getUsername())) {
 					Runtime.getRuntime().exec("taskkill /F /IM steam.exe");
 					Thread.sleep(1000);
 				}
+				
 				boolean isSteamRunning = isRunning();
 				
 				Runtime.getRuntime().exec(getSteamExecutable() + " -login " + user.getUsername() + " " + user.getPassword() + " " + (getDeveloperMode() ? "-dev -console" : "") + " -applaunch " + app.getAppID() + " " + app.getArgs());
@@ -352,7 +357,7 @@ public class Steam {
 		}
 		try {
 			steamManager.load();
-			if(!steamManager.get().getString("lastUsedAccount").equalsIgnoreCase(user.getUsername())) {
+			if(isRunning()&&!getCurrentUser().equalsIgnoreCase(user.getUsername())) {
 				Runtime.getRuntime().exec("taskkill /F /IM steam.exe");
 				Thread.sleep(1000);
 			}
@@ -425,9 +430,32 @@ public class Steam {
 		}
 	}
 	
+	public boolean isLoggedIn()
+	{
+		try {
+			String activeUser = WinRegistry.read("HKCU\\Software\\Valve\\Steam\\ActiveProcess", "ActiveUser");
+			return WinRegistry.hexToInt(activeUser)!=0;
+		}catch(Exception e){
+		}
+		return false;
+	}
+	
+	public String getCurrentUser(){
+		if(isLoggedIn()){
+			return getLastUser();
+		}
+		return "";
+	}
+	
 	public String getLastUser() {
-		steamManager.load();
-		return steamManager.get().getString("lastUsedAccount");
+		try {
+			return WinRegistry.readString(WinRegistry.HKEY_CURRENT_USER, "Software\\Valve\\Steam", "AutoLoginUser");
+		} catch(IllegalAccessException e) {
+			e.printStackTrace();
+		} catch(InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		return "";
 	}
 	
 	public SteamUser getMainAccount() {
