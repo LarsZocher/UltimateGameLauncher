@@ -1,8 +1,8 @@
-package GUI;
+package gui;
 
-import GUI.localization.Language;
-import GUI.screens.misc.MenuButton;
-import GUI.screens.misc.initMenuController;
+import gui.localization.Language;
+import gui.screens.misc.MenuButton;
+import gui.screens.misc.initMenuController;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;

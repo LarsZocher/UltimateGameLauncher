@@ -1,6 +1,5 @@
-package GUI.screens.misc;
+package gui.screens.misc;
 
-import api.GameLauncher.Application;
 import javafx.scene.layout.Pane;
 import org.controlsfx.control.GridCell;
 

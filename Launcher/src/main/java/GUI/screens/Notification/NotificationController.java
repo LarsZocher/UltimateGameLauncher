@@ -1,8 +1,8 @@
-package GUI.screens.Notification;
+package gui.screens.notification;
 
-import GUI.Menu;
-import GUI.css.CSSUtils;
-import GUI.screens.misc.initController;
+import gui.Menu;
+import gui.css.CSSUtils;
+import gui.screens.misc.initController;
 import com.jfoenix.controls.JFXButton;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

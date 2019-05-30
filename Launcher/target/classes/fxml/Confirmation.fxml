@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.*?>
 
 
-<AnchorPane prefHeight="65.0" prefWidth="600.0" style="-fx-background-color: #2d2d2d;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.screens.confirmationController">
+<AnchorPane prefHeight="65.0" prefWidth="600.0" style="-fx-background-color: #2d2d2d;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.screens.confirmationController">
    <children>
       <HBox alignment="CENTER_LEFT" prefHeight="65.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
          <children>

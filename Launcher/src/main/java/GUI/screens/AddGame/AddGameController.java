@@ -1,18 +1,16 @@
-package GUI.screens.AddGame;
+package gui.screens.addgame;
 
-import GUI.Menu;
-import GUI.css.CSSUtils;
-import GUI.localization.Language;
-import GUI.screens.Alert.Alert;
-import GUI.screens.misc.Callback;
-import GUI.screens.misc.initController;
-import api.GameLauncher.AppTypes;
+import gui.Menu;
+import gui.css.CSSUtils;
+import gui.localization.Language;
+import gui.screens.alert.Alert;
+import gui.screens.misc.Callback;
+import api.launcher.AppTypes;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.stage.Stage;
 
 /**
  * Removing of this disclaimer is forbidden.

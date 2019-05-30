@@ -1,14 +1,10 @@
-package GUI.screens.misc;
+package gui.screens.misc;
 
-import GUI.Menu;
-import GUI.css.CSSCustom;
-import GUI.css.CSSState;
-import GUI.css.CSSUtils;
+import gui.css.CSSCustom;
+import gui.css.CSSState;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 

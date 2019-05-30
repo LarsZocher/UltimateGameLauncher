@@ -9,7 +9,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane fx:id="borderpane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.screens.AddGame.Steam.EditSteamGameController">
+<BorderPane fx:id="borderpane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.screens.addgame.steam.EditSteamGameController">
    <top>
       <VBox prefHeight="38.0" style="-fx-background-color: #212121;" BorderPane.alignment="CENTER_RIGHT">
          <children>

@@ -1,18 +1,9 @@
-package GUI.screens.AddGame.Steam.SteamGuard;
+package gui.screens.addgame.steam.steamguard;
 
-import GUI.Menu;
-import GUI.localization.Language;
-import GUI.menuController;
-import GUI.screens.misc.initMenuController;
-import api.GameLauncher.GameLauncher;
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXPasswordField;
-import com.jfoenix.controls.JFXTextField;
-import javafx.application.Platform;
+import gui.menuController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 

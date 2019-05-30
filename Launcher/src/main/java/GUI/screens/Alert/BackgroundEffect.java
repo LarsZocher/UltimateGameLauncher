@@ -1,4 +1,4 @@
-package GUI.screens.Alert;
+package gui.screens.alert;
 
 /**
  * Removing of this disclaimer is forbidden.

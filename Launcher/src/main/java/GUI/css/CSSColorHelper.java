@@ -1,15 +1,13 @@
-package GUI.css;
+package gui.css;
 
-import GUI.Menu;
+import gui.Menu;
 import com.sun.javafx.css.Rule;
 import com.sun.javafx.css.Stylesheet;
 import com.sun.javafx.css.converters.ColorConverter;
 import com.sun.javafx.css.parser.CSSParser;
 import javafx.scene.paint.Color;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.net.URL;
 
 /**

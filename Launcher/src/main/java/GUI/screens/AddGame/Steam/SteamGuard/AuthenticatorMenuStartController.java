@@ -1,10 +1,10 @@
-package GUI.screens.AddGame.Steam.SteamGuard;
+package gui.screens.addgame.steam.steamguard;
 
-import GUI.Menu;
-import GUI.localization.Language;
-import GUI.screens.Notification.*;
-import api.GameLauncher.GameLauncher;
-import api.GameLauncher.Steam.SteamUser;
+import gui.Menu;
+import gui.localization.Language;
+import gui.screens.notification.*;
+import api.launcher.GameLauncher;
+import api.launcher.steam.SteamUser;
 import com.jfoenix.controls.JFXButton;
 import javafx.application.Platform;
 import javafx.fxml.FXML;

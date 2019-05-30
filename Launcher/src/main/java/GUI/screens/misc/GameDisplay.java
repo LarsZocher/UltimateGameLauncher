@@ -1,8 +1,8 @@
-package GUI.screens.misc;
+package gui.screens.misc;
 
-import GUI.css.CSSColorHelper;
-import api.GameLauncher.Application;
-import api.GameLauncher.Steam.SteamUser;
+import gui.css.CSSColorHelper;
+import api.launcher.Application;
+import api.launcher.steam.SteamUser;
 import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
@@ -44,6 +44,7 @@ public abstract class GameDisplay {
 	private int height = 102;
 	
 	public GameDisplay(String name, Application app, String picture, boolean showEdit, boolean showLink, boolean showDelete) {
+		long start = System.currentTimeMillis();
 		this.name = name;
 		this.app = app;
 		this.picture = picture;
@@ -54,7 +55,10 @@ public abstract class GameDisplay {
 		this.pane.setPrefWidth(width);
 		this.pane.setPrefHeight(height);
 		this.pane.setStyle("-fx-background-color: #2d2d2d");
+		System.out.println("-.." + (System.currentTimeMillis() - start));
+		
 		show();
+		System.out.println("-.." + (System.currentTimeMillis() - start));
 	}
 	
 	public void hide() {
@@ -68,7 +72,7 @@ public abstract class GameDisplay {
 		if(isShown)
 			return;
 		
-		System.out.println("\""+picture+"\"");
+		System.out.println("\"" + picture + "\"");
 		
 		isShown = true;
 		Label label = new Label(name);
@@ -147,11 +151,10 @@ public abstract class GameDisplay {
 			@Override
 			protected Void call() throws Exception {
 				try {
-					if(picture==null ||picture.isEmpty()) {
+					if(picture == null || picture.isEmpty()) {
 						Image img = new Image("icon/gd_default.png", 225, 102, false, true, true);
 						rect.setImage(img);
-					}
-					else{
+					} else {
 						Image img = new Image(picture, 225, 102, false, true, true);
 						rect.setImage(img);
 					}
@@ -236,9 +239,14 @@ public abstract class GameDisplay {
 		HBox.setHgrow(p, Priority.SOMETIMES);
 		Image img = new Image(user.getImageIcon(), 22, 22, false, true, true);
 		ImageView view = new ImageView(img);
-
-		topBar.getChildren().add(0, p);
-		topBar.getChildren().add(0, view);
+		
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				topBar.getChildren().add(0, p);
+				topBar.getChildren().add(0, view);
+			}
+		});
 	}
 	
 	public void unfocus() {

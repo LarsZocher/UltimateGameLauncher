@@ -1,17 +1,14 @@
-package GUI.screens;
+package gui.screens;
 
-import GUI.Menu;
-import GUI.localization.Language;
-import GUI.screens.AddGame.ProgramManager;
-import GUI.screens.AddGame.Steam.EditSteamUserMode;
-import GUI.screens.AddGame.Steam.NewSteamUser;
-import GUI.screens.AddGame.Steam.NewSteamUserController;
-import GUI.screens.Alert.Alert;
-import GUI.screens.misc.SteamMobileConfirmation;
-import GUI.screens.misc.initMenuController;
-import api.GameLauncher.GameLauncher;
-import api.GameLauncher.Steam.SteamUser;
-import codebehind.steam.mobileauthentication.SteamGuardAccount;
+import gui.Menu;
+import gui.localization.Language;
+import gui.screens.addgame.ProgramManager;
+import gui.screens.addgame.steam.EditSteamUserMode;
+import gui.screens.addgame.steam.NewSteamUserController;
+import gui.screens.alert.Alert;
+import gui.screens.misc.initMenuController;
+import api.launcher.GameLauncher;
+import api.launcher.steam.SteamUser;
 import codebehind.steam.mobileauthentication.TimeAligner;
 import codebehind.steam.mobileauthentication.model.Confirmation;
 import com.jfoenix.controls.*;
@@ -23,7 +20,6 @@ import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -31,7 +27,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import javax.swing.*;
@@ -74,7 +69,7 @@ public class steamController extends initMenuController {
 	private ScrollPane usersScroll;
 	
 	private List<String> lastUser = new ArrayList<>();
-	private GameLauncher launcher = new GameLauncher();
+	private GameLauncher launcher;
 	private ArrayList<steamUserController> controller = new ArrayList<>();
 	private ArrayList<confirmationController> confController = new ArrayList<>();
 	private int userCount = 0;
@@ -88,6 +83,8 @@ public class steamController extends initMenuController {
 	@Override
 	public void init(Menu menu) {
 		super.init(menu);
+		
+		launcher = menu.getLauncher();
 		
 		Platform.runLater(new Runnable() {
 			@Override
@@ -115,27 +112,28 @@ public class steamController extends initMenuController {
 			@Override
 			protected Void call() throws Exception {
 				forceRefreshList();
-				reloadConfirmations(true, true);
+				//reloadConfirmations(true, true);
+				startTimers();
 				return null;
 			}
 		}).start();
-		
-		startTimers();
 	}
 	
 	private void startTimers(){
 		Timeline timeline = new Timeline(new KeyFrame(Duration.minutes(10), ev -> {
-			for(String value : launcher.getSteam().getSteamGuard().getSga().keySet()) {
-				SteamUser user = launcher.getSteam().getUser(value);
-				if(user.hasSteamGuard()) {
-					try {
-						launcher.getSteam().getSteamGuard().doLogin(user);
-						System.out.println("[Steam] Session renewed for user "+value+"!");
-					} catch(Throwable throwable) {
-						throwable.printStackTrace();
+			new Thread(()-> {
+				for(String value : launcher.getSteam().getSteamGuard().getSga().keySet()) {
+					SteamUser user = launcher.getSteam().getUser(value);
+					if(user.hasSteamGuard()) {
+						try {
+							launcher.getSteam().getSteamGuard().doLogin(user);
+							System.out.println("[Steam] Session renewed for user " + value + "!");
+						} catch(Throwable throwable) {
+							throwable.printStackTrace();
+						}
 					}
 				}
-			}
+			}).start();
 		}));
 		timeline.setCycleCount(Animation.INDEFINITE);
 		timeline.play();
@@ -291,16 +289,8 @@ public class steamController extends initMenuController {
 						List<String> usersList = launcher.getSteam().getUsernames();
 						controller.clear();
 						for(String username : usersList) {
-							if(launcher.getSteam().getUser(username).isMainAccount()) {
-								addUser(username);
-								break;
-							}
-						}
-						for(String username : usersList) {
 							addUser:
 							{
-								if(launcher.getSteam().getUser(username).isMainAccount())
-									break addUser;
 								addUser(username);
 							}
 						}

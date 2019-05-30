@@ -1,8 +1,8 @@
-package GUI.screens.AddGame.BattleNET;
+package gui.screens.addgame.battlenet;
 
-import GUI.Menu;
-import api.GameLauncher.BattleNET.BattleNETGames;
-import api.GameLauncher.GameLauncher;
+import gui.Menu;
+import api.launcher.battlenet.BattleNETGames;
+import api.launcher.GameLauncher;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

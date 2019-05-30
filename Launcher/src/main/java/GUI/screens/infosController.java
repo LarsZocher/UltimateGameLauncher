@@ -1,7 +1,7 @@
-package GUI.screens;
+package gui.screens;
 
-import GUI.Menu;
-import GUI.screens.misc.initMenuController;
+import gui.Menu;
+import gui.screens.misc.initMenuController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
@@ -25,10 +25,6 @@ public class infosController extends initMenuController {
 	private Label version2;
 	@FXML
 	private Label version3;
-	@FXML
-	private Label found1;
-	@FXML
-	private Label found2;
 	
 	@Override
 	public void init(Menu menu) {

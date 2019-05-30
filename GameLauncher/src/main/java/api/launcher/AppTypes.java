@@ -1,0 +1,64 @@
+package api.launcher;
+
+import api.launcher.battlenet.BattleNETGameConfig;
+import api.launcher.origin.OriginGame;
+import api.launcher.steam.SteamApp;
+
+/**
+ * Removing of this disclaimer is forbidden.
+ *
+ * @author BubbleEgg
+ * @verions: 1.0.0
+ **/
+
+public enum AppTypes {
+	
+	ALL("Alle", "ALLE", false, Content.class),
+	STEAM("Steam", "STEAM", true, SteamApp.class),
+	BATTLENET("BattleNET", "BATTLENET", false, BattleNETGameConfig.class),
+	ORIGIN("Origin", "ORIGIN", false, OriginGame.class),
+	UPLAY("UPlay", "UPLAY", true, Content.class);
+	
+	private String name;
+	private String GUIName;
+	private boolean isCreateable;
+	private Class content;
+	
+	AppTypes(String name, String GUIName, boolean isCreateable, Class content){
+		this.name = name;
+		this.GUIName = GUIName;
+		this.isCreateable = isCreateable;
+		this.content = content;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public String getGUIName() {
+		return GUIName;
+	}
+	
+	public boolean isCreateable() {
+		return isCreateable;
+	}
+	
+	public static AppTypes getByName(String name){
+		for(AppTypes type : AppTypes.values()) {
+			if(type.getName().equalsIgnoreCase(name))
+				return type;
+		}
+		return STEAM;
+	}
+	public static AppTypes getByGUIName(String name){
+		for(AppTypes type : AppTypes.values()) {
+			if(type.getGUIName().equalsIgnoreCase(name))
+				return type;
+		}
+		return STEAM;
+	}
+	
+	public Class getContent() {
+		return content;
+	}
+}

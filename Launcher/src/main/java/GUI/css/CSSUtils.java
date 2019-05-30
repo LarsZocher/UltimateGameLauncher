@@ -1,4 +1,4 @@
-package GUI.css;
+package gui.css;
 
 import javafx.scene.Node;
 import javafx.scene.Parent;

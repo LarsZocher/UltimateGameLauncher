@@ -1,7 +1,7 @@
-package GUI.screens.AddGame;
+package gui.screens.addgame;
 
-import GUI.Menu;
-import api.GameLauncher.AppTypes;
+import gui.Menu;
+import api.launcher.AppTypes;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

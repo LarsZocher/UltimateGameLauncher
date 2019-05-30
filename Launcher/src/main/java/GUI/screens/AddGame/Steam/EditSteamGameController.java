@@ -1,16 +1,16 @@
-package GUI.screens.AddGame.Steam;
+package gui.screens.addgame.steam;
 
-import GUI.Menu;
-import GUI.css.CSSUtils;
-import GUI.localization.Language;
-import GUI.screens.Alert.Alert;
-import api.GameLauncher.AppTypes;
-import api.GameLauncher.Application;
-import api.GameLauncher.GameLauncher;
-import api.GameLauncher.Image.IconSize;
-import api.GameLauncher.Image.PathType;
-import api.GameLauncher.Steam.DBSearchResult;
-import api.GameLauncher.Steam.SteamApp;
+import gui.Menu;
+import gui.css.CSSUtils;
+import gui.localization.Language;
+import gui.screens.alert.Alert;
+import api.launcher.AppTypes;
+import api.launcher.Application;
+import api.launcher.GameLauncher;
+import api.launcher.image.IconSize;
+import api.launcher.image.PathType;
+import api.launcher.steam.DBSearchResult;
+import api.launcher.steam.SteamApp;
 import com.google.gson.Gson;
 import com.jfoenix.controls.*;
 import javafx.animation.*;
@@ -28,7 +28,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.json.JSONObject;
 
@@ -290,7 +289,7 @@ public class EditSteamGameController {
 			controller.setOnContinue(new SearchSteamGameCallback() {
 				@Override
 				public void onContinue(DBSearchResult result) {
-					SteamApp app = launcher.getSteam().getSteamCMD().getSteamApps(Integer.valueOf(result.getAppID())).get(Integer.valueOf(result.getAppID()));
+					SteamApp app = launcher.getSteam().getSteamApp(result.getAppID());
 					name.setText(app.getName());
 					appid.setText(app.getAppID());
 					dev.setText(app.getDeveloper());

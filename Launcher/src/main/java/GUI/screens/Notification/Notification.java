@@ -1,6 +1,6 @@
-package GUI.screens.Notification;
+package gui.screens.notification;
 
-import GUI.Menu;
+import gui.Menu;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;

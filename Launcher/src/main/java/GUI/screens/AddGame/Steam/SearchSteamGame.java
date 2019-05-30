@@ -1,7 +1,7 @@
-package GUI.screens.AddGame.Steam;
+package gui.screens.addgame.steam;
 
-import GUI.Menu;
-import api.GameLauncher.Steam.DBSearchResult;
+import gui.Menu;
+import api.launcher.steam.DBSearchResult;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -9,7 +9,6 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import sun.security.util.ManifestEntryVerifier;
 
 /**
  * Removing of this disclaimer is forbidden.
