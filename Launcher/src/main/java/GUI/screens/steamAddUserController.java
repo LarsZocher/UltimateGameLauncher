@@ -1,9 +1,9 @@
-package GUI.screens;
+package gui.screens;
 
-import GUI.Menu;
-import GUI.localization.Language;
-import GUI.screens.AddGame.Steam.NewSteamUser;
-import GUI.screens.misc.initMenuController;
+import gui.Menu;
+import gui.localization.Language;
+import gui.screens.addgame.steam.NewSteamUser;
+import gui.screens.misc.initMenuController;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

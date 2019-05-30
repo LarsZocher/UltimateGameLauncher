@@ -1,4 +1,4 @@
-package GUI.localization;
+package gui.localization;
 
 /**
  * Removing of this disclaimer is forbidden.

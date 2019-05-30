@@ -1,10 +1,10 @@
-package GUI.screens.AddGame.Steam;
+package gui.screens.addgame.steam;
 
-import GUI.Menu;
-import GUI.localization.Language;
-import GUI.screens.Alert.Alert;
-import api.GameLauncher.Steam.DBSearchResult;
-import api.GameLauncher.Steam.SteamDB;
+import gui.Menu;
+import gui.localization.Language;
+import gui.screens.alert.Alert;
+import api.launcher.steam.DBSearchResult;
+import api.launcher.steam.SteamDB;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import javafx.application.Platform;
@@ -15,10 +15,8 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**

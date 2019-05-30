@@ -1,4 +1,4 @@
-package GUI.Utils;
+package gui.utils;
 
 import com.jfoenix.controls.JFXChipView;
 import javafx.application.Application;

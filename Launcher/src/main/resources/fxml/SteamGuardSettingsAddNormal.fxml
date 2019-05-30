@@ -10,7 +10,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="391.0" prefWidth="666.0" style="-fx-background-color: #323232; -fx-effect: innershadow( gaussian, rgba( 0, 0, 0, 0.6 ), 5, 0, 0, 0 );" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.screens.AddGame.Steam.SteamGuard.AuthenticatorMenuAddNormalController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="391.0" prefWidth="666.0" style="-fx-background-color: #323232; -fx-effect: innershadow( gaussian, rgba( 0, 0, 0, 0.6 ), 5, 0, 0, 0 );" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.screens.addgame.steam.steamguard.AuthenticatorMenuAddNormalController">
    <children>
       <Pane layoutX="36.0" layoutY="51.0" prefHeight="275.0" prefWidth="595.0" style="-fx-background-color: #353535; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 10, 0, 0, 0);">
          <children>

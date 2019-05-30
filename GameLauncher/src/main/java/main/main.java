@@ -1,14 +1,7 @@
 package main;
 
-import api.GameLauncher.Utils.WinRegistry;
-import mslinks.ShellLink;
-import mslinks.ShellLinkException;
+import api.launcher.utils.WinRegistry;
 
-import javax.swing.*;
-import javax.swing.filechooser.FileSystemView;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
 /**

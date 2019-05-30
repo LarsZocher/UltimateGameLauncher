@@ -1,8 +1,5 @@
-package GUI.screens.AddGame.Steam;
+package gui.screens.addgame.steam;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXListView;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;

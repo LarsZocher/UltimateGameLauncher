@@ -1,8 +1,8 @@
-package GUI.screens.AddGame.BattleNET;
+package gui.screens.addgame.battlenet;
 
-import GUI.screens.misc.initController;
-import api.GameLauncher.BattleNET.BattleNETGames;
-import api.GameLauncher.GameLauncher;
+import gui.screens.misc.initController;
+import api.launcher.battlenet.BattleNETGames;
+import api.launcher.GameLauncher;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
 import javafx.animation.Animation;

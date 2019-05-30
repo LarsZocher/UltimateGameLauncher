@@ -1,10 +1,9 @@
-package GUI.screens.misc;
+package gui.screens.misc;
 
-import GUI.css.CSSColorHelper;
-import GUI.css.CSSCustom;
-import GUI.css.CSSState;
-import api.GameLauncher.BattleNET.BattleNET;
-import api.GameLauncher.BattleNET.BattleNETUser;
+import gui.css.CSSColorHelper;
+import gui.css.CSSCustom;
+import gui.css.CSSState;
+import api.launcher.battlenet.BattleNETUser;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;

@@ -1,8 +1,8 @@
-package GUI.screens.Alert;
+package gui.screens.alert;
 
-import GUI.Menu;
-import GUI.css.CSSUtils;
-import GUI.screens.Notification.*;
+import gui.Menu;
+import gui.css.CSSUtils;
+import gui.screens.notification.*;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import javafx.application.Platform;
@@ -13,7 +13,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 

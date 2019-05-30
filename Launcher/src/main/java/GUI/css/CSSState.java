@@ -1,4 +1,4 @@
-package GUI.css;
+package gui.css;
 
 /**
  * Removing of this disclaimer is forbidden.

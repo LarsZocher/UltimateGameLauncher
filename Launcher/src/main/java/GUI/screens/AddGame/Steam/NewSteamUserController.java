@@ -1,14 +1,13 @@
-package GUI.screens.AddGame.Steam;
+package gui.screens.addgame.steam;
 
-import GUI.Menu;
-import GUI.localization.Language;
-import GUI.screens.Alert.Alert;
-import GUI.screens.Alert.SimpleAlert;
-import GUI.screens.Notification.*;
-import GUI.screens.misc.Callback;
-import api.GameLauncher.GameLauncher;
-import api.GameLauncher.Steam.SteamConfigUser;
-import api.GameLauncher.Steam.SteamUser;
+import gui.Menu;
+import gui.localization.Language;
+import gui.screens.alert.Alert;
+import gui.screens.alert.SimpleAlert;
+import gui.screens.notification.*;
+import api.launcher.GameLauncher;
+import api.launcher.steam.SteamConfigUser;
+import api.launcher.steam.SteamUser;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;

@@ -1,6 +1,6 @@
-package GUI.screens.misc;
+package gui.screens.misc;
 
-import GUI.Menu;
+import gui.Menu;
 
 /**
  * Removing of this disclaimer is forbidden.

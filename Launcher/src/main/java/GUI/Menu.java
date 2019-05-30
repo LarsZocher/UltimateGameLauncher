@@ -1,11 +1,12 @@
-package GUI;
+package gui;
 
-import GUI.Utils.ResizeHelper;
-import GUI.localization.LanguageManager;
-import GUI.screens.AddGame.BattleNET.StartBattleNETGame;
-import GUI.screens.misc.initMenuController;
-import Updater.Updater;
-import api.GameLauncher.Utils.JsonConfig;
+import gui.utils.ResizeHelper;
+import gui.localization.LanguageManager;
+import gui.screens.addgame.battlenet.StartBattleNETGame;
+import gui.screens.misc.initMenuController;
+import updater.Updater;
+import api.launcher.GameLauncher;
+import api.launcher.utils.JsonConfig;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -52,7 +53,7 @@ public class Menu extends Application{
 	private Rectangle2D before = new Rectangle2D(50, 50, 50, 50);
 	private boolean isMaximized = false;
 	private long lastClick = System.currentTimeMillis();
-	
+	private GameLauncher launcher;
 	
 	
 	public static String getStyleSheet(){
@@ -78,6 +79,7 @@ public class Menu extends Application{
 		System.out.println("[Launcher] Using \""+styleSheet+"\" as StylingSheet");
 		
 		this.stage = stage;
+		this.launcher = new GameLauncher();
 		
 		this.jsonConfig = new JsonConfig("launcher.json");
 		this.jsonConfig.load();
@@ -214,6 +216,10 @@ public class Menu extends Application{
 	
 	public void changeScene(String name){
 		mainController.loadFXML(name);
+	}
+	
+	public GameLauncher getLauncher() {
+		return launcher;
 	}
 }
 

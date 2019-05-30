@@ -1,8 +1,7 @@
-package GUI.screens.AddGame.Steam;
+package gui.screens.addgame.steam;
 
-import GUI.Menu;
-import api.GameLauncher.GameLauncher;
-import api.GameLauncher.Steam.SteamApp;
+import gui.Menu;
+import api.launcher.GameLauncher;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -68,9 +67,9 @@ public abstract class EditSteamGame extends Application{
 		this.stage.show();
 	}
 	
-	public abstract void onContinue(api.GameLauncher.Application app);
+	public abstract void onContinue(api.launcher.Application app);
 	
-	public void loadSteamApp(api.GameLauncher.Application app){
+	public void loadSteamApp(api.launcher.Application app){
 		controller.loadSteamApp(app);
 	}
 	

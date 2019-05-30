@@ -1,25 +1,24 @@
-package GUI.screens.AddGame;
+package gui.screens.addgame;
 
-import GUI.Menu;
-import GUI.localization.Language;
-import GUI.screens.AddGame.BattleNET.EditBattleNETGame;
-import GUI.screens.AddGame.Steam.*;
-import GUI.screens.Alert.Alert;
-import GUI.screens.Alert.SimpleAlert;
-import GUI.screens.Notification.*;
-import GUI.screens.misc.Callback;
-import api.GameLauncher.AppTypes;
-import api.GameLauncher.Application;
-import api.GameLauncher.BattleNET.BattleNETGames;
-import api.GameLauncher.GameLauncher;
-import api.GameLauncher.Steam.SteamApp;
+import gui.Menu;
+import gui.localization.Language;
+import gui.screens.addgame.battlenet.EditBattleNETGame;
+import gui.screens.addgame.steam.*;
+import gui.screens.alert.Alert;
+import gui.screens.alert.SimpleAlert;
+import gui.screens.notification.*;
+import gui.screens.misc.Callback;
+import api.launcher.AppTypes;
+import api.launcher.Application;
+import api.launcher.battlenet.BattleNETGames;
+import api.launcher.GameLauncher;
+import api.launcher.steam.SteamApp;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.concurrent.Callable;
 
 /**
  * Removing of this disclaimer is forbidden.

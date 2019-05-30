@@ -6,6 +6,6 @@ Class-Path: libs/commons-codec-1.10.jar libs/commons-io-2.6.jar libs/D
   libs/jsoup-1.11.3.jar libs/mslinks.jar libs/okhttp-3.8.1.jar libs/ok
  io-1.13.0.jar libs/JVDF.jar
 Plugin-Class: main.plugin
-Main-Class: api.GameLauncher.GameLauncher
+Main-Class: api.launcher.GameLauncher
 Plugin-Name: GameLauncher
 

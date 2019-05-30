@@ -1,4 +1,4 @@
-package Updater;
+package updater;
 
 import Utils.JsonConfig;
 import com.google.gson.Gson;

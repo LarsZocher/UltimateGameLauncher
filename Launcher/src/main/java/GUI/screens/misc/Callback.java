@@ -1,4 +1,4 @@
-package GUI.screens.misc;
+package gui.screens.misc;
 
 /**
  * Removing of this disclaimer is forbidden.

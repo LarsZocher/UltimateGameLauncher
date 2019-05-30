@@ -1,4 +1,4 @@
-package GUI.Utils;
+package gui.utils;
 
 /**
  * Removing of this disclaimer is forbidden.

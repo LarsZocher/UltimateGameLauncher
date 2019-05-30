@@ -1,23 +1,18 @@
-package GUI.screens.misc;
+package gui.screens.misc;
 
-import GUI.Menu;
-import GUI.css.*;
+import gui.css.*;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.EventHandler;
 import javafx.scene.CacheHint;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.effect.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-
-import javax.swing.text.html.CSS;
 
 /**
  * Removing of this disclaimer is forbidden.
