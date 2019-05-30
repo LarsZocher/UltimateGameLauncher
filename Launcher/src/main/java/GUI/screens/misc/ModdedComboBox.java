@@ -1,10 +1,8 @@
-package GUI.screens.misc;
+package gui.screens.misc;
 
-import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.paint.Color;
 
 import java.util.List;
 

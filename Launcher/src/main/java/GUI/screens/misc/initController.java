@@ -1,4 +1,4 @@
-package GUI.screens.misc;
+package gui.screens.misc;
 
 import javafx.stage.Stage;
 

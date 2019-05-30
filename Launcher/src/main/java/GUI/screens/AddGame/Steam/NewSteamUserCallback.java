@@ -1,4 +1,4 @@
-package GUI.screens.AddGame.Steam;
+package gui.screens.addgame.steam;
 
 /**
  * Removing of this disclaimer is forbidden.

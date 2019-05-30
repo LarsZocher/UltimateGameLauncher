@@ -1,6 +1,6 @@
-package GUI.screens.AddGame.Steam;
+package gui.screens.addgame.steam;
 
-import api.GameLauncher.Application;
+import api.launcher.Application;
 
 /**
  * Removing of this disclaimer is forbidden.

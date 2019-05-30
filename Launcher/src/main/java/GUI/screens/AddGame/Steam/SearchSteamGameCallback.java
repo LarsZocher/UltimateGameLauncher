@@ -1,6 +1,6 @@
-package GUI.screens.AddGame.Steam;
+package gui.screens.addgame.steam;
 
-import api.GameLauncher.Steam.DBSearchResult;
+import api.launcher.steam.DBSearchResult;
 
 /**
  * Removing of this disclaimer is forbidden.

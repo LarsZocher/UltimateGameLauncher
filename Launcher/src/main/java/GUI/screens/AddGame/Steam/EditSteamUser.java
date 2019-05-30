@@ -1,6 +1,6 @@
-package GUI.screens.AddGame.Steam;
+package gui.screens.addgame.steam;
 
-import GUI.Menu;
+import gui.Menu;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

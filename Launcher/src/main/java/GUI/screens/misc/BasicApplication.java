@@ -1,22 +1,15 @@
-package GUI.screens.misc;
+package gui.screens.misc;
 
-import GUI.Menu;
-import GUI.screens.Notification.*;
+import gui.screens.notification.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Removing of this disclaimer is forbidden.

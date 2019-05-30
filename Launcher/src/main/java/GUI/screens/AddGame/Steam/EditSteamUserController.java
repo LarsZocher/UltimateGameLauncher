@@ -1,9 +1,8 @@
-package GUI.screens.AddGame.Steam;
+package gui.screens.addgame.steam;
 
-import GUI.Menu;
-import GUI.localization.Language;
-import api.GameLauncher.GameLauncher;
-import com.jfoenix.controls.JFXBadge;
+import gui.Menu;
+import gui.localization.Language;
+import api.launcher.GameLauncher;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;

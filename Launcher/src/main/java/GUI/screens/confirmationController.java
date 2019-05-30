@@ -1,6 +1,6 @@
-package GUI.screens;
+package gui.screens;
 
-import api.GameLauncher.GameLauncher;
+import api.launcher.GameLauncher;
 import codebehind.steam.mobileauthentication.model.Confirmation;
 import com.jfoenix.controls.JFXButton;
 import javafx.application.Platform;
@@ -8,10 +8,7 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.stage.Stage;
-import main.Launcher;
 
 /**
  * Removing of this disclaimer is forbidden.

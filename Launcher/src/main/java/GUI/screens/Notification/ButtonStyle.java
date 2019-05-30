@@ -1,4 +1,4 @@
-package GUI.screens.Notification;
+package gui.screens.notification;
 
 /**
  * Removing of this disclaimer is forbidden.

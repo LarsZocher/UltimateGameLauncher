@@ -1,11 +1,10 @@
-package GUI.screens.AddGame.Steam.SteamGuard;
+package gui.screens.addgame.steam.steamguard;
 
-import GUI.Menu;
-import GUI.localization.Language;
-import api.GameLauncher.GameLauncher;
-import api.GameLauncher.Steam.SteamGuard;
-import api.GameLauncher.Steam.SteamGuardInformation;
-import api.GameLauncher.Steam.SteamUser;
+import gui.Menu;
+import gui.localization.Language;
+import api.launcher.GameLauncher;
+import api.launcher.steam.SteamGuardInformation;
+import api.launcher.steam.SteamUser;
 import codebehind.steam.mobileauthentication.AuthenticatorLinker;
 import codebehind.steam.mobileauthentication.UserLoginService;
 import codebehind.steam.mobileauthentication.model.LoginRequest;
@@ -22,7 +21,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import org.apache.commons.io.FileUtils;
-import org.omg.PortableInterceptor.SUCCESSFUL;
 
 import java.io.File;
 

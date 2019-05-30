@@ -9,7 +9,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="221.0" prefWidth="184.0" style="-fx-background-color: #353535; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 10, 0, 0, 0);" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.screens.steamUserController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="221.0" prefWidth="184.0" style="-fx-background-color: #353535; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 10, 0, 0, 0);" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.screens.steamUserController">
    <children>
       <Pane fx:id="bar" layoutY="-1.0" prefHeight="2.0" prefWidth="183.0" />
       <ImageView fx:id="usericon" fitHeight="108.0" fitWidth="102.0" layoutX="41.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true" />

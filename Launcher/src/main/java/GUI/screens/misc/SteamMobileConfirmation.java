@@ -1,4 +1,4 @@
-package GUI.screens.misc;
+package gui.screens.misc;
 
 import codebehind.steam.mobileauthentication.model.Confirmation;
 import com.jfoenix.controls.JFXButton;

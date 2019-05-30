@@ -6,15 +6,15 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="DotBotUpdater" />
         <module name="DotBotGameLauncher" />
         <module name="DotBotLauncher" />
-        <module name="DotBotUpdater" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="DotBotGameLauncher" target="1.8" />
-      <module name="DotBotLauncher" target="1.8" />
-      <module name="DotBotUpdater" target="8" />
+      <module name="DotBotLauncher" target="1.5" />
+      <module name="DotBotUpdater" target="1.5" />
     </bytecodeTargetLevel>
   </component>
 </project>

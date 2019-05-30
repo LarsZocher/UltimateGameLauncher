@@ -1,6 +1,5 @@
-package GUI.localization;
+package gui.localization;
 
-import api.GameLauncher.GameLauncher;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.apache.commons.io.FileUtils;

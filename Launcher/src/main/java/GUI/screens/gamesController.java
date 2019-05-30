@@ -1,26 +1,24 @@
-package GUI.screens;
+package gui.screens;
 
-import GUI.Menu;
-import GUI.css.CSSUtils;
-import GUI.localization.Language;
-import GUI.screens.AddGame.ProgramManager;
-import GUI.screens.Alert.Alert;
-import GUI.screens.Alert.AlertManager;
-import GUI.screens.Alert.SimpleAlert;
-import GUI.screens.Notification.*;
-import GUI.screens.misc.*;
-import api.GameLauncher.AppTypes;
-import api.GameLauncher.Application;
-import api.GameLauncher.BattleNET.BattleNETGames;
-import api.GameLauncher.GameLauncher;
-import api.GameLauncher.Origin.OriginGame;
-import api.GameLauncher.ShortcutManager;
-import api.GameLauncher.Steam.SteamApp;
-import api.GameLauncher.Steam.SteamUser;
+import gui.Menu;
+import gui.css.CSSUtils;
+import gui.localization.Language;
+import gui.screens.addgame.ProgramManager;
+import gui.screens.alert.Alert;
+import gui.screens.alert.SimpleAlert;
+import gui.screens.notification.*;
+import gui.screens.misc.*;
+import api.launcher.AppTypes;
+import api.launcher.Application;
+import api.launcher.battlenet.BattleNETGames;
+import api.launcher.GameLauncher;
+import api.launcher.origin.OriginGame;
+import api.launcher.ShortcutManager;
+import api.launcher.steam.SteamApp;
+import api.launcher.steam.SteamUser;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
-import com.jfoenix.controls.events.JFXDialogEvent;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -37,7 +35,6 @@ import javafx.util.Callback;
 import org.controlsfx.control.GridCell;
 import org.controlsfx.control.GridView;
 
-import java.io.File;
 import java.util.*;
 
 
@@ -94,7 +91,7 @@ public class gamesController extends initMenuController {
 		super.init(menu);
 		this.stage = menu.stage;
 		
-		this.launcher = new GameLauncher();
+		this.launcher = menu.getLauncher();
 		this.manager = new ProgramManager(launcher) {
 			@Override
 			public void onSuccessfullyCreated(SteamApp app) {
@@ -281,16 +278,21 @@ public class gamesController extends initMenuController {
 						else
 							displays = launcher.getApplications(type);
 						
+						System.out.println("1 - "+displays.size());
+						
 						if(type == AppTypes.ALL || type == AppTypes.BATTLENET)
 							displays = filterBattleNETGames(displays);
+						System.out.println("2 - "+displays.size());
+						
 						displays = filterApps(displays, filter);
+						System.out.println("3 - "+displays.size());
 						
 						switch(SortStyle.getByName(sort.getSelectionModel().getSelectedItem())) {
 							case ALPHABETICALLY: {
 								Collections.sort(displays, new Comparator<Application>() {
 									@Override
 									public int compare(Application o1, Application o2) {
-										return getDisplayName(o1).toLowerCase().compareTo(getDisplayName(o2).toLowerCase());
+										return o1.getDisplayName().toLowerCase().compareTo(o2.getDisplayName().toLowerCase());
 									}
 								});
 								break;
@@ -305,10 +307,16 @@ public class gamesController extends initMenuController {
 								break;
 							}
 						}
+						
+						System.out.println("4 - "+displays.size());
+						
 						current = displays;
 						break;
 					}
 				}
+				
+				
+				System.out.println("[Launcher] Loading "+current.size()+" apps!");
 				
 				List<GameDisplay> toAdd = new ArrayList<>();
 				index = 0;
@@ -317,10 +325,16 @@ public class gamesController extends initMenuController {
 					@Override
 					protected Void call() {
 						try {
+							
 							for(int i = 0; i < current.size(); i++) {
-								toAdd.add(loadDisplay(current.get(i)));
+								long startTime = System.currentTimeMillis();
+								GameDisplay display = loadDisplay(current.get(i));
+								if(display!=null)
+									toAdd.add(display);
+								System.out.println(System.currentTimeMillis()-startTime);
 							}
 							Thread.sleep(100);
+							
 							loading = false;
 							firstLoading = false;
 						} catch(Exception e) {
@@ -433,10 +447,13 @@ public class gamesController extends initMenuController {
 	}
 	
 	public GameDisplay loadDisplay(Application app) {
+		if(app.getType()==null) return null;
 		switch(app.getType()) {
 			case STEAM: {
-				SteamApp steamApp = launcher.getSteam().getApp(app.getName());
-				SteamUser user = new SteamUser(launcher, steamApp.getUser());
+				long startTime = System.currentTimeMillis();
+				System.out.println("-"+(System.currentTimeMillis()-startTime));
+				SteamUser user = new SteamUser(launcher, app.getContent(SteamApp.class).getUser());
+				System.out.println("--"+(System.currentTimeMillis()-startTime));
 				GameDisplay display = new GameDisplay(app.getDisplayName(), app, launcher.getImageManager().getHeaderURL(app), true, true, true) {
 					@Override
 					public void onDelete() {
@@ -446,7 +463,7 @@ public class gamesController extends initMenuController {
 						sa.addOption(Language.format(Menu.lang.getLanguage().ButtonDelete), ButtonAlignment.RIGHT, new ButtonCallback() {
 							@Override
 							public void onClick() {
-								launcher.getSteam().removeApp(steamApp.getConfigName());
+								launcher.getSteam().removeApp(app.getName());
 								loadList(currentAppType, "");
 							}
 						}, true, ButtonStyle.GHOST);
@@ -520,21 +537,25 @@ public class gamesController extends initMenuController {
 					
 					@Override
 					public void onRun() {
-						launcher.getSteam().launch(steamApp);
+						launcher.getSteam().launch(app.getContent(SteamApp.class));
 					}
 					
 				};
-				if(!user.exists()) {
-					if(launcher.getSteam().getUsernames().size() > 0) {
-						SteamUser newUser = launcher.getSteam().getUser(launcher.getSteam().getUsernames().get(0));
-						display.setUser(newUser);
-						System.out.println("[Steam] " + app.getName() + ": user " + user.getUsername() + " not found! Setting user to: " + newUser.getUsername());
-						SteamApp newApp = app.getContent(SteamApp.class);
-						newApp.setUser(newUser.getUsername());
-						launcher.getSteam().addApp(newApp);
-					}
-				} else
-					display.setUser(user);
+				System.out.println("---."+(System.currentTimeMillis()-startTime));
+				new Thread(()-> {
+					if(!user.exists()) {
+						if(launcher.getSteam().getUsernames().size() > 0) {
+							SteamUser newUser = launcher.getSteam().getUser(launcher.getSteam().getUsernames().get(0));
+							display.setUser(newUser);
+							System.out.println("[Steam] " + app.getName() + ": user " + user.getUsername() + " not found! Setting user to: " + newUser.getUsername());
+							SteamApp newApp = app.getContent(SteamApp.class);
+							newApp.setUser(newUser.getUsername());
+							launcher.getSteam().addApp(newApp);
+						}
+					} else
+						display.setUser(user);
+				}).start();
+				System.out.println("---"+(System.currentTimeMillis()-startTime));
 				return display;
 			}
 			case BATTLENET: {

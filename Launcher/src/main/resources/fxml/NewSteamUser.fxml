@@ -10,7 +10,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.screens.AddGame.Steam.NewSteamUserController">
+<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.screens.addgame.steam.NewSteamUserController">
    <children>
       <Pane id="bar-4" prefHeight="3.0" />
       <AnchorPane style="-fx-background-color: #303030;">

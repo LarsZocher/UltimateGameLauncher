@@ -1,4 +1,4 @@
-package GUI.screens.AddGame.Steam.SteamGuard;
+package gui.screens.addgame.steam.steamguard;
 
 /**
  * Removing of this disclaimer is forbidden.

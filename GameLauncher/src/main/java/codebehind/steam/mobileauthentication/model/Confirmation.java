@@ -1,6 +1,6 @@
 package codebehind.steam.mobileauthentication.model;
 
-import api.GameLauncher.Steam.SteamUser;
+import api.launcher.steam.SteamUser;
 
 public class Confirmation {
 	private String description;
