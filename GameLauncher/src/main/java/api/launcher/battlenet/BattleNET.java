@@ -36,12 +36,9 @@ public class BattleNET {
 			return;
 		}
 		
-		this.launcher.cfg.load();
-		
 		battleCfg = new JsonPartManager("BattleNet") {
 			@Override
 			public JSONObject onLoad(String key) {
-				launcher.cfg.load();
 				return JsonConfig.getJSONObject(launcher.cfg.getConfig(), key);
 			}
 			
@@ -208,7 +205,6 @@ public class BattleNET {
 	}
 	
 	public void setNamesToSay(BattleNETGames game, List<String> names) {
-		launcher.cfg.load();
 		JSONArray applications = JsonConfig.getJSONArray(launcher.cfg.getConfig(), "Applications");
 		for(int i = 0; i < applications.length(); i++) {
 			Application app = new Gson().fromJson(applications.getJSONObject(i).toString(), Application.class);
@@ -230,7 +226,6 @@ public class BattleNET {
 	}
 	
 	public List<String> getNamesToSay(BattleNETGames game) {
-		launcher.cfg.load();
 		return launcher.getApplication(game.getConfigName()).getContent(BattleNETGameConfig.class).getNamesToSay();
 	}
 	

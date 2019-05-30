@@ -172,6 +172,7 @@ public class SteamApp extends Content {
 		developer = json.getString("developer");
 		publisher = json.getString("publisher");
 		franchise = json.getString("franchise");
+		clientIcon = json.getString("iconName");
 		icon = json.getString("iconName");
 		creationDate = System.currentTimeMillis();
 		setConfigName(name);

@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Class-Path: libs/commons-codec-1.10.jar libs/commons-io-2.6.jar libs/D
  otBot.jar libs/gson-2.8.5.jar libs/guava-19.0.jar libs/image4j.jar li
- bs/jackson-annotations-2.9.5.jar libs/jackson-core-2.9.4.jar libs/jac
- kson-databind-2.9.4.jar libs/jfoenix-8.0.7.jar libs/json-20180813.jar
+ bs/jackson-annotations-2.9.5.jar libs/jackson-core-2.9.9.jar libs/jac
+ kson-databind-2.9.9.jar libs/jfoenix-8.0.7.jar libs/json-20180813.jar
   libs/jsoup-1.11.3.jar libs/mslinks.jar libs/okhttp-3.8.1.jar libs/ok
  io-1.13.0.jar libs/JVDF.jar
 Plugin-Class: main.plugin

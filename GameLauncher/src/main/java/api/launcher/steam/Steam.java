@@ -41,7 +41,6 @@ public class Steam {
 		this.steamManager = new JsonPartManager("Steam") {
 			@Override
 			public JSONObject onLoad(String key) {
-				launcher.cfg.load();
 				return JsonConfig.getJSONObject(launcher.cfg.getConfig(), key);
 			}
 			
@@ -106,7 +105,7 @@ public class Steam {
 		System.out.println("[Steam] Searching games from: " + steam64id);
 		List<SteamApp> apps = new ArrayList<>();
 		try {
-			HttpURLConnection con = (HttpURLConnection) new URL("http://[::1]:187/getGamesFromUser?id=" + steam64id + "&includefree=" + (free ? 1 : 0)).openConnection();
+			HttpURLConnection con = (HttpURLConnection) new URL("https://ugl.seemslegit.me/getGamesFromUser?id=" + steam64id + "&includefree=" + (free ? 1 : 0)).openConnection();
 			con.setRequestMethod("GET");
 			con.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.152 Safari/537.36");
 			
@@ -146,7 +145,7 @@ public class Steam {
 		System.out.println("[Steam] Searching games: "+String.join(", ", appids));
 		List<SteamApp> apps = new ArrayList<>();
 		try {
-			HttpURLConnection con = (HttpURLConnection) new URL("http://[::1]:187/getGames?uniqueID=STEAM_"+String.join(",STEAM_", appids)).openConnection();
+			HttpURLConnection con = (HttpURLConnection) new URL("https://ugl.seemslegit.me/getGames?uniqueID=STEAM_"+String.join(",STEAM_", appids)).openConnection();
 			con.setRequestMethod("GET");
 			con.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.152 Safari/537.36");
 			
@@ -199,7 +198,6 @@ public class Steam {
 	}
 	
 	public List<String> getUsernames() {
-		steamManager.load();
 		List<String> users = new ArrayList<>();
 		for(int i = 0; i < steamManager.getJSONArray("Users").length(); i++) {
 			users.add(steamManager.getJSONArray("Users").getJSONObject(i).getString("username"));

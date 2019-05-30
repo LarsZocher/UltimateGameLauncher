@@ -112,7 +112,7 @@ public class steamController extends initMenuController {
 			@Override
 			protected Void call() throws Exception {
 				forceRefreshList();
-				reloadConfirmations(true, true);
+				//reloadConfirmations(true, true);
 				startTimers();
 				return null;
 			}

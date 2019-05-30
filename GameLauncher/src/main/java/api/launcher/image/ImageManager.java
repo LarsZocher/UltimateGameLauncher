@@ -116,11 +116,14 @@ public class ImageManager {
 	
 	public String getIconPNG(Application app, IconSize size) {
 		try {
+			System.out.println(app);
 			String path;
 			if(app.isDefaultIcon())
 				path = getDefaultIconPNG(app);
 			else
 				path = getCustomIconPNG(app);
+			
+			System.out.println(path);
 			
 			BufferedImage bi = ImageIO.read(new File(path));
 			switch(size){
@@ -244,6 +247,7 @@ public class ImageManager {
 					});
 					ImageIO.write(images.get(0), "png", new File(filePath));
 				} catch(IOException e) {
+					e.printStackTrace();
 					System.out.println("Failed to download steam icon!");
 				}
 				break;

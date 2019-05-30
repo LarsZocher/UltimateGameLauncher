@@ -79,8 +79,6 @@ public class Origin {
 	}
 	
 	public void addGame(OriginGame game) {
-		this.launcher.cfg.load();
-		
 		Application application = null;
 		for(Application apps : launcher.getApplications()) {
 			if(apps.getName().equalsIgnoreCase(game.getConfigName())) {
@@ -112,7 +110,6 @@ public class Origin {
 	}
 	
 	public void removeGame(String name) {
-		this.launcher.cfg.load();
 		JSONArray applications = JsonConfig.getJSONArray(launcher.cfg.getConfig(), "Applications");
 		int id = 0;
 		for(int i = 0; i < applications.length(); i++) {

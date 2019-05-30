@@ -10,11 +10,11 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane fx:id="borderpane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="api.GameLauncher.GUI.NewSteamUserController">
+<BorderPane fx:id="borderpane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="api.launcher.gui.NewSteamUserController">
    <top>
       <VBox prefHeight="38.0" style="-fx-background-color: #212121;" BorderPane.alignment="CENTER_RIGHT">
          <children>
-            <Pane id="bar" maxHeight="-Infinity" minHeight="2.0" prefHeight="2.0" stylesheets="@../../java/api/GameLauncher/GUI/css/ColoredBar.css" VBox.vgrow="ALWAYS" />
+            <Pane id="bar" maxHeight="-Infinity" minHeight="2.0" prefHeight="2.0" stylesheets="@../../java/api/launcher/gui/css/ColoredBar.css" VBox.vgrow="ALWAYS" />
             <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
                <children>
                   <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
@@ -34,7 +34,7 @@
                      <children>
                         <ImageView fx:id="minimize" fitHeight="29.0" fitWidth="29.0" onMouseReleased="#onMinimize" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../java/api/GameLauncher/GUI/res/minimize.png" />
+                              <Image url="@../../java/api/launcher/gui/res/minimize.png" />
                            </image>
                            <HBox.margin>
                               <Insets bottom="5.0" right="5.0" />
@@ -45,7 +45,7 @@
                               <Insets right="8.0" />
                            </HBox.margin>
                            <image>
-                              <Image url="@../../java/api/GameLauncher/GUI/res/close.png" />
+                              <Image url="@../../java/api/launcher/gui/res/close.png" />
                            </image>
                         </ImageView>
                      </children>
@@ -64,7 +64,7 @@
                      <children>
                         <ImageView fitHeight="32.0" fitWidth="78.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../java/api/GameLauncher/GUI/res/user.png" />
+                              <Image url="@../../java/api/launcher/gui/res/user.png" />
                            </image>
                         </ImageView>
                         <Label prefHeight="26.0" prefWidth="85.0" text="Username:" textFill="#dddddd">
@@ -72,7 +72,7 @@
                               <Font size="17.0" />
                            </font>
                         </Label>
-                        <JFXTextField fx:id="username" prefHeight="31.0" prefWidth="258.0" stylesheets="@../../java/api/GameLauncher/GUI/css/TextField.css">
+                        <JFXTextField fx:id="username" prefHeight="31.0" prefWidth="258.0" stylesheets="@../../java/api/launcher/gui/css/TextField.css">
                            <font>
                               <Font size="15.0" />
                            </font>
@@ -83,7 +83,7 @@
                      <children>
                         <ImageView fitHeight="32.0" fitWidth="78.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../java/api/GameLauncher/GUI/res/lock.png" />
+                              <Image url="@../../java/api/launcher/gui/res/lock.png" />
                            </image>
                         </ImageView>
                         <Label prefWidth="85.0" text="Passwort:" textFill="#dddddd">
@@ -91,7 +91,7 @@
                               <Font size="17.0" />
                            </font>
                         </Label>
-                        <JFXPasswordField fx:id="password" prefHeight="31.0" prefWidth="259.0" styleClass="jfx-text-field" stylesheets="@../../java/api/GameLauncher/GUI/css/TextField.css">
+                        <JFXPasswordField fx:id="password" prefHeight="31.0" prefWidth="259.0" styleClass="jfx-text-field" stylesheets="@../../java/api/launcher/gui/css/TextField.css">
                            <font>
                               <Font size="15.0" />
                            </font>

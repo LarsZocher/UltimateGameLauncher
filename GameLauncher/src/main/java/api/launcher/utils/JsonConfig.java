@@ -48,12 +48,15 @@ public class JsonConfig {
 				createFile();
 			String json = "";
 			
+			long start = System.currentTimeMillis();
+			System.out.println("started loading...");
 			BufferedReader reader = new BufferedReader(new FileReader(new File(filePath)));
 			String current;
 			while((current = reader.readLine()) != null){
 				json += current;
 			}
 			config = new JSONObject(json);
+			System.out.println("finished loading! - "+(System.currentTimeMillis()-start));
 		} catch(JSONException e) {
 		} catch(IOException e) {
 			e.printStackTrace();
