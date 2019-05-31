@@ -454,7 +454,7 @@ public class gamesController extends initMenuController {
 				System.out.println("-"+(System.currentTimeMillis()-startTime));
 				SteamUser user = new SteamUser(launcher, app.getContent(SteamApp.class).getUser());
 				System.out.println("--"+(System.currentTimeMillis()-startTime));
-				GameDisplay display = new GameDisplay(app.getDisplayName(), app, launcher.getImageManager().getHeaderURL(app), true, true, true) {
+				GameDisplay display = new GameDisplay(app.getDisplayName(), app, launcher.getImageManager().getHeaderURL(app), launcher, true, true, true) {
 					@Override
 					public void onDelete() {
 						SimpleAlert sa = new SimpleAlert();
@@ -560,7 +560,7 @@ public class gamesController extends initMenuController {
 			}
 			case BATTLENET: {
 				BattleNETGames battleNETGames = BattleNETGames.getByConfigName(app.getName());
-				GameDisplay display = new GameDisplay(battleNETGames.getName(), app, launcher.getImageManager().getHeaderURL(app), true, true, false) {
+				GameDisplay display = new GameDisplay(battleNETGames.getName(), app, launcher.getImageManager().getHeaderURL(app), launcher, true, true, false) {
 					@Override
 					public void onLink() {
 						SimpleAlert sa = new SimpleAlert();
@@ -628,7 +628,7 @@ public class gamesController extends initMenuController {
 			}
 			case ORIGIN: {
 				OriginGame originGame = launcher.getOrigin().getGame(app.getName());
-				GameDisplay display = new GameDisplay(originGame.getName(), app, launcher.getImageManager().getHeaderURL(app), true, true, false) {
+				GameDisplay display = new GameDisplay(originGame.getName(), app, launcher.getImageManager().getHeaderURL(app), launcher, true, true, false) {
 					@Override
 					public void onLink() {
 						SimpleAlert sa = new SimpleAlert();

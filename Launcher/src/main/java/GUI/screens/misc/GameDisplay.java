@@ -1,5 +1,7 @@
 package gui.screens.misc;
 
+import api.launcher.GameLauncher;
+import api.launcher.image.UserIconSize;
 import gui.css.CSSColorHelper;
 import api.launcher.Application;
 import api.launcher.steam.SteamUser;
@@ -35,6 +37,7 @@ public abstract class GameDisplay {
 	private String name;
 	private Application app;
 	private String picture;
+	private GameLauncher launcher;
 	private boolean showEdit;
 	private boolean showLink;
 	private boolean showDelete;
@@ -43,7 +46,8 @@ public abstract class GameDisplay {
 	private int width = 225;
 	private int height = 102;
 	
-	public GameDisplay(String name, Application app, String picture, boolean showEdit, boolean showLink, boolean showDelete) {
+	public GameDisplay(String name, Application app, String picture, GameLauncher launcher, boolean showEdit, boolean showLink, boolean showDelete) {
+		this.launcher = launcher;
 		long start = System.currentTimeMillis();
 		this.name = name;
 		this.app = app;
@@ -237,7 +241,7 @@ public abstract class GameDisplay {
 			return;
 		Pane p = new Pane();
 		HBox.setHgrow(p, Priority.SOMETIMES);
-		Image img = new Image(user.getImageIcon(), 22, 22, false, true, true);
+		Image img = new Image(launcher.getImageManager().getUserIconURL(user.getID(), UserIconSize.ICON), 22, 22, false, true, true);
 		ImageView view = new ImageView(img);
 		
 		Platform.runLater(new Runnable() {
