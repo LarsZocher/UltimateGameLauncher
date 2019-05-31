@@ -10,15 +10,14 @@ import org.apache.commons.io.FileUtils;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -32,33 +31,36 @@ public class ImageManager {
 	
 	private GameLauncher launcher;
 	
-	public ImageManager(GameLauncher launcher){
+	public ImageManager(GameLauncher launcher) {
 		this.launcher = launcher;
 		
-		File headerFolder = new File(launcher.folderPath+"Games\\Header");
+		File headerFolder = new File(launcher.folderPath + "Games\\Header");
 		if(!headerFolder.exists()) headerFolder.mkdir();
 		
-		File iconFolder = new File(launcher.folderPath+"Games\\Icon");
+		File iconFolder = new File(launcher.folderPath + "Games\\Icon");
 		if(!iconFolder.exists()) iconFolder.mkdir();
 		
-		File tempFolder = new File(launcher.folderPath+"Games\\Temp");
+		File userIconFolder = new File(launcher.folderPath + "Users\\Icon");
+		if(!userIconFolder.exists()) userIconFolder.mkdir();
+		
+		File tempFolder = new File(launcher.folderPath + "Games\\Temp");
 		if(!tempFolder.exists())
 			tempFolder.mkdir();
-		else{
+		else {
 			for(File file : tempFolder.listFiles()) {
 				file.delete();
 			}
 		}
 	}
 	
-	public String getImage(String path, PathType type){
+	public String getImage(String path, PathType type) {
 		File original = new File(path);
-		if(original.exists()){
-			switch(type){
-				case FILE:{
+		if(original.exists()) {
+			switch(type) {
+				case FILE: {
 					return original.getAbsolutePath();
 				}
-				case URL:{
+				case URL: {
 					try {
 						return original.toURI().toURL().toString();
 					} catch(MalformedURLException e) {
@@ -70,32 +72,32 @@ public class ImageManager {
 		return null;
 	}
 	
-	public String getIconPNG(Application app, IconSize size, PathType type){
-		switch(type){
-			case URL:{
+	public String getIconPNG(Application app, IconSize size, PathType type) {
+		switch(type) {
+			case URL: {
 				try {
 					return new File(getIconPNG(app, size)).toURI().toURL().toString();
 				} catch(MalformedURLException e) {
 					e.printStackTrace();
 				}
 			}
-			case FILE:{
+			case FILE: {
 				return getIconPNG(app, size);
 			}
 		}
 		return null;
 	}
 	
-	public String getIconICO(Application app, IconSize size, PathType type){
-		switch(type){
-			case URL:{
+	public String getIconICO(Application app, IconSize size, PathType type) {
+		switch(type) {
+			case URL: {
 				try {
 					return new File(getIconICO(app, size)).toURI().toURL().toString();
 				} catch(MalformedURLException e) {
 					e.printStackTrace();
 				}
 			}
-			case FILE:{
+			case FILE: {
 				return getIconICO(app, size);
 			}
 		}
@@ -126,23 +128,23 @@ public class ImageManager {
 			System.out.println(path);
 			
 			BufferedImage bi = ImageIO.read(new File(path));
-			switch(size){
-				case S_32:{
+			switch(size) {
+				case S_32: {
 					File newFile = new File(path.replace(".png", "_32.png"));
 					ImageIO.write(resize(bi, 32, 32), "png", newFile);
 					return newFile.getAbsolutePath();
 				}
-				case S_64:{
+				case S_64: {
 					File newFile = new File(path.replace(".png", "_64.png"));
 					ImageIO.write(resize(bi, 64, 64), "png", newFile);
 					return newFile.getAbsolutePath();
 				}
-				case S_128:{
+				case S_128: {
 					File newFile = new File(path.replace(".png", "_128.png"));
 					ImageIO.write(resize(bi, 128, 128), "png", newFile);
 					return newFile.getAbsolutePath();
 				}
-				default:{
+				default: {
 					return path;
 				}
 			}
@@ -163,19 +165,19 @@ public class ImageManager {
 		return dimg;
 	}
 	
-	public String getCustomIconPNG(Application app){
+	public String getCustomIconPNG(Application app) {
 		String customFile = app.getIconPath();
-		File pngFile = new File(launcher.folderPath+"Games\\Icon\\"+app.getName()+".png");
+		File pngFile = new File(launcher.folderPath + "Games\\Icon\\" + app.getName() + ".png");
 		File newPngFile = new File(customFile);
 		
 		String filteredLink = customFile;
-		if(filteredLink.contains("?")){
+		if(filteredLink.contains("?")) {
 			filteredLink = filteredLink.split("\\?")[0];
 		}
 		
-		boolean isWebLink = customFile.toLowerCase().contains("http://")||customFile.toLowerCase().contains("https://");
-		boolean isValidType = filteredLink.endsWith(".png")||filteredLink.endsWith(".ico");
-		if(!isWebLink&&newPngFile.exists()){
+		boolean isWebLink = customFile.toLowerCase().contains("http://") || customFile.toLowerCase().contains("https://");
+		boolean isValidType = filteredLink.endsWith(".png") || filteredLink.endsWith(".ico");
+		if(!isWebLink && newPngFile.exists()) {
 			pngFile.delete();
 			try {
 				FileUtils.copyFile(newPngFile, pngFile);
@@ -184,7 +186,7 @@ public class ImageManager {
 			}
 			return pngFile.getAbsolutePath();
 		}
-		if(isWebLink&&isValidType){
+		if(isWebLink && isValidType) {
 			try {
 				URLConnection con = new URL(customFile).openConnection();
 				con.addRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:25.0) Gecko/20100101 Firefox/25.0");
@@ -192,9 +194,9 @@ public class ImageManager {
 				
 				String icoPath = "";
 				if(filteredLink.endsWith(".png"))
-					icoPath = launcher.folderPath+"Games\\Icon\\"+app.getName()+".png";
+					icoPath = launcher.folderPath + "Games\\Icon\\" + app.getName() + ".png";
 				if(filteredLink.endsWith(".ico"))
-					icoPath = launcher.folderPath+"Games\\Icon\\"+app.getName()+".ico";
+					icoPath = launcher.folderPath + "Games\\Icon\\" + app.getName() + ".ico";
 				File icoFile = new File(icoPath);
 				if(icoFile.exists())
 					icoFile.delete();
@@ -220,18 +222,18 @@ public class ImageManager {
 		return null;
 	}
 	
-	public String getDefaultIconPNG(Application app){
-		File pngFile = new File(launcher.folderPath+"Games\\Icon\\"+app.getName()+".png");
+	public String getDefaultIconPNG(Application app) {
+		File pngFile = new File(launcher.folderPath + "Games\\Icon\\" + app.getName() + ".png");
 		downloadDefaultIconPNG(app);
 		return pngFile.getAbsolutePath();
 	}
 	
-	private void downloadDefaultIconPNG(Application app){
-		String filePath = launcher.folderPath+"Games\\Icon\\"+app.getName()+".png";
-		switch(app.getType()){
-			case STEAM:{
-				try(InputStream in = new URL("http://media.steampowered.com/steamcommunity/public/images/apps/"+app.getContent(SteamApp.class).getAppID()+"/"+app.getContent(SteamApp.class).getClientIcon()+".ico").openStream()) {
-					String icoPath = launcher.folderPath+"Games\\Icon\\"+app.getName()+".ico";
+	private void downloadDefaultIconPNG(Application app) {
+		String filePath = launcher.folderPath + "Games\\Icon\\" + app.getName() + ".png";
+		switch(app.getType()) {
+			case STEAM: {
+				try(InputStream in = new URL("http://media.steampowered.com/steamcommunity/public/images/apps/" + app.getContent(SteamApp.class).getAppID() + "/" + app.getContent(SteamApp.class).getClientIcon() + ".ico").openStream()) {
+					String icoPath = launcher.folderPath + "Games\\Icon\\" + app.getName() + ".ico";
 					File icoFile = new File(icoPath);
 					if(icoFile.exists())
 						icoFile.delete();
@@ -253,8 +255,8 @@ public class ImageManager {
 				break;
 			}
 			case ORIGIN:
-			case BATTLENET:{
-				try(InputStream in = new URL("http://217.79.178.92/games/icon/"+app.getUniqueID()+".png").openStream()) {
+			case BATTLENET: {
+				try(InputStream in = new URL("http://217.79.178.92/games/icon/" + app.getUniqueID() + ".png").openStream()) {
 					File pngFile = new File(filePath);
 					if(pngFile.exists())
 						pngFile.delete();
@@ -268,8 +270,8 @@ public class ImageManager {
 		}
 	}
 	
-	public String getHeaderURL(Application app){
-		if(app.isDefaultHeader()){
+	public String getHeaderURL(Application app) {
+		if(app.isDefaultHeader()) {
 			return getDefaultHeaderURL(app);
 		}
 		try {
@@ -279,24 +281,24 @@ public class ImageManager {
 		}
 	}
 	
-	public String getHeaderFile(Application app){
+	public String getHeaderFile(Application app) {
 		String link;
 		if(app.isDefaultHeader())
 			link = getDefaultHeaderURL(app);
 		else
 			link = app.getHeaderPath();
 		
-		File jpgFile = new File(launcher.folderPath+"Games\\Header\\"+app.getName()+".jpg");
+		File jpgFile = new File(launcher.folderPath + "Games\\Header\\" + app.getName() + ".jpg");
 		File newJpgFile = new File(link);
 		
 		String filteredLink = link;
-		if(filteredLink.contains("?")){
+		if(filteredLink.contains("?")) {
 			filteredLink = filteredLink.split("\\?")[0];
 		}
 		
-		boolean isWebLink = link.toLowerCase().contains("http://")||link.toLowerCase().contains("https://");
+		boolean isWebLink = link.toLowerCase().contains("http://") || link.toLowerCase().contains("https://");
 		boolean isValidType = filteredLink.endsWith(".jpg");
-		if(!isWebLink&&newJpgFile.exists()&&(!newJpgFile.getAbsolutePath().equalsIgnoreCase(jpgFile.getAbsolutePath()))){
+		if(!isWebLink && newJpgFile.exists() && (!newJpgFile.getAbsolutePath().equalsIgnoreCase(jpgFile.getAbsolutePath()))) {
 			jpgFile.delete();
 			try {
 				FileUtils.copyFile(newJpgFile, jpgFile);
@@ -305,9 +307,9 @@ public class ImageManager {
 			}
 			return jpgFile.getAbsolutePath();
 		}
-		if(isWebLink&&isValidType){
+		if(isWebLink && isValidType) {
 			try(InputStream in = new URL(link).openStream()) {
-				String icoPath = launcher.folderPath+"Games\\Header\\"+app.getName()+".jpg";
+				String icoPath = launcher.folderPath + "Games\\Header\\" + app.getName() + ".jpg";
 				File icoFile = new File(icoPath);
 				if(icoFile.exists())
 					icoFile.delete();
@@ -321,16 +323,83 @@ public class ImageManager {
 		return null;
 	}
 	
-	public String getDefaultHeaderURL(Application app){
-		switch(app.getType()){
-			case STEAM:{
-				return "https://steamcdn-a.akamaihd.net/steam/apps/"+app.getContent(SteamApp.class).getAppID()+"/header.jpg";
+	public String getDefaultHeaderURL(Application app) {
+		switch(app.getType()) {
+			case STEAM: {
+				return "https://steamcdn-a.akamaihd.net/steam/apps/" + app.getContent(SteamApp.class).getAppID() + "/header.jpg";
 			}
 			case ORIGIN:
-			case BATTLENET:{
-				return "http://217.79.178.92/games/header/"+app.getUniqueID()+".jpg";
+			case BATTLENET: {
+				return "http://217.79.178.92/games/header/" + app.getUniqueID() + ".jpg";
 			}
 		}
 		return null;
+	}
+	
+	private HashMap<String, Long> inCache = new HashMap<>();
+	
+	public String getUserIconURL(String id, UserIconSize size) {
+		try {
+			return new File(getUserIcon(id, size)).toURI().toURL().toExternalForm();
+		} catch(MalformedURLException e) {
+			return null;
+		}
+	}
+	
+	public String getUserIcon(String id, UserIconSize size) {
+		String key = id + "_" + size.name();
+		String icoPath = launcher.folderPath + "Users\\Icon\\" + key + ".jpg";
+		File icoFile = new File(icoPath);
+		
+		if(!inCache.containsKey(key) || inCache.get(key) + 120000 < System.currentTimeMillis() || !icoFile.exists()) {
+			try(InputStream in = new URL(getDefaultUserIconUrl(id, size)).openStream()) {
+				if(icoFile.exists())
+					icoFile.delete();
+				
+				Files.copy(in, Paths.get(icoPath));
+				inCache.put(key, System.currentTimeMillis());
+				return icoFile.getAbsolutePath();
+			} catch(IOException e) {
+				System.out.println("Failed to download user icon!");
+				String url = getDefaultUserIconUrl(id, size);
+				if(url==null||url.isEmpty())
+					return icoPath;
+				else
+					return url;
+			}
+		} else
+			return icoPath;
+	}
+	
+	public String getDefaultUserIconUrl(String id, UserIconSize size) {
+		if(id == null || id.isEmpty() || size == null) return "";
+		try {
+			String link = "https://steamcommunity.com/profiles/" + id + "?xml=1";
+			
+			BufferedReader in = new BufferedReader(new InputStreamReader(new URL(link).openStream()));
+			
+			String searchFor = "<avatarFull>";
+			switch(size) {
+				case ICON:
+					searchFor = "<avatarIcon>";
+					break;
+				case MEDIUM:
+					searchFor = "<avatarMedium>";
+					break;
+			}
+			
+			String inputLine;
+			while((inputLine = in.readLine()) != null) {
+				if(inputLine.contains(searchFor)) {
+					String image = inputLine.split("\\[")[2].split("]")[0];
+					return image;
+				}
+			}
+			in.close();
+			
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
+		return "";
 	}
 }

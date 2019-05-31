@@ -1,5 +1,6 @@
 package gui.screens;
 
+import api.launcher.image.UserIconSize;
 import gui.Menu;
 import gui.localization.Language;
 import gui.screens.addgame.ProgramManager;
@@ -68,10 +69,7 @@ public class steamUserController extends initMenuController {
 		super.init(menu);
 		user = launcher.getSteam().getUser(name);
 		username.setText(user.getCurrentUsername());
-		if(user.getImageMedium() == null || user.getImageMedium().isEmpty())
-			usericon.setImage(new Image("icon/loading.png"));
-		else
-			usericon.setImage(new Image(user.getImageMedium()));
+		usericon.setImage(new Image(launcher.getImageManager().getUserIconURL(user.getID(), UserIconSize.MEDIUM)));
 		if(launcher.getSteam().getLastUser().equalsIgnoreCase(name))
 			setSelected(true);
 		else
