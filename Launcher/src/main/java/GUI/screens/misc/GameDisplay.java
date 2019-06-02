@@ -65,6 +65,9 @@ public abstract class GameDisplay {
 		System.out.println("-.." + (System.currentTimeMillis() - start));
 	}
 	
+	public GameDisplay() {
+	}
+	
 	public void hide() {
 		if(!isShown)
 			return;

@@ -21,12 +21,9 @@ import java.util.Scanner;
 public class SteamGuard {
 	
 	private GameLauncher launcher;
-	private File vbs;
 	
 	public SteamGuard(GameLauncher launcher) {
 		this.launcher = launcher;
-		
-		vbs = new File(launcher.folderPath + "FocusSteamScript.vbs");
 	}
 	
 	private UserLoginService loginSvc = new UserLoginService();
@@ -37,39 +34,15 @@ public class SteamGuard {
 	
 	public void enterCode(SteamUser user) {
 		try {
-			if(vbs.exists()) {
-				vbs.delete();
+			File loginHelper = new File(launcher.folderPath+"SteamLoginHelper.exe");
+			if(loginHelper.exists()) {
+				ProcessBuilder start = new ProcessBuilder(loginHelper.getAbsolutePath(), getCode(user));
+				start.start();
 			}
-			vbs.createNewFile();
-			
-			PrintWriter writer = new PrintWriter(vbs);
-			writer.println("Set WshShell = WScript.CreateObject(\"WScript.Shell\")");
-			writer.println("do");
-			writer.println("ret = wshShell.AppActivate(\"Steam Guard\")");
-			writer.println("If ret = True Then ");
-			writer.println("    WScript.Sleep 100");
-			writer.println("    wshShell.AppActivate(\"Steam Guard\")");
-			writer.println("    WScript.Sleep 100");
-			writer.println("    wshShell.AppActivate(\"Steam Guard\")");
-			writer.println("    WshShell.SendKeys \"" + getCode(user) + "\"");
-			writer.println("    WScript.Sleep 20");
-			writer.println("    wshShell.AppActivate(\"Steam Guard\")");
-			writer.println("    WshShell.SendKeys \"{ENTER}\"");
-			writer.println("    WScript.Sleep 20");
-			writer.println("    Wscript.Quit");
-			writer.println("End If");
-			writer.println("WScript.Sleep 500 ");
-			writer.println("Loop");
-			
-			writer.flush();
-			writer.close();
-			
-			ProcessBuilder start = new ProcessBuilder(System.getenv("WINDIR") + "\\system32\\wscript.exe", vbs.getAbsolutePath());
-			start.start();
 		} catch(Exception e) {
 		
 		} catch(Throwable throwable) {
-		
+			throwable.printStackTrace();
 		}
 	}
 	

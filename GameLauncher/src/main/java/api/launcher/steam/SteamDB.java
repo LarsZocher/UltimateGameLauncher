@@ -58,6 +58,21 @@ public class SteamDB {
 		return app;
 	}
 	
+	public static List<DBSearchResult> searchByName(String query){
+		try {
+			Document google = Jsoup.connect("https://store.steampowered.com/search/results?category1=998%2C994&snr=1_7_7_151_7&term=" + URLEncoder.encode(query, "UTF-8")).userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.152 Safari/537.36").get();
+			String data = google.toString();
+			List<DBSearchResult> apps = new ArrayList<>();
+			
+			for(String gameSplit : data.split("<a href=\"")){
+			
+			}
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	public static List<DBSearchResult> searchByName(String name, int size) {
 		List<DBSearchResult> apps = new ArrayList<>();
 		try {

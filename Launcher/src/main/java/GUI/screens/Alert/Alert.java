@@ -130,6 +130,10 @@ public class Alert {
 		this.useEffects = true;
 	}
 	
+	public void setOverlayClose(boolean overlayClose){
+		dialog.setOverlayClose(overlayClose);
+	}
+	
 	public void setBackgroundColorAdjust(double hue, double saturation, double brightness, double contrast) {
 		this.hueValue = hue;
 		this.saturationValue = saturation;
@@ -138,8 +142,14 @@ public class Alert {
 		this.useEffects = true;
 	}
 	
-	public void setContent(SimpleAlert sa) {
+	public void setContent(CustomAlert sa) {
 		sa.setDialog(dialog);
+		setOnDialogClosed(new EventHandler<JFXDialogEvent>() {
+			@Override
+			public void handle(JFXDialogEvent event) {
+				sa.onClose(event);
+			}
+		});
 		setContent(sa.getContent());
 	}
 	

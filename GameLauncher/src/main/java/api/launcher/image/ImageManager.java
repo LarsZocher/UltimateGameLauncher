@@ -351,13 +351,13 @@ public class ImageManager {
 		String icoPath = launcher.folderPath + "Users\\Icon\\" + key + ".jpg";
 		File icoFile = new File(icoPath);
 		
-		if(!inCache.containsKey(key) || inCache.get(key) + 120000 < System.currentTimeMillis() || !icoFile.exists()) {
+		if(!inCache.containsKey(key) || (inCache.get(key) + 120000) < System.currentTimeMillis() || !icoFile.exists()) {
+			inCache.put(key, System.currentTimeMillis());
 			try(InputStream in = new URL(getDefaultUserIconUrl(id, size)).openStream()) {
 				if(icoFile.exists())
 					icoFile.delete();
 				
 				Files.copy(in, Paths.get(icoPath));
-				inCache.put(key, System.currentTimeMillis());
 				return icoFile.getAbsolutePath();
 			} catch(IOException e) {
 				System.out.println("Failed to download user icon!");

@@ -54,6 +54,7 @@ public class Menu extends Application{
 	private boolean isMaximized = false;
 	private long lastClick = System.currentTimeMillis();
 	private GameLauncher launcher;
+	private gui.screens.gamesController gamesController;
 	
 	
 	public static String getStyleSheet(){
@@ -173,7 +174,7 @@ public class Menu extends Application{
 			Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
 			stage.setX(primaryScreenBounds.getMinX());
 			stage.setY(primaryScreenBounds.getMinY());
-			stage.setWidth(primaryScreenBounds.getWidth()-2);
+			stage.setWidth(primaryScreenBounds.getWidth());
 			stage.setHeight(primaryScreenBounds.getHeight());
 			isMaximized = true;
 		}else{
@@ -181,6 +182,9 @@ public class Menu extends Application{
 			stage.setHeight(before.getHeight());
 			isMaximized = false;
 		}
+		if(gamesController!=null)
+			gamesController.refreshList();
+		
 	}
 	
 	public static void main(String[] args){
@@ -220,6 +224,14 @@ public class Menu extends Application{
 	
 	public GameLauncher getLauncher() {
 		return launcher;
+	}
+	
+	public gui.screens.gamesController getGamesController() {
+		return gamesController;
+	}
+	
+	public void setGamesController(gui.screens.gamesController gamesController) {
+		this.gamesController = gamesController;
 	}
 }
 
