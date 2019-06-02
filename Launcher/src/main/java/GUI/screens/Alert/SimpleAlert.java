@@ -1,5 +1,6 @@
 package gui.screens.alert;
 
+import com.jfoenix.controls.events.JFXDialogEvent;
 import gui.Menu;
 import gui.css.CSSUtils;
 import gui.screens.notification.*;
@@ -23,12 +24,11 @@ import java.util.List;
  * @verions: 1.0.0
  **/
 
-public class SimpleAlert {
+public class SimpleAlert extends CustomAlert{
 
 	private String title;
 	private String message;
 	private List<Option> options = new ArrayList<>();
-	private JFXDialog dialog;
 	
 	private VBox content = new VBox();
 	private AnchorPane textPane = new AnchorPane();
@@ -101,10 +101,12 @@ public class SimpleAlert {
 			public void run() {
 				switch(style){
 					case FLAT:{
-						CSSUtils.addCSS(button, Menu.styleSheet, "node-button");
+						button.getStyleClass().add("note-button");
+						break;
 					}
 					default:{
 						button.setId("alert-button");
+						break;
 					}
 				}
 			}
@@ -167,11 +169,8 @@ public class SimpleAlert {
 		this.message = message;
 	}
 	
-	public JFXDialog getDialog() {
-		return dialog;
-	}
+	@Override
+	public void onClose(JFXDialogEvent event) {
 	
-	public void setDialog(JFXDialog dialog) {
-		this.dialog = dialog;
 	}
 }

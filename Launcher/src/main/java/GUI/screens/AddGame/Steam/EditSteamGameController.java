@@ -13,6 +13,8 @@ import api.launcher.steam.DBSearchResult;
 import api.launcher.steam.SteamApp;
 import com.google.gson.Gson;
 import com.jfoenix.controls.*;
+import gui.screens.alert.AnimationStyle;
+import gui.screens.alert.LoadingAlert;
 import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -133,7 +135,7 @@ public class EditSteamGameController {
 		setImageEffects();
 	}
 	
-	private void setImageEffects(){
+	private void setImageEffects() {
 		pic_header.setOnMouseEntered(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
@@ -166,12 +168,12 @@ public class EditSteamGameController {
 		});
 	}
 	
-	public void setOnContinue(EditSteamGameCallback callback){
+	public void setOnContinue(EditSteamGameCallback callback) {
 		this.callback = callback;
 	}
 	
 	public void loadSteamApp(Application application) {
-		SteamApp app = application.getName()!=null?application.getContent(SteamApp.class):new SteamApp();
+		SteamApp app = application.getName() != null ? application.getContent(SteamApp.class) : new SteamApp();
 		name.setText(app.getName());
 		appid.setText(app.getAppID());
 		args.setText(app.getArgs());
@@ -249,7 +251,7 @@ public class EditSteamGameController {
 			
 			application.setDisplayName(app.getName());
 			application.setName(app.getConfigName());
-			application.setUniqueID("STEAM_"+app.getAppID());
+			application.setUniqueID("STEAM_" + app.getAppID());
 			application.setType(AppTypes.STEAM);
 			
 			JSONObject json = application.getRawContent();
@@ -277,6 +279,8 @@ public class EditSteamGameController {
 		alert.close();
 	}
 	
+	private SteamApp searchedApp;
+	
 	@FXML
 	void onSearch() {
 		try {
@@ -289,32 +293,71 @@ public class EditSteamGameController {
 			controller.setOnContinue(new SearchSteamGameCallback() {
 				@Override
 				public void onContinue(DBSearchResult result) {
-					SteamApp app = launcher.getSteam().getSteamApp(result.getAppID());
-					name.setText(app.getName());
-					appid.setText(app.getAppID());
-					dev.setText(app.getDeveloper());
+					LoadingAlert sa = new LoadingAlert("Loading application data");
+					Alert alert = new Alert(Menu.root);
+					alert.setContent(sa);
+					alert.setBackground(Menu.rootAnchor);
+					alert.setBackgroundBlur(10);
+					alert.setBackgroundColorAdjust(0, 0, -0.3, 0);
+					alert.setOverlayClose(false);
+					alert.show();
 					
-					application.setDisplayName(app.getName());
-					application.setName(app.getConfigName());
-					application.setUniqueID("STEAM_"+app.getAppID());
-					application.setType(AppTypes.STEAM);
-					JSONObject json = application.getRawContent();
-					json.put("content", new JSONObject(new Gson().toJson(app)));
-					application.setContent(json);
-					
-					Image header = new Image(launcher.getImageManager().getHeaderURL(application), 225, 103, false, true, true);
-					Image icon = new Image(launcher.getImageManager().getIconPNG(application, IconSize.S_DEFAULT, PathType.URL), 103, 103, false, true, true);
-					
-					pic_header.setImage(header);
-					pic_icon.setImage(icon);
-					
-					app.setUser(getUser());
-					app.setConfigName(EditSteamGameController.this.app.getConfigName());
-					EditSteamGameController.this.app = app;
+					Thread progress = new Thread(() -> {
+						try {
+							Thread.sleep(500);
+						} catch(InterruptedException e) {
+							e.printStackTrace();
+						}
+						sa.setProgress(20, AnimationStyle.FAST_SLOW, 1000);
+						Thread t = new Thread(() -> {
+							searchedApp = launcher.getSteam().getSteamApp(result.getAppID());
+						});
+						t.start();
+						try {
+							t.join();
+						} catch(InterruptedException e) {
+							e.printStackTrace();
+						}
+						sa.setProgress(100, AnimationStyle.SLOW_FAST);
+						try {
+							Thread.sleep(500);
+						} catch(InterruptedException e) {
+							e.printStackTrace();
+						}
+						alert.close();
+						
+						Platform.runLater(new Runnable() {
+							@Override
+							public void run() {
+								name.setText(searchedApp.getName());
+								appid.setText(searchedApp.getAppID());
+								dev.setText(searchedApp.getDeveloper());
+								
+								application.setDisplayName(searchedApp.getName());
+								application.setName(searchedApp.getConfigName());
+								application.setUniqueID("STEAM_" + searchedApp.getAppID());
+								application.setType(AppTypes.STEAM);
+								JSONObject json = application.getRawContent();
+								json.put("content", new JSONObject(new Gson().toJson(searchedApp)));
+								application.setContent(json);
+								
+								Image header = new Image(launcher.getImageManager().getHeaderURL(application), 225, 103, false, true, true);
+								Image icon = new Image(launcher.getImageManager().getIconPNG(application, IconSize.S_DEFAULT, PathType.URL), 103, 103, false, true, true);
+								
+								pic_header.setImage(header);
+								pic_icon.setImage(icon);
+								
+								searchedApp.setUser(getUser());
+								searchedApp.setConfigName(EditSteamGameController.this.app.getConfigName());
+								EditSteamGameController.this.app = searchedApp;
+							}
+						});
+					});
+					progress.start();
 				}
 			});
 			
-			alert.setContent((Region)root);
+			alert.setContent((Region) root);
 			alert.setBackground(Menu.rootAnchor);
 			alert.setBackgroundBlur(10);
 			alert.setBackgroundColorAdjust(0, 0, -0.3, 0);

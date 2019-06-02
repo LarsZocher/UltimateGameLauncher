@@ -4,7 +4,11 @@ import gui.Menu;
 import gui.css.CSSUtils;
 import gui.localization.Language;
 import gui.screens.addgame.ProgramManager;
+import gui.screens.addgame.steam.EditSteamUserMode;
+import gui.screens.addgame.steam.NewSteamUserController;
 import gui.screens.alert.Alert;
+import gui.screens.alert.AnimationStyle;
+import gui.screens.alert.LoadingAlert;
 import gui.screens.alert.SimpleAlert;
 import gui.screens.notification.*;
 import gui.screens.misc.*;
@@ -25,16 +29,20 @@ import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.controlsfx.control.GridCell;
 import org.controlsfx.control.GridView;
 
+import java.io.IOException;
 import java.util.*;
 
 
@@ -90,6 +98,7 @@ public class gamesController extends initMenuController {
 	public void init(Menu menu) {
 		super.init(menu);
 		this.stage = menu.stage;
+		menu.setGamesController(this);
 		
 		this.launcher = menu.getLauncher();
 		this.manager = new ProgramManager(launcher) {
@@ -224,6 +233,17 @@ public class gamesController extends initMenuController {
 		for(TabButton button : buttons) {
 			button.unfocus();
 		}
+	}
+	
+	public void refreshList(){
+		EmptyGameDisplay empty = new EmptyGameDisplay();
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				panes.add(empty);
+				panes.remove(empty);
+			}
+		});
 	}
 	
 	public void loadList(AppTypes type, String filter) {

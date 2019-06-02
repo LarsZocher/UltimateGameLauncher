@@ -1,5 +1,6 @@
 package gui.screens.misc;
 
+import impl.org.controlsfx.skin.GridRowSkin;
 import javafx.scene.layout.Pane;
 import org.controlsfx.control.GridCell;
 
@@ -18,7 +19,7 @@ public class DisplayGridCell extends GridCell<GameDisplay> {
 	protected void updateItem(GameDisplay item, boolean empty) {
 		super.updateItem(item, empty);
 		
-		if (empty) {
+		if(empty) {
 			setGraphic(null);
 		} else {
 			pane = item.getPane();
